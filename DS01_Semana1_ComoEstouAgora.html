@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kimberly | Daily Step 1 · Como estou agora</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --navy:       #1e3651;
+    --teal:       #2a7c7c;
+    --gold:       #c9a84c;
+    --cream:      #f8f5ef;
+    --cream-back: #edf4f4;
+    --text-dark:  #1e3651;
+    --text-mid:   #4a6070;
+    --text-light: #7a95a5;
+  }
+
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: var(--navy);
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  header {
+    padding: 22px 48px;
+    border-bottom: 1px solid rgba(201,168,76,.2);
+  }
+
+  .header-title {
+    font-size: 13px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    font-family: Arial, sans-serif;
+    color: var(--gold);
+    margin-bottom: 3px;
+  }
+
+  .header-sub {
+    font-size: 11px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    font-family: Arial, sans-serif;
+    color: rgba(255,255,255,.35);
+  }
+
+  /* ── Main ── */
+  main {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 36px 24px 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  /* ── Steps guide ── */
+  .steps-box {
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(201,168,76,.2);
+    border-radius: 12px;
+    padding: 22px 28px;
+  }
+
+  .steps-title {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-family: Arial, sans-serif;
+    margin-bottom: 14px;
+  }
+
+  .steps-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  .steps-list li {
+    display: flex;
+    align-items: baseline;
+    gap: 11px;
+    font-size: 14px;
+    color: rgba(255,255,255,.82);
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
+  }
+
+  .step-n {
+    min-width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(201,168,76,.25);
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ── Cards list ── */
+  .cards-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* ── Single card ── */
+  .card-wrap {
+    perspective: 1000px;
+    cursor: pointer;
+  }
+
+  .card-inner {
+    width: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform .5s ease;
+    border-radius: 14px;
+  }
+
+  .card-inner.flipped { transform: rotateY(180deg); }
+
+  .card-face {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 14px;
+    padding: 22px 26px 18px;
+  }
+
+  /* Front */
+  .card-front {
+    background: var(--cream);
+  }
+
+  .card-back {
+    background: var(--cream-back);
+    transform: rotateY(180deg);
+    position: absolute;
+    inset: 0;
+  }
+
+  .card-cenario {
+    font-size: 14px;
+    color: var(--text-mid);
+    font-style: italic;
+    line-height: 1.6;
+    font-family: Arial, sans-serif;
+    margin-bottom: 14px;
+  }
+
+  .card-phrase {
+    font-size: 28px;
+    font-weight: bold;
+    color: var(--navy);
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+
+  .card-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .btn-audio {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 16px;
+    border-radius: 10px;
+    border: none;
+    background: var(--teal);
+    color: white;
+    font-size: 11px;
+    letter-spacing: .5px;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+    transition: background .15s;
+    white-space: nowrap;
+  }
+
+  .btn-audio:hover { background: #215f5f; }
+
+  .btn-download {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--gold);
+    background: transparent;
+    color: var(--gold);
+    font-size: 11px;
+    letter-spacing: .5px;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all .15s;
+    white-space: nowrap;
+  }
+
+  .btn-download:hover { background: var(--gold); color: var(--navy); }
+
+  .btn-verso {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 16px;
+    border-radius: 10px;
+    border: 1px solid rgba(30,54,81,.3);
+    background: transparent;
+    color: var(--text-mid);
+    font-size: 11px;
+    letter-spacing: .5px;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+    transition: all .15s;
+    white-space: nowrap;
+  }
+
+  .btn-verso:hover { background: rgba(30,54,81,.08); color: var(--navy); }
+
+  .btn-frente {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 16px;
+    border-radius: 10px;
+    border: 1px solid rgba(42,124,124,.3);
+    background: transparent;
+    color: var(--teal);
+    font-size: 11px;
+    letter-spacing: .5px;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+    transition: all .15s;
+    white-space: nowrap;
+  }
+
+  .btn-frente:hover { background: rgba(42,124,124,.08); }
+
+  /* Back */
+  .back-section {
+    margin-bottom: 14px;
+  }
+
+  .back-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--teal);
+    font-family: Arial, sans-serif;
+    margin-bottom: 5px;
+  }
+
+  .back-traducao {
+    font-size: 22px;
+    font-weight: bold;
+    color: var(--navy);
+  }
+
+  .back-divider {
+    width: 36px;
+    height: 1px;
+    background: rgba(42,124,124,.25);
+    margin: 14px 0;
+  }
+
+  .back-sensacao {
+    font-size: 14px;
+    color: var(--text-mid);
+    line-height: 1.65;
+    font-style: italic;
+  }
+
+  .back-actions {
+    margin-top: 16px;
+  }
+
+  @media (max-width: 500px) {
+    header { padding: 18px 20px; }
+    main { padding: 24px 16px 48px; }
+    .card-face { padding: 18px 18px 14px; }
+    .card-phrase { font-size: 22px; }
+    .flip-hint { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-title">Daily Step 1 · Como estou agora</div>
+  <div class="header-sub">Semana 1 · Who I Am &nbsp;·&nbsp; I'm...</div>
+</header>
+
+<main>
+
+  <div class="steps-box">
+    <div class="steps-title">Como praticar hoje</div>
+    <ol class="steps-list">
+      <li><span class="step-n">1</span> Ouça os cards.</li>
+      <li><span class="step-n">2</span> Repita em voz alta.</li>
+      <li><span class="step-n">3</span> Imagine a situação.</li>
+      <li><span class="step-n">4</span> Revise novamente.</li>
+      <li><span class="step-n">5</span> Adicione os 10 cartões ao Anki com calma.</li>
+    </ol>
+  </div>
+
+  <div class="cards-list" id="cards-list"></div>
+
+</main>
+
+<audio id="player"></audio>
+
+<script>
+const cards = [
+  {
+    cenario:  "Você acordou com sono e alguém pergunta como você está. Você responde:",
+    frase:    "I'm sleepy.",
+    audio:    "S01_DS01_Card01_Im_sleepy.mp3",
+    traducao: "Estou com sono.",
+    sensacao: "Use quando seu corpo está pedindo descanso ou sono."
+  },
+  {
+    cenario:  "Você está esperando o almoço e alguém pergunta se você quer comer agora. Você responde:",
+    frase:    "I'm hungry.",
+    audio:    "S01_DS01_Card02_Im_hungry.mp3",
+    traducao: "Estou com fome.",
+    sensacao: "Use quando seu corpo está pedindo comida. É uma frase simples e muito comum."
+  },
+  {
+    cenario:  "Você acabou de almoçar e alguém oferece mais comida. Você responde:",
+    frase:    "I'm full.",
+    audio:    "S01_DS01_Card03_Im_full.mp3",
+    traducao: "Estou cheia.",
+    sensacao: "Use quando você já comeu o suficiente e não quer mais comida."
+  },
+  {
+    cenario:  "Alguém pergunta se você pode conversar agora, mas você está cheia de coisas para fazer. Você responde:",
+    frase:    "I'm busy.",
+    audio:    "S01_DS01_Card04_Im_busy.mp3",
+    traducao: "Estou ocupada.",
+    sensacao: "Use quando você está sem espaço naquele momento para dar atenção ou fazer outra coisa."
+  },
+  {
+    cenario:  "Você está com vontade de beber água e alguém pergunta o que aconteceu. Você responde:",
+    frase:    "I'm thirsty.",
+    audio:    "S01_DS01_Card05_Im_thirsty.mp3",
+    traducao: "Estou com sede.",
+    sensacao: "Use quando você sente necessidade de beber água ou alguma coisa."
+  },
+  {
+    cenario:  "Depois de respirar e entender melhor a atividade, você percebe que está mais tranquila. Você diz:",
+    frase:    "I'm calm.",
+    audio:    "S01_DS01_Card06_Im_calm.mp3",
+    traducao: "Estou calma.",
+    sensacao: "Use quando você sente tranquilidade e menos pressão."
+  },
+  {
+    cenario:  "Você vai começar uma experiência nova e está com uma expectativa boa. Você diz:",
+    frase:    "I'm excited.",
+    audio:    "S01_DS01_Card07_Im_excited.mp3",
+    traducao: "Estou animada.",
+    sensacao: "Use quando você sente expectativa positiva por algo que vai acontecer."
+  },
+  {
+    cenario:  "Antes de falar inglês, você sente um pouco de insegurança e quer ser honesta. Você diz:",
+    frase:    "I'm nervous.",
+    audio:    "S01_DS01_Card08_Im_nervous.mp3",
+    traducao: "Estou nervosa.",
+    sensacao: "Use quando existe ansiedade ou tensão antes de fazer algo novo."
+  },
+  {
+    cenario:  "Alguém pergunta como você está, e você quer responder sem entrar em muitos detalhes. Você diz:",
+    frase:    "I'm okay.",
+    audio:    "S01_DS01_Card09_Im_okay.mp3",
+    traducao: "Estou bem.",
+    sensacao: "Use quando está tudo razoavelmente bem, sem precisar explicar muito."
+  },
+  {
+    cenario:  "Você percebe que conseguiu fazer algo que antes parecia difícil. Você diz:",
+    frase:    "I'm proud of myself.",
+    audio:    "S01_DS01_Card10_Im_proud_of_myself.mp3",
+    traducao: "Estou orgulhosa de mim mesma.",
+    sensacao: "Use quando você reconhece seu próprio progresso."
+  }
+];
+
+let focusedCard = null;
+
+function playAudio(e, src, i) {
+  e.stopPropagation();
+  focusedCard = i;
+  const p = document.getElementById('player');
+  p.src = src;
+  p.play().catch(() => {});
+}
+
+function flipCard(e, i) {
+  e.stopPropagation();
+  focusedCard = i;
+  document.getElementById(`card-${i}`).classList.toggle('flipped');
+}
+
+function buildCards() {
+  const list = document.getElementById('cards-list');
+  cards.forEach((c, i) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'card-wrap';
+    wrap.innerHTML = `
+      <div class="card-inner" id="card-${i}">
+
+        <div class="card-face card-front">
+          <div class="card-cenario">${c.cenario}</div>
+          <div class="card-phrase">${c.frase}</div>
+          <div class="card-actions">
+            <button class="btn-audio"   onclick="playAudio(event,'${c.audio}',${i})">▶ Ouvir</button>
+            <a     class="btn-download" href="${c.audio}" download onclick="event.stopPropagation()">⬇ Baixar áudio</a>
+            <button class="btn-verso"   onclick="flipCard(event,${i})">Verso ↻</button>
+          </div>
+        </div>
+
+        <div class="card-face card-back">
+          <div class="back-section">
+            <div class="back-label">Tradução</div>
+            <div class="back-traducao">${c.traducao}</div>
+          </div>
+          <div class="back-divider"></div>
+          <div class="back-section">
+            <div class="back-label">Sensação da frase</div>
+            <div class="back-sensacao">${c.sensacao}</div>
+          </div>
+          <div class="back-actions">
+            <button class="btn-frente" onclick="flipCard(event,${i})">← Frente</button>
+          </div>
+        </div>
+
+      </div>`;
+
+    list.appendChild(wrap);
+  });
+}
+
+document.addEventListener('keydown', e => {
+  if (e.code === 'Space' && focusedCard !== null) {
+    e.preventDefault();
+    document.getElementById(`card-${focusedCard}`).classList.toggle('flipped');
+  }
+});
+
+buildCards();
+</script>
+</body>
+</html>
