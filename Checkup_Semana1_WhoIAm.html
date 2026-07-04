@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Check-up · Semana 1 — Kimberly Mentoria VIP</title>
+<!--
+  Check-up da Semana 1 — formato novo (Reforma Pedagógica, ponto 5 — aprovado 04/07/2026).
+  3 questões: situação + 3 frases CORRETAS (sem input errado), posição da correta embaralhada (B, C, A).
+  Fonte: Acervo, KIM-S01-CHK-C01 a C03. Campo "Meu progresso em uma frase" salvo em progress.checkup_frases.S01
+  (ver complementos/Infra_Portal_Supabase.md §3.1).
+-->
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root{
+    --azul:#1e3651; --azul-2:#2c4e73;
+    --verde:#2f7d52; --verde-2:#4fa37a; --verde-escuro:#1f5a3a;
+    --dourado:#c9a84c; --dourado-2:#e3c878;
+    --creme:#f8f5ef; --creme-2:#edf4f4;
+    --texto:#1e3651;
+    --sombra:0 10px 30px rgba(30,54,81,.12);
+  }
+  body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:linear-gradient(180deg,var(--creme) 0%,var(--creme-2) 100%);
+    color:var(--texto); min-height:100vh; padding-bottom:60px;
+  }
+  h1,h2,.opcao .en{ font-family:Georgia,'Times New Roman',serif; }
+
+  header.topbar{ display:flex; align-items:center; justify-content:space-between; padding:16px 24px; background:var(--azul); color:#fff; }
+  header.topbar a{ color:#fff; text-decoration:none; font-size:.9rem; opacity:.9; }
+  header.topbar a:hover{ opacity:1; text-decoration:underline; }
+  .brand{ font-family:Georgia,serif; font-size:1.05rem; }
+  .brand b{ color:var(--dourado-2); }
+
+  .wrap{ max-width:680px; margin:0 auto; padding:28px 18px; }
+  .titulo{ text-align:center; margin-bottom:18px; }
+  .titulo h1{ font-size:1.8rem; color:var(--azul); }
+  .titulo p{ color:var(--azul-2); font-size:.95rem; margin-top:4px; }
+
+  .instrucao{
+    background:#fff; border-left:4px solid var(--dourado); border-radius:10px;
+    padding:16px 20px; margin-bottom:26px; box-shadow:var(--sombra); font-size:.97rem; line-height:1.5;
+  }
+
+  .questao{ background:#fff; border-radius:18px; box-shadow:var(--sombra); padding:26px 24px; margin-bottom:18px; }
+  .questao .situacao{ font-size:.95rem; color:#3d4f60; line-height:1.55; margin-bottom:6px; }
+  .questao .pergunta-suave{ font-size:.82rem; color:var(--azul-2); margin-bottom:14px; }
+  .opcoes{ display:flex; flex-direction:column; gap:10px; }
+  .opcao{
+    text-align:left; background:var(--creme-2); border:1.5px solid transparent; border-radius:12px;
+    padding:12px 16px; cursor:pointer; font-size:1rem; transition:.2s; width:100%;
+  }
+  .opcao .en{ font-size:1.05rem; color:var(--azul); }
+  .opcao:hover{ border-color:var(--azul-2); }
+  .opcao.escolhida-certa{ background:#dff1e6; border-color:var(--verde); }
+  .opcao.escolhida-outra{ background:#f6f1e2; border-color:var(--dourado); }
+  .eco{ font-size:.85rem; margin-top:12px; display:none; line-height:1.5; }
+  .eco.on{ display:block; }
+  .eco.certa{ color:var(--verde-escuro); }
+  .eco.outra{ color:#8b7f63; }
+
+  .progresso-frase{ background:#fff; border-radius:18px; box-shadow:var(--sombra); padding:26px 24px; margin-top:26px; }
+  .progresso-frase h2{ color:var(--azul); font-size:1.2rem; margin-bottom:6px; }
+  .progresso-frase p.legenda{ color:#5a6b7a; font-size:.9rem; margin-bottom:14px; }
+  .progresso-frase .prefixo{ font-size:.95rem; color:var(--azul-2); font-weight:bold; margin-bottom:8px; }
+  textarea{
+    width:100%; min-height:90px; border:1.5px solid #e3ddd0; border-radius:12px; padding:12px 14px;
+    font-family:Georgia,serif; font-size:1rem; color:var(--azul); resize:vertical; background:var(--creme);
+  }
+  textarea:focus{ outline:none; border-color:var(--azul-2); }
+  .salvo-aviso{ font-size:.82rem; color:var(--verde-escuro); font-weight:bold; margin-top:8px; display:none; }
+  .salvo-aviso.on{ display:block; }
+
+  .rodape{ text-align:center; margin-top:26px; }
+  button,.btn{ font-family:Arial,sans-serif; cursor:pointer; border:none; border-radius:999px; padding:11px 22px; font-size:.92rem; font-weight:bold; transition:.2s; }
+  .btn-dourado{ background:var(--dourado); color:var(--azul); }
+  .btn-dourado:hover{ background:var(--dourado-2); }
+  .btn-dourado:disabled{ background:#e7decb; color:#a89a6f; cursor:not-allowed; }
+  .btn-fantasma{ background:transparent; color:var(--azul); border:1.5px solid var(--azul); }
+
+  .overlay{ position:fixed; inset:0; background:rgba(30,54,81,.55); display:none; align-items:center; justify-content:center; z-index:50; padding:20px; }
+  .overlay.on{ display:flex; }
+  .modal{ background:#fff; border-radius:18px; padding:36px 30px; max-width:420px; text-align:center; box-shadow:0 20px 50px rgba(0,0,0,.3); }
+  .modal .arvore-emoji{ font-size:3rem; margin-bottom:10px; }
+  .modal h2{ color:var(--azul); margin-bottom:10px; }
+  .modal p{ color:#5a6b7a; margin-bottom:22px; line-height:1.5; }
+  .modal .acoes{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+
+  @media(max-width:480px){
+    .questao{ padding:20px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <span class="brand">🌳 Kimberly | <b>Mentoria VIP</b></span>
+  <a href="Passos_Diarios.html">← Passos Diários</a>
+</header>
+
+<div class="wrap">
+
+  <div class="titulo">
+    <h1>Check-up — Semana 1</h1>
+    <p>Who I Am · Falando sobre você · I'm...</p>
+  </div>
+
+  <div class="instrucao">
+    Leia com calma. Não pense em regra. Pense na situação e sinta qual frase você usaria.
+  </div>
+
+  <div id="questoes"></div>
+
+  <div class="progresso-frase">
+    <h2>Meu progresso em uma frase</h2>
+    <p class="legenda">Pra fechar a semana, uma frase só — do seu jeito.</p>
+    <div class="prefixo">Hoje eu percebo que:</div>
+    <textarea id="fraseProgresso" placeholder="escreva aqui..."></textarea>
+    <div class="salvo-aviso" id="salvoAviso">✓ guardada</div>
+  </div>
+
+  <div class="rodape">
+    <button class="btn-dourado" id="btnFechar" disabled>🌳 Fechar a Semana 1</button>
+  </div>
+
+</div>
+
+<div class="overlay" id="overlayFim">
+  <div class="modal">
+    <div class="arvore-emoji">🌳🎉</div>
+    <h2>Semana 1 completa!</h2>
+    <p>Uma semana inteira de inglês acontecendo. Sua frase ficou guardada — e sua árvore sentiu.</p>
+    <div class="acoes">
+      <a class="btn btn-dourado" href="Conquistas.html" style="text-decoration:none;display:inline-block">Ver meu progresso →</a>
+      <a class="btn btn-fantasma" href="index.html" style="text-decoration:none;display:inline-block">Início</a>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* ---------- Persistência (local-first + sync Supabase) — complementos/Infra_Portal_Supabase.md ---------- */
+const SB_URL="https://yhsntdsdifpcozfpdfcu.supabase.co";
+const SB_KEY="sb_publishable_aHINXeQ9NT_vXMamxc8GFw_iLZvOZKE";
+const STUDENT="kimberly";
+const sb=supabase.createClient(SB_URL,SB_KEY);
+const Progress={
+  cache:{},
+  async load(){
+    try{this.cache=JSON.parse(localStorage.getItem("kim_progress")||"{}");}catch(e){this.cache={};}
+    try{const {data}=await sb.from("student_progress").select("progress").eq("student_id",STUDENT).single();
+        if(data&&data.progress){this.cache=data.progress;localStorage.setItem("kim_progress",JSON.stringify(this.cache));}}catch(e){}
+    return this.cache;
+  },
+  get(k,def){return (k in this.cache)?this.cache[k]:def;},
+  async set(k,v){
+    this.cache[k]=v; localStorage.setItem("kim_progress",JSON.stringify(this.cache));
+    try{await sb.from("student_progress").upsert({student_id:STUDENT,progress:this.cache,updated_at:new Date().toISOString()});}catch(e){}
+  }
+};
+
+/* ---------- 3 questões (Acervo — KIM-S01-CHK-C01 a C03) — as três frases são corretas; só uma encaixa ---------- */
+const questoes=[
+ { id:'q1',
+   situacao:"No embarque, o passageiro da poltrona ao lado puxa conversa: \"Where are you from?\" Você responde:",
+   opcoes:["I'm at the hotel.","I'm from Brazil.","I'm a student."], certa:1 },
+ { id:'q2',
+   situacao:"Jantar na casa de amigos. A anfitriã levanta a travessa mais uma vez: \"Do you want more?\" Você agradece:",
+   opcoes:["I'm hungry.","I'm here for work.","I'm full."], certa:2 },
+ { id:'q3',
+   situacao:"Na recepção do hotel, perguntam: \"Do you speak English?\" Você responde com honestidade e leveza:",
+   opcoes:["I'm still learning.","I'm not alone.","I'm in Natal."], certa:0 }
+];
+
+const acertos={};
+const questoesEl=document.getElementById('questoes');
+
+function render(){
+  questoes.forEach(q=>{
+    const div=document.createElement('div');
+    div.className='questao';
+    div.innerHTML=`
+      <div class="situacao">${q.situacao}</div>
+      <div class="pergunta-suave">Qual você usaria aqui?</div>
+      <div class="opcoes">
+        ${q.opcoes.map((o,i)=>`<button class="opcao" data-q="${q.id}" data-i="${i}"><span class="en">${o}</span></button>`).join('')}
+      </div>
+      <div class="eco" id="eco-${q.id}"></div>`;
+    questoesEl.appendChild(div);
+  });
+}
+
+questoesEl.addEventListener('click',ev=>{
+  const btn=ev.target.closest('.opcao');
+  if(!btn) return;
+  const q=questoes.find(x=>x.id===btn.dataset.q);
+  const i=+btn.dataset.i;
+  const eco=document.getElementById('eco-'+q.id);
+  btn.parentElement.querySelectorAll('.opcao').forEach(b=>b.classList.remove('escolhida-certa','escolhida-outra'));
+  if(i===q.certa){
+    btn.classList.add('escolhida-certa');
+    eco.className='eco on certa';
+    eco.textContent='É essa. Sentiu como ela encaixa na situação?';
+    acertos[q.id]=true;
+  }else{
+    btn.classList.add('escolhida-outra');
+    eco.className='eco on outra';
+    eco.textContent='Essa frase é boa — mas pra outra situação. Leia de novo com calma e sinta.';
+    acertos[q.id]=false;
+  }
+  atualizarFechar();
+});
+
+const fraseEl=document.getElementById('fraseProgresso');
+fraseEl.addEventListener('input',atualizarFechar);
+
+function atualizarFechar(){
+  const tresOk=questoes.every(q=>acertos[q.id]);
+  const temFrase=fraseEl.value.trim().length>0;
+  document.getElementById('btnFechar').disabled=!(tresOk&&temFrase);
+}
+
+document.getElementById('btnFechar').addEventListener('click',async ()=>{
+  const frases=Progress.get('checkup_frases',{});
+  frases['S01']=fraseEl.value.trim();
+  await Progress.set('checkup_frases',frases);
+  await Progress.set('checkup_S01_completedAt', new Date().toISOString());
+  document.getElementById('salvoAviso').classList.add('on');
+  document.getElementById('overlayFim').classList.add('on');
+});
+
+(async function start(){
+  await Progress.load();
+  render();
+  const frases=Progress.get('checkup_frases',{});
+  if(frases['S01']){ fraseEl.value=frases['S01']; document.getElementById('salvoAviso').classList.add('on'); }
+})();
+</script>
+</body>
+</html>

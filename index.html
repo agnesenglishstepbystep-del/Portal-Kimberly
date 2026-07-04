@@ -4,372 +4,97 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kimberly | Mentoria VIP Step by Step</title>
+<!--
+  REFORMA VIP 2.0 — Nova home (§6 da especificação). A home deixa de ser a página de estudo.
+  3 blocos: Passos Diários / Construindo o Meu Listening / Meu Progresso.
+  Nomes definidos na Fase 0 (30/06/2026) — ver Estado Atual.
+  Versão enxuta (01/07/2026): sem status dinâmico nem rótulo "Entrar" — o cartão inteiro é o clique,
+  texto reduzido ao essencial. Sem Supabase nesta página: nada aqui depende de progresso salvo.
+-->
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
- 
-:root {
-  --navy:     #1e3651;
-  --teal:     #2a7c7c;
-  --gold:     #c9a84c;
-  --cream:    #f8f5ef;
-  --white:    #ffffff;
-  --text-mid: #4a6070;
-  --text-dim: #8aa0ae;
-}
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root{
+    --azul:#1e3651; --azul-2:#2c4e73;
+    --verde:#2f7d52; --verde-2:#4fa37a; --verde-escuro:#1f5a3a;
+    --dourado:#c9a84c; --dourado-2:#e3c878;
+    --creme:#f8f5ef; --creme-2:#edf4f4;
+    --texto:#1e3651;
+    --sombra:0 10px 30px rgba(30,54,81,.12);
+  }
+  body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:linear-gradient(180deg,var(--creme) 0%,var(--creme-2) 100%);
+    color:var(--texto);
+    min-height:100vh;
+  }
+  h1,h2{ font-family:Georgia,'Times New Roman',serif; }
 
-body {
-  font-family: Georgia, 'Times New Roman', serif;
-  background: var(--navy);
-  min-height: 100vh;
-}
+  header.topbar{
+    display:flex; align-items:center; justify-content:center;
+    padding:18px 24px; background:var(--azul); color:#fff;
+  }
+  .brand{ font-family:Georgia,serif; font-size:1.15rem; letter-spacing:.02em; }
+  .brand b{ color:var(--dourado-2); }
 
-/* ── Header ── */
-header {
-  padding: 52px 64px 44px;
-  border-bottom: 1px solid rgba(201,168,76,.15);
-}
+  .hero{ text-align:center; padding:26px 20px 6px; }
+  .hero h1{ color:var(--azul); font-size:1.7rem; margin:0; }
 
-.brand-name {
-  font-size: 34px;
-  font-weight: bold;
-  color: var(--white);
-  letter-spacing: -.3px;
-  margin-bottom: 6px;
-}
+  .blocos{
+    max-width:1000px; margin:0 auto; padding:24px 20px 60px;
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:26px;
+  }
+  .bloco{
+    background:#fff; border-radius:20px; box-shadow:var(--sombra);
+    padding:30px 26px; text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;
+    text-decoration:none; color:var(--texto); transition:.25s; border-top:5px solid var(--azul);
+    min-height:150px;
+  }
+  .bloco:hover{ transform:translateY(-4px); box-shadow:0 16px 36px rgba(30,54,81,.18); }
+  .bloco.listening{ border-top-color:var(--verde); }
+  .bloco.conquistas{ border-top-color:var(--dourado); }
 
-.brand-sub {
-  font-size: 11px;
-  letter-spacing: 2.8px;
-  text-transform: uppercase;
-  color: var(--gold);
-  font-family: Arial, sans-serif;
-}
+  .bloco .icone{ font-size:2.6rem; }
+  .bloco h2{ font-size:1.3rem; color:var(--azul); }
+  .bloco p.desc{ font-size:.92rem; color:#5a6b7a; line-height:1.5; }
 
-/* ── Main ── */
-main {
-  padding: 52px 64px 80px;
-  display: flex;
-  flex-direction: column;
-  gap: 52px;
-  max-width: 960px;
-}
+  footer{ text-align:center; padding:24px; color:#9aa3ad; font-size:.8rem; }
 
-/* ── Month ── */
-.month-header {
-  display: flex;
-  align-items: baseline;
-  gap: 14px;
-  margin-bottom: 20px;
-}
-
-.month-tag {
-  font-size: 10px;
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  color: var(--gold);
-  font-family: Arial, sans-serif;
-  flex-shrink: 0;
-}
-
-.month-name {
-  font-size: 19px;
-  font-weight: bold;
-  color: var(--white);
-}
-
-.month-sub {
-  font-size: 12px;
-  color: rgba(255,255,255,.35);
-  font-family: Arial, sans-serif;
-}
-
-/* ── Week list ── */
-.week-list {
-  display: flex;
-  flex-direction: column;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,.07);
-}
-
-/* ── Week row ── */
-.week-item { border-bottom: 1px solid rgba(0,0,0,.06); }
-.week-item:last-child { border-bottom: none; }
-
-.week-row {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 18px 24px;
-  background: var(--cream);
-  cursor: pointer;
-  transition: background .15s;
-  user-select: none;
-}
-
-.week-row:hover { background: #f2ede4; }
-
-.week-item.open .week-row { background: #ede8df; }
-
-.week-item.upcoming .week-row {
-  background: #f4f1eb;
-  cursor: default;
-  opacity: .6;
-}
-
-.week-num {
-  font-size: 10px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--teal);
-  font-family: Arial, sans-serif;
-  min-width: 72px;
-  flex-shrink: 0;
-}
-
-.week-info { flex: 1; }
-
-.week-name {
-  font-size: 15px;
-  font-weight: bold;
-  color: var(--navy);
-  margin-bottom: 2px;
-}
-
-.week-focus {
-  font-size: 12px;
-  color: var(--text-mid);
-  font-family: Arial, sans-serif;
-}
-
-.week-chevron {
-  font-size: 12px;
-  color: var(--text-dim);
-  transition: transform .25s;
-  flex-shrink: 0;
-}
-
-.week-item.open .week-chevron { transform: rotate(180deg); }
-.week-item.upcoming .week-chevron { display: none; }
-
-/* ── Materials panel ── */
-.week-panel {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height .3s ease;
-  background: var(--white);
-}
-
-.week-item.open .week-panel { max-height: 200px; }
-
-.panel-inner {
-  padding: 20px 24px 22px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  border-top: 1px solid #e8e2d8;
-}
-
-.panel-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-  align-items: center;
-}
-
-.panel-label {
-  font-size: 10px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--text-dim);
-  font-family: Arial, sans-serif;
-  min-width: 56px;
-  flex-shrink: 0;
-}
-
-.mat-btn {
-  display: inline-block;
-  padding: 6px 14px;
-  border-radius: 10px;
-  font-size: 11px;
-  letter-spacing: .3px;
-  font-family: Arial, sans-serif;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: all .18s;
-}
-
-.mat-btn.active {
-  background: var(--teal);
-  color: var(--white);
-}
-
-.mat-btn.active:hover { background: #215f5f; }
-
-.mat-btn.soon {
-  background: transparent;
-  color: #b0c0ca;
-  border: 1px solid #d8d0c4;
-  cursor: default;
-  font-style: italic;
-}
-
-/* ── Footer ── */
-footer {
-  padding: 0 64px 52px;
-  font-size: 10px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: rgba(255,255,255,.18);
-  font-family: Arial, sans-serif;
-}
-
-@media (max-width: 600px) {
-  header, main, footer { padding-left: 24px; padding-right: 24px; }
-  .week-row { gap: 12px; padding: 16px 18px; }
-  .panel-inner { padding: 16px 18px; }
-  .month-sub { display: none; }
-}
+  @media(max-width:480px){
+    .hero h1{ font-size:1.4rem; }
+  }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="brand-name">Kimberly</div>
-  <div class="brand-sub">Mentoria VIP · Step by Step</div>
+<header class="topbar">
+  <span class="brand">🌳 Kimberly | <b>Mentoria VIP</b></span>
 </header>
 
-<main id="portal"></main>
+<div class="hero">
+  <h1>Olá! Por onde vamos começar hoje?</h1>
+</div>
 
-<footer>Agnes · English Step by Step</footer>
+<div class="blocos">
+  <a class="bloco passos" href="Passos_Diarios.html">
+    <div class="icone">👣</div>
+    <h2>Passos Diários</h2>
+    <p class="desc">Um passo de cada vez.</p>
+  </a>
 
-<script>
-const curriculum = [
-  {
-    month: 1, title: "Foundation", subtitle: "Construindo segurança no básico",
-    weeks: [
-      { num: 1,  name: "Who I Am",                    focus: "Falando sobre você",
-        pratica: "Pratica_Guiada_Semana1_WhoIAm.html",
-        ds: ["DS01_Semana1_ComoEstouAgora.html", null, null, null, null], checkup: null },
-      { num: 2,  name: "My World",                    focus: "Falando sobre pessoas e lugares ao seu redor",
-        pratica: null, ds: [null,null,null,null,null], checkup: null },
-      { num: 3,  name: "My Routine",                  focus: "Falando sobre rotina",
-        pratica: null, ds: [null,null,null,null,null], checkup: null },
-      { num: 4,  name: "Where I Am",                  focus: "Localização e deslocamento",
-        pratica: null, ds: [null,null,null,null,null], checkup: null }
-    ]
-  },
-  {
-    month: 2, title: "Travel Confidence", subtitle: "Transformando base em confiança prática",
-    weeks: [
-      { num: 5,  name: "Getting Around",              focus: "Transporte, direção e movimento",
-        pratica: null, ds: [null,null,null,null,null], checkup: null },
-      { num: 6,  name: "Staying Somewhere",           focus: "Hotel e hospedagem",
-        pratica: null, ds: [null,null,null,null,null], checkup: null },
-      { num: 7,  name: "Eating Out",                  focus: "Restaurantes, cafés e escolhas",
-        pratica: null, ds: [null,null,null,null,null], checkup: null },
-      { num: 8,  name: "Shopping & Solving Problems", focus: "Compras e pequenas situações práticas",
-        pratica: null, ds: [null,null,null,null,null], checkup: null }
-    ]
-  },
-  {
-    month: 3, title: "Travel Communication", subtitle: "Transformando compreensão em interação",
-    weeks: [
-      { num: 9,  name: "Talking About Experiences",   focus: "Falando sobre experiências",
-        pratica: null, ds: [null,null,null,null,null], checkup: null },
-      { num: 10, name: "Connecting With People",      focus: "Conversas leves e interação social",
-        pratica: null, ds: [null,null,null,null,null], checkup: null },
-      { num: 11, name: "Handling Unexpected Situations", focus: "Lidando com imprevistos",
-        pratica: null, ds: [null,null,null,null,null], checkup: null },
-      { num: 12, name: "Travel With Confidence",      focus: "Integração da jornada",
-        pratica: null, ds: [null,null,null,null,null], checkup: null }
-    ]
-  }
-];
+  <a class="bloco listening" href="Listening_Lily.html">
+    <div class="icone">🎧</div>
+    <h2>Construindo o Meu Listening</h2>
+    <p class="desc">A playlist da Lily — só você, o áudio e o inglês acontecendo.</p>
+  </a>
 
-function hasAny(week) {
-  return week.pratica || week.ds.some(Boolean) || week.checkup;
-}
+  <a class="bloco conquistas" href="Conquistas.html">
+    <div class="icone">🌳</div>
+    <h2>Meu Progresso</h2>
+    <p class="desc">Veja sua árvore crescer.</p>
+  </a>
+</div>
 
-function btn(label, href) {
-  return href
-    ? `<a class="mat-btn active" href="${href}">${label}</a>`
-    : `<span class="mat-btn soon">${label}</span>`;
-}
+<footer>Kimberly | Mentoria VIP Step by Step · Agnes | English Step by Step</footer>
 
-function buildPortal() {
-  const portal = document.getElementById('portal');
-
-  curriculum.forEach(month => {
-    const sec = document.createElement('div');
-
-    // Month header
-    const hdr = document.createElement('div');
-    hdr.className = 'month-header';
-    hdr.innerHTML = `
-      <span class="month-tag">Mês ${month.month}</span>
-      <span class="month-name">${month.title}</span>
-      <span class="month-sub">${month.subtitle}</span>
-    `;
-    sec.appendChild(hdr);
-
-    // Week list
-    const list = document.createElement('div');
-    list.className = 'week-list';
-
-    month.weeks.forEach(week => {
-      const active = hasAny(week);
-      const num    = String(week.num).padStart(2, '0');
-      const item   = document.createElement('div');
-      item.className = 'week-item' + (active ? '' : ' upcoming');
-      item.id = `week-${week.num}`;
-
-      // DS buttons
-      const dsBtns = week.ds.map((d, i) => btn(`DS ${i+1}`, d)).join('');
-
-      item.innerHTML = `
-        <div class="week-row">
-          <span class="week-num">Semana ${num}</span>
-          <div class="week-info">
-            <div class="week-name">${week.name}</div>
-            <div class="week-focus">${week.focus}</div>
-          </div>
-          <span class="week-chevron">▾</span>
-        </div>
-        <div class="week-panel">
-          <div class="panel-inner">
-            <div class="panel-row">
-              <span class="panel-label">Aula</span>
-              ${btn('Prática Guiada', week.pratica)}
-              ${btn('Check-up', week.checkup)}
-            </div>
-            <div class="panel-row">
-              <span class="panel-label">Daily Steps</span>
-              ${dsBtns}
-            </div>
-          </div>
-        </div>
-      `;
-
-      if (active) {
-        item.querySelector('.week-row').addEventListener('click', () => {
-          const isOpen = item.classList.contains('open');
-          // Close all
-          document.querySelectorAll('.week-item.open').forEach(el => el.classList.remove('open'));
-          // Toggle clicked
-          if (!isOpen) item.classList.add('open');
-        });
-      }
-
-      list.appendChild(item);
-    });
-
-    sec.appendChild(list);
-    portal.appendChild(sec);
-  });
-}
-
-buildPortal();
-</script>
 </body>
 </html>

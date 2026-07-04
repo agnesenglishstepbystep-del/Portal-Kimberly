@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 5 · I'm not... — Kimberly Mentoria VIP</title>
+<!--
+  Dia 5 (ex-Daily Step 4) — mecânica legada: flip só por botão Verso/Frente, página única, sem toggle.
+  Conteúdo reformado na Fase D da Reforma Pedagógica (aprovado 04/07/2026) — fonte: Acervo, KIM-S01-D05-C01 a C10.
+  Áudios S01_Dia05_CardXX em /audio (todos Q+A — as 10 têm pergunta-gatilho) — geração na Fase G.
+  Enquanto os mp3 não existem, os players mostram "Esse áudio chega em breve." em vez de quebrar.
+-->
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root{
+    --azul:#1e3651; --azul-2:#2c4e73;
+    --verde:#2f7d52; --verde-2:#4fa37a; --verde-escuro:#1f5a3a;
+    --dourado:#c9a84c; --dourado-2:#e3c878;
+    --creme:#f8f5ef; --creme-2:#edf4f4;
+    --texto:#1e3651;
+    --sombra:0 10px 30px rgba(30,54,81,.12);
+  }
+  body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:linear-gradient(180deg,var(--creme) 0%,var(--creme-2) 100%);
+    color:var(--texto); min-height:100vh; padding-bottom:60px;
+  }
+  h1,h2,.frase{ font-family:Georgia,'Times New Roman',serif; }
+
+  header.topbar{ display:flex; align-items:center; justify-content:space-between; padding:16px 24px; background:var(--azul); color:#fff; }
+  header.topbar a{ color:#fff; text-decoration:none; font-size:.9rem; opacity:.9; }
+  header.topbar a:hover{ opacity:1; text-decoration:underline; }
+  .brand{ font-family:Georgia,serif; font-size:1.05rem; }
+  .brand b{ color:var(--dourado-2); }
+
+  .wrap{ max-width:760px; margin:0 auto; padding:28px 18px; }
+  .titulo-dia{ text-align:center; margin-bottom:22px; }
+  .titulo-dia h1{ font-size:1.8rem; color:var(--azul); }
+  .titulo-dia p{ color:var(--azul-2); font-size:.95rem; margin-top:4px; }
+
+  .como-praticar{
+    background:#fff; border-left:4px solid var(--dourado); border-radius:10px;
+    padding:16px 20px 16px 20px; margin-bottom:26px; box-shadow:var(--sombra); font-size:.95rem; line-height:1.6;
+  }
+  .como-praticar b{ display:block; margin-bottom:6px; color:var(--azul); }
+  .como-praticar ol{ margin-left:20px; }
+
+  .cards{ display:flex; flex-direction:column; gap:16px; }
+  .card{ background:#fff; border-radius:18px; box-shadow:var(--sombra); padding:26px 24px; text-align:center; }
+  .num{ font-size:.78rem; font-weight:bold; color:var(--azul-2); margin-bottom:10px; letter-spacing:.04em; }
+  .cenario{ font-size:.92rem; color:#5a6b7a; line-height:1.5; margin-bottom:12px; }
+  .frase{ font-size:1.5rem; color:var(--azul); font-weight:bold; margin-bottom:14px; }
+  .traducao{ font-size:1.15rem; color:var(--verde-escuro); font-weight:bold; margin-bottom:10px; }
+  .sensacao{ font-size:.92rem; color:#5a6b7a; line-height:1.5; font-style:italic; margin-bottom:14px; }
+
+  button,.btn{ font-family:Arial,sans-serif; cursor:pointer; border:none; border-radius:999px; padding:10px 20px; font-size:.88rem; font-weight:bold; transition:.2s; }
+  .btn-ouvir{ background:var(--azul); color:#fff; }
+  .btn-ouvir:hover{ background:var(--azul-2); }
+  .btn-baixar{ background:var(--verde); color:#fff; text-decoration:none; display:inline-block; }
+  .btn-baixar:hover{ background:var(--verde-2); }
+  .btn-flip{ background:transparent; color:var(--azul); border:1.5px solid var(--azul); }
+  .btn-dourado{ background:var(--dourado); color:var(--azul); }
+  .btn-dourado:hover{ background:var(--dourado-2); }
+  .btn-dourado:disabled{ background:#e7decb; color:#a89a6f; cursor:not-allowed; }
+  .btn-fantasma{ background:transparent; color:var(--azul); border:1.5px solid var(--azul); }
+  .acoes{ display:flex; justify-content:center; gap:10px; flex-wrap:wrap; }
+
+  .audio-fallback{ font-size:.85rem; color:#a08a3f; margin-top:10px; display:none; }
+  .check-baixado{ font-size:.78rem; color:var(--verde-escuro); font-weight:bold; margin-top:10px; display:none; }
+  .check-baixado.on{ display:block; }
+  .verso{ display:none; }
+  .card.virado .frente{ display:none; }
+  .card.virado .verso{ display:block; }
+
+  .rodape{ text-align:center; margin-top:28px; }
+  .rodape .status-baixados{ font-size:.85rem; color:var(--azul-2); margin-bottom:12px; }
+
+  .overlay{ position:fixed; inset:0; background:rgba(30,54,81,.55); display:none; align-items:center; justify-content:center; z-index:50; padding:20px; }
+  .overlay.on{ display:flex; }
+  .modal{ background:#fff; border-radius:18px; padding:36px 30px; max-width:420px; text-align:center; box-shadow:0 20px 50px rgba(0,0,0,.3); }
+  .modal .arvore-emoji{ font-size:3rem; margin-bottom:10px; }
+  .modal h2{ color:var(--azul); margin-bottom:10px; }
+  .modal p{ color:#5a6b7a; margin-bottom:22px; line-height:1.5; }
+  .modal .acoes{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+
+  @media(max-width:480px){
+    .frase{ font-size:1.25rem; }
+    .card{ padding:20px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <span class="brand">🌳 Kimberly | <b>Mentoria VIP</b></span>
+  <a href="Passos_Diarios.html">← Passos Diários</a>
+</header>
+
+<div class="wrap">
+
+  <div class="titulo-dia">
+    <h1>Dia 5 — I'm not...</h1>
+    <p>Semana 1 — Who I Am · I'm...</p>
+  </div>
+
+  <div class="como-praticar">
+    <b>Como praticar hoje</b>
+    <ol>
+      <li>Ouça os cards.</li>
+      <li>Repita em voz alta.</li>
+      <li>Imagine a situação.</li>
+      <li>Revise novamente.</li>
+      <li>Adicione os 10 cartões ao Anki com calma.</li>
+    </ol>
+  </div>
+
+  <div class="cards" id="cards"></div>
+
+  <div class="rodape">
+    <div class="status-baixados" id="statusBaixados">0/10 no Anki</div>
+    <button class="btn-dourado" id="btnConcluir" disabled>🌳 Concluir o Dia 5</button>
+  </div>
+
+</div>
+
+<div class="overlay" id="overlayFim">
+  <div class="modal">
+    <div class="arvore-emoji">🌳🎉</div>
+    <h2>Dia 5 completo!</h2>
+    <p>Sua árvore acabou de crescer um pouquinho. Continue assim — cada dia conta.</p>
+    <div class="acoes">
+      <a class="btn btn-dourado" href="Conquistas.html" style="text-decoration:none;display:inline-block">Ver meu progresso →</a>
+      <a class="btn btn-fantasma" href="Passos_Diarios.html" style="text-decoration:none;display:inline-block">Passos Diários</a>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* ---------- Persistência (local-first + sync Supabase) — complementos/Infra_Portal_Supabase.md ---------- */
+const SB_URL="https://yhsntdsdifpcozfpdfcu.supabase.co";
+const SB_KEY="sb_publishable_aHINXeQ9NT_vXMamxc8GFw_iLZvOZKE";
+const STUDENT="kimberly";
+const sb=supabase.createClient(SB_URL,SB_KEY);
+const Progress={
+  cache:{},
+  async load(){
+    try{this.cache=JSON.parse(localStorage.getItem("kim_progress")||"{}");}catch(e){this.cache={};}
+    try{const {data}=await sb.from("student_progress").select("progress").eq("student_id",STUDENT).single();
+        if(data&&data.progress){this.cache=data.progress;localStorage.setItem("kim_progress",JSON.stringify(this.cache));}}catch(e){}
+    return this.cache;
+  },
+  get(k,def){return (k in this.cache)?this.cache[k]:def;},
+  async set(k,v){
+    this.cache[k]=v; localStorage.setItem("kim_progress",JSON.stringify(this.cache));
+    try{await sb.from("student_progress").upsert({student_id:STUDENT,progress:this.cache,updated_at:new Date().toISOString()});}catch(e){}
+  }
+};
+
+const DIA_KEY="dia5";
+
+/* ---------- 10 cards do Dia 5 (Acervo — KIM-S01-D05-C01 a C10, Fase D) ---------- */
+const cards=[
+ {id:'c01',cenario:"Mensagem de trabalho pedindo reunião de última hora: \"Can we meet today?\" Sua agenda já está fechada:",frase:"I'm not available.",traducao:"Não estou disponível.",sensacao:"Um não profissional, sem culpa e sem novela: hoje não dá.",audio:"audio/S01_Dia05_Card01_Im_not_available.mp3"},
+ {id:'c02',cenario:"O convite do aniversário chegou no grupo e a aniversariante quer saber: \"Are you coming?\" Você ainda vai olhar a agenda:",frase:"I'm not sure yet.",traducao:"Ainda não tenho certeza.",sensacao:"A resposta que compra tempo com elegância. <i>Yet</i> deixa a porta aberta: ainda.",audio:"audio/S01_Dia05_Card02_Im_not_sure_yet.mp3"},
+ {id:'c03',cenario:"O entregador manda mensagem: \"Are you at home?\" — e você no meio da rua:",frase:"I'm not at home.",traducao:"Não estou em casa.",sensacao:"O aviso que evita campainha tocada à toa: agora não, estou fora.",audio:"audio/S01_Dia05_Card03_Im_not_at_home.mp3"},
+ {id:'c04',cenario:"Sua amiga liga meio sem jeito, com medo de atrapalhar: \"Are you busy?\" Você já está fechando o notebook:",frase:"I'm not busy.",traducao:"Não estou ocupada.",sensacao:"Portas abertas: pode falar, o tempo agora é seu.",audio:"audio/S01_Dia05_Card04_Im_not_busy.mp3"},
+ {id:'c05',cenario:"O passeio a pé já está longo e sua amiga oferece uma pausa por sua causa: \"Tired?\" Você, firme:",frase:"I'm not tired.",traducao:"Não estou cansada.",sensacao:"Energia sobrando e um orgulho junto: pode continuar, estou inteira.",audio:"audio/S01_Dia05_Card05_Im_not_tired.mp3"},
+ {id:'c06',cenario:"No evento, a colega chama pra fila do buffet antes da palestra: \"Do you want to eat now?\" Você prefere esperar:",frase:"I'm not hungry.",traducao:"Não estou com fome.",sensacao:"Agora não — e dizer isso resolve, sem precisar explicar mais nada.",audio:"audio/S01_Dia05_Card06_Im_not_hungry.mp3"},
+ {id:'c07',cenario:"Na rua, em viagem, alguém te para: \"Excuse me, is there a pharmacy near here?\" Você gostaria de ajudar, mas:",frase:"I'm not from here.",traducao:"Não sou daqui.",sensacao:"O jeito gentil de avisar que não vai saber ajudar: aqui, você também é visita. <i>Near here</i> você já conhece do portão: perto daqui.",audio:"audio/S01_Dia05_Card07_Im_not_from_here.mp3"},
+ {id:'c08',cenario:"Você chega e a colega bate no relógio, brincando: \"Late again?\" Você mostra a hora combinada e ri:",frase:"I'm not late.",traducao:"Não estou atrasada.",sensacao:"Defesa bem-humorada, com provas na mão: dessa vez, pontualíssima.",audio:"audio/S01_Dia05_Card08_Im_not_late.mp3"},
+ {id:'c09',cenario:"No encontro, Agnes convida: que tal dizer a próxima frase em inglês? \"Do you want to try?\" Você responde com honestidade:",frase:"I'm not comfortable yet.",traducao:"Ainda não estou confortável.",sensacao:"Coragem não é fingir conforto — é nomear onde você está. E o <i>yet</i> promete: por enquanto.",audio:"audio/S01_Dia05_Card09_Im_not_comfortable_yet.mp3"},
+ {id:'c10',cenario:"Na entrada do restaurante, a recepcionista já pega um cardápio só: \"Table for one?\" Sua amiga ainda está estacionando:",frase:"I'm not alone.",traducao:"Não estou sozinha.",sensacao:"A correção rapidinha que muda a mesa: somos duas.",audio:"audio/S01_Dia05_Card10_Im_not_alone.mp3"}
+];
+
+const cardsEl=document.getElementById('cards');
+
+function render(){
+  const baixados=Progress.get(DIA_KEY+'_baixar',{});
+  cards.forEach((c,i)=>{
+    const div=document.createElement('div');
+    div.className='card';
+    div.id='card-'+c.id;
+    div.innerHTML=`
+      <div class="frente">
+        <div class="num">CARTÃO ${i+1} DE ${cards.length}</div>
+        <div class="cenario">${c.cenario}</div>
+        <div class="frase">${c.frase}</div>
+        <div class="acoes">
+          <button class="btn-ouvir" data-acao="ouvir" data-id="${c.id}">🔊 Ouvir</button>
+          <a class="btn btn-baixar" href="${c.audio}" download data-acao="baixar" data-id="${c.id}">⬇ Baixar</a>
+          <button class="btn-flip" data-acao="verso" data-id="${c.id}">Verso ↻</button>
+        </div>
+        <p class="audio-fallback" id="fallback-${c.id}">Esse áudio chega em breve.</p>
+        <div class="check-baixado ${baixados[c.id]?'on':''}" id="chk-${c.id}">✓ no Anki</div>
+      </div>
+      <div class="verso">
+        <div class="num">CARTÃO ${i+1} DE ${cards.length}</div>
+        <div class="traducao">${c.traducao}</div>
+        <div class="sensacao">${c.sensacao}</div>
+        <div class="acoes">
+          <button class="btn-flip" data-acao="frente" data-id="${c.id}">← Frente</button>
+        </div>
+      </div>
+      <audio id="audio-${c.id}" src="${c.audio}"></audio>`;
+    cardsEl.appendChild(div);
+    document.getElementById('audio-'+c.id).addEventListener('error',()=>{
+      document.getElementById('fallback-'+c.id).style.display='block';
+    });
+  });
+  atualizarBaixados();
+}
+
+cardsEl.addEventListener('click',async ev=>{
+  const el=ev.target.closest('[data-acao]');
+  if(!el) return;
+  const id=el.dataset.id, acao=el.dataset.acao;
+  if(acao==='ouvir'){
+    const a=document.getElementById('audio-'+id); a.currentTime=0; a.play().catch(()=>{});
+  }else if(acao==='verso'){
+    document.getElementById('card-'+id).classList.add('virado');
+  }else if(acao==='frente'){
+    document.getElementById('card-'+id).classList.remove('virado');
+  }else if(acao==='baixar'){
+    const baixados=Progress.get(DIA_KEY+'_baixar',{});
+    baixados[id]=true;
+    await Progress.set(DIA_KEY+'_baixar',baixados);
+    document.getElementById('chk-'+id).classList.add('on');
+    atualizarBaixados();
+  }
+});
+
+function atualizarBaixados(){
+  const baixados=Progress.get(DIA_KEY+'_baixar',{});
+  const n=cards.filter(c=>baixados[c.id]).length;
+  document.getElementById('statusBaixados').textContent=`${n}/10 no Anki`;
+  document.getElementById('btnConcluir').disabled = n<10;
+}
+
+document.getElementById('btnConcluir').addEventListener('click',async ()=>{
+  await Progress.set(DIA_KEY+'_completedAt', new Date().toISOString());
+  document.getElementById('overlayFim').classList.add('on');
+});
+
+(async function start(){
+  await Progress.load();
+  render();
+})();
+</script>
+</body>
+</html>

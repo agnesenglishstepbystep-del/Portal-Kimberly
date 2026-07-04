@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Passos Diários — Kimberly Mentoria VIP</title>
+<!--
+  Bloco "Passos Diários" — currículo (meses → semanas → materiais).
+  Nomenclatura única "Dia 1–5 + Check-up" (decisão de 03/07/2026). Arquivos DS0X aposentados —
+  substituídos pelos Dia0X na Fase F da Reforma Pedagógica (04/07/2026).
+  Semanas 2-12: nomes/foco vindos do Estado Atual do Projeto, sem alteração de conteúdo.
+-->
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root{
+    --azul:#1e3651; --azul-2:#2c4e73;
+    --verde:#2f7d52; --verde-2:#4fa37a; --verde-escuro:#1f5a3a;
+    --dourado:#c9a84c; --dourado-2:#e3c878;
+    --creme:#f8f5ef; --creme-2:#edf4f4;
+    --texto:#1e3651;
+    --sombra:0 10px 30px rgba(30,54,81,.12);
+  }
+  body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:linear-gradient(180deg,var(--creme) 0%,var(--creme-2) 100%);
+    color:var(--texto); min-height:100vh; padding-bottom:60px;
+  }
+  h1,h2{ font-family:Georgia,'Times New Roman',serif; }
+
+  header.topbar{ display:flex; align-items:center; justify-content:space-between; padding:16px 24px; background:var(--azul); color:#fff; }
+  header.topbar a{ color:#fff; text-decoration:none; font-size:.9rem; opacity:.9; }
+  header.topbar a:hover{ opacity:1; text-decoration:underline; }
+  .brand{ font-family:Georgia,serif; font-size:1.05rem; }
+  .brand b{ color:var(--dourado-2); }
+
+  .wrap{ max-width:760px; margin:0 auto; padding:30px 18px; }
+  .wrap > h1{ text-align:center; color:var(--azul); font-size:1.7rem; margin-bottom:30px; }
+
+  .mes{ margin-bottom:18px; background:#fff; border-radius:16px; box-shadow:var(--sombra); overflow:hidden; }
+  .mes-cabecalho{
+    padding:16px 22px; background:var(--azul); color:#fff; cursor:pointer;
+    display:flex; justify-content:space-between; align-items:center; font-weight:bold;
+  }
+  .mes-cabecalho .seta{ transition:.25s; }
+  .mes-cabecalho.aberto .seta{ transform:rotate(180deg); }
+  .mes-corpo{ display:none; }
+  .mes-corpo.aberto{ display:block; }
+
+  .semana{ border-top:1px solid #eee0; }
+  .semana + .semana{ border-top:1px solid #f0ece2; }
+  .semana-cabecalho{ padding:16px 22px; display:flex; justify-content:space-between; align-items:center; gap:10px; cursor:pointer; }
+  .semana-cabecalho:hover{ background:var(--creme); }
+  .semana-info b{ color:var(--azul); font-size:1rem; }
+  .semana-info span{ display:block; font-size:.82rem; color:#5a6b7a; margin-top:2px; }
+  .badge{ font-size:.74rem; font-weight:bold; padding:4px 12px; border-radius:999px; white-space:nowrap; }
+  .badge.ativo{ background:#dff1e6; color:var(--verde-escuro); }
+  .badge.breve{ background:#f0ece2; color:#8b7f63; }
+
+  .materiais{ display:none; padding:0 22px 18px; flex-direction:column; gap:10px; }
+  .materiais.aberto{ display:flex; }
+  .material-item{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:10px 16px; border-radius:10px; background:var(--creme-2); font-size:.88rem;
+  }
+  .material-item.bloqueado{ opacity:.6; }
+  .material-item a{
+    background:var(--verde); color:#fff; text-decoration:none; padding:6px 14px; border-radius:999px;
+    font-size:.8rem; font-weight:bold;
+  }
+  .material-item a:hover{ background:var(--verde-2); }
+  .material-item .tag-breve{ font-size:.78rem; color:#a08a3f; font-weight:bold; }
+
+  @media(max-width:480px){
+    .semana-cabecalho{ flex-direction:column; align-items:flex-start; gap:6px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <span class="brand">🌳 Kimberly | <b>Mentoria VIP</b></span>
+  <a href="index.html">← Início</a>
+</header>
+
+<div class="wrap">
+  <h1>👣 Passos Diários</h1>
+  <div id="meses"></div>
+</div>
+
+<script>
+const curriculum = [
+ { mes:1, semanas:[
+   { num:1, name:"Who I Am", focus:"Falando sobre você", materiais:[
+     { label:"Dia 1 — Who I Am", file:"Dia01_Semana1_WhoIAm.html", status:"ativo" },
+     { label:"Dia 2 — Como estou agora", file:"Dia02_Semana1_ComoEstouAgora.html", status:"ativo" },
+     { label:"Dia 3 — Onde estou", file:"Dia03_Semana1_OndeEstou.html", status:"ativo" },
+     { label:"Dia 4 — Quem eu sou", file:"Dia04_Semana1_QuemEuSou.html", status:"ativo" },
+     { label:"Dia 5 — I'm not...", file:"Dia05_Semana1_ImNot.html", status:"ativo" },
+     { label:"Check-up", file:"Checkup_Semana1_WhoIAm.html", status:"ativo" }
+   ]},
+   { num:2, name:"My World", focus:"He/She is... · It's... · There is/are...", materiais:[] },
+   { num:3, name:"My Routine", focus:"I go... · I have... · I work...", materiais:[] },
+   { num:4, name:"Where I Am", focus:"Is there...? · Where is...? · Turn left/right", materiais:[] }
+ ]},
+ { mes:2, semanas:[
+   { num:5, name:"Getting Around", focus:"Can you...? · How do I get to...? · I need to...", materiais:[] },
+   { num:6, name:"Staying Somewhere", focus:"I'd like... · Do you have...? · Could you...?", materiais:[] },
+   { num:7, name:"Eating Out", focus:"I'll have... · What do you recommend? · Can I get...?", materiais:[] },
+   { num:8, name:"Shopping & Solving Problems", focus:"How much is...? · I'm looking for... · I have a problem", materiais:[] }
+ ]},
+ { mes:3, semanas:[
+   { num:9, name:"Talking About Experiences", focus:"I went... · It was... · I loved/liked...", materiais:[] },
+   { num:10, name:"Connecting With People", focus:"Nice to meet you · What do you do? · How long are you here?", materiais:[] },
+   { num:11, name:"Handling Unexpected Situations", focus:"I need help · I don't understand · Could you repeat that?", materiais:[] },
+   { num:12, name:"Travel With Confidence", focus:"Revisão integrada", materiais:[] }
+ ]}
+];
+
+const mesesEl = document.getElementById('meses');
+
+curriculum.forEach((mes, mi) => {
+  const semAtivas = mes.semanas.some(s => s.materiais.some(m => m.status==='ativo'));
+  const mesDiv = document.createElement('div');
+  mesDiv.className = 'mes';
+
+  const cab = document.createElement('div');
+  cab.className = 'mes-cabecalho' + (mi===0 ? ' aberto' : '');
+  cab.innerHTML = `<span>Mês ${mes.mes}</span><span class="seta">▾</span>`;
+  mesDiv.appendChild(cab);
+
+  const corpo = document.createElement('div');
+  corpo.className = 'mes-corpo' + (mi===0 ? ' aberto' : '');
+
+  mes.semanas.forEach(s => {
+    const temAtivo = s.materiais.some(m => m.status==='ativo');
+    const semDiv = document.createElement('div');
+    semDiv.className = 'semana';
+
+    const semCab = document.createElement('div');
+    semCab.className = 'semana-cabecalho';
+    semCab.innerHTML = `
+      <div class="semana-info">
+        <b>Semana ${s.num} — ${s.name}</b>
+        <span>${s.focus}</span>
+      </div>
+      <span class="badge ${temAtivo?'ativo':'breve'}">${temAtivo?'Disponível':'Em breve'}</span>`;
+    semDiv.appendChild(semCab);
+
+    const matDiv = document.createElement('div');
+    matDiv.className = 'materiais';
+    if(s.materiais.length){
+      s.materiais.forEach(m=>{
+        const item = document.createElement('div');
+        item.className = 'material-item' + (m.status!=='ativo' ? ' bloqueado' : '');
+        item.innerHTML = m.status==='ativo'
+          ? `<span>${m.label}</span><a href="${m.file}">Abrir →</a>`
+          : `<span>${m.label}</span><span class="tag-breve">Em breve</span>`;
+        matDiv.appendChild(item);
+      });
+      semCab.addEventListener('click', ()=> matDiv.classList.toggle('aberto'));
+    } else {
+      semCab.style.cursor='default';
+    }
+    semDiv.appendChild(matDiv);
+    corpo.appendChild(semDiv);
+  });
+
+  mesDiv.appendChild(corpo);
+  mesesEl.appendChild(mesDiv);
+
+  cab.addEventListener('click', ()=>{
+    cab.classList.toggle('aberto');
+    corpo.classList.toggle('aberto');
+  });
+});
+</script>
+</body>
+</html>

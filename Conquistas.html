@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minhas Conquistas — Kimberly Mentoria VIP</title>
+<!--
+  REFORMA VIP 2.0 — bloco "Minhas Conquistas" (§6, §7). Nome do bloco é placeholder
+  (Agnes escolhe entre "Minhas Conquistas" e "Meu Progresso"). Árvore: raiz azul (sempre
+  presente, identidade) · tronco/galhos verdes (progresso) · frutos dourados (conquistas) — §5.
+  Lê o progresso de forma genérica (varre chaves diaN_*) para funcionar sem alteração
+  quando novos dias forem adicionados no futuro.
+-->
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root{
+    --azul:#1e3651; --azul-2:#2c4e73;
+    --verde:#2f7d52; --verde-2:#4fa37a; --verde-escuro:#1f5a3a;
+    --dourado:#c9a84c; --dourado-2:#e3c878;
+    --creme:#f8f5ef; --creme-2:#edf4f4;
+    --texto:#1e3651;
+    --sombra:0 10px 30px rgba(30,54,81,.12);
+  }
+  body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:linear-gradient(180deg,var(--creme) 0%,var(--creme-2) 100%);
+    color:var(--texto); min-height:100vh; padding-bottom:60px;
+  }
+  h1,h2{ font-family:Georgia,'Times New Roman',serif; }
+
+  header.topbar{ display:flex; align-items:center; justify-content:space-between; padding:16px 24px; background:var(--azul); color:#fff; }
+  header.topbar a{ color:#fff; text-decoration:none; font-size:.9rem; opacity:.9; }
+  header.topbar a:hover{ opacity:1; text-decoration:underline; }
+  .brand{ font-family:Georgia,serif; font-size:1.05rem; }
+  .brand b{ color:var(--dourado-2); }
+
+  .wrap{ max-width:680px; margin:0 auto; padding:30px 18px; }
+  .wrap > h1{ text-align:center; color:var(--azul); font-size:1.7rem; margin-bottom:20px; }
+
+  .arvore-box{ background:#fff; border-radius:20px; box-shadow:var(--sombra); padding:20px; text-align:center; margin-bottom:22px; }
+  .arvore-box svg{ width:100%; max-width:280px; height:auto; }
+  .arvore-legenda{ font-size:.86rem; color:#5a6b7a; margin-top:6px; }
+
+  .contadores{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:22px; }
+  .contador-card{ background:#fff; border-radius:14px; box-shadow:var(--sombra); padding:16px 10px; text-align:center; }
+  .contador-card .num{ font-size:1.5rem; font-weight:bold; color:var(--azul); }
+  .contador-card .lbl{ font-size:.74rem; color:#5a6b7a; margin-top:2px; }
+
+  .certificado{ background:#fff; border-radius:16px; box-shadow:var(--sombra); padding:20px 24px; margin-bottom:22px; }
+  .certificado .topo{ display:flex; justify-content:space-between; font-size:.86rem; color:var(--azul-2); margin-bottom:8px; font-weight:bold; }
+  .barra{ background:#e3ddd0; border-radius:999px; height:12px; overflow:hidden; }
+  .barra > div{ background:linear-gradient(90deg,var(--dourado),var(--dourado-2)); height:100%; width:0%; transition:.4s; }
+
+  .medalhas{ display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:14px; }
+  .medalha{ background:#fff; border-radius:14px; box-shadow:var(--sombra); padding:18px 12px; text-align:center; opacity:.4; filter:grayscale(1); transition:.3s; }
+  .medalha.desbloqueada{ opacity:1; filter:none; }
+  .medalha .icone{ font-size:1.8rem; margin-bottom:6px; }
+  .medalha .nome{ font-size:.78rem; font-weight:bold; color:var(--azul); }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <span class="brand">🌳 Kimberly | <b>Mentoria VIP</b></span>
+  <a href="index.html">← Início</a>
+</header>
+
+<div class="wrap">
+  <h1>🌳 Minhas Conquistas</h1>
+
+  <div class="arvore-box">
+    <svg viewBox="0 0 300 320" xmlns="http://www.w3.org/2000/svg">
+      <!-- raiz azul — sempre presente -->
+      <path d="M150 300 C 120 300 90 310 60 318 M150 300 C 180 300 210 310 240 318 M150 300 L150 270"
+            stroke="#1e3651" stroke-width="8" fill="none" stroke-linecap="round"/>
+      <!-- tronco -->
+      <rect id="tronco" x="138" y="190" width="24" height="110" rx="10" fill="#1f5a3a"/>
+      <!-- galhos/folhagem (verde) — escala via JS conforme progresso -->
+      <g id="folhaA" style="transform-origin:150px 190px; transition:transform .5s, opacity .5s;">
+        <circle cx="150" cy="175" r="55" fill="#2f7d52"/>
+      </g>
+      <g id="folhaB" style="transform-origin:110px 195px; transition:transform .5s, opacity .5s;">
+        <circle cx="100" cy="195" r="42" fill="#3f8d61"/>
+      </g>
+      <g id="folhaC" style="transform-origin:190px 195px; transition:transform .5s, opacity .5s;">
+        <circle cx="200" cy="195" r="42" fill="#4fa37a"/>
+      </g>
+      <!-- frutos dourados — conquistas -->
+      <g id="frutos">
+        <circle class="fruto" cx="125" cy="150" r="8" fill="#c9a84c"/>
+        <circle class="fruto" cx="175" cy="145" r="8" fill="#c9a84c"/>
+        <circle class="fruto" cx="100" cy="185" r="8" fill="#c9a84c"/>
+        <circle class="fruto" cx="200" cy="180" r="8" fill="#c9a84c"/>
+        <circle class="fruto" cx="150" cy="120" r="8" fill="#c9a84c"/>
+        <circle class="fruto" cx="160" cy="200" r="8" fill="#c9a84c"/>
+      </g>
+    </svg>
+    <p class="arvore-legenda" id="arvoreLegenda">Sua árvore começa a crescer no Dia 1.</p>
+  </div>
+
+  <div class="contadores">
+    <div class="contador-card"><div class="num" id="numAnki">0</div><div class="lbl">cartões no Anki</div></div>
+    <div class="contador-card"><div class="num" id="numDias">0</div><div class="lbl">dias completos</div></div>
+    <div class="contador-card"><div class="num" id="numLily">0</div><div class="lbl">textos da Lily ouvidos</div></div>
+  </div>
+
+  <div class="certificado">
+    <div class="topo"><span>Rumo ao certificado</span><span id="certTexto">0 / 60 passos diários</span></div>
+    <div class="barra"><div id="certBarra"></div></div>
+  </div>
+
+  <div class="medalhas" id="medalhas"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* ---------- Persistência (local-first + sync Supabase) — §8 da especificação ---------- */
+const SB_URL="https://yhsntdsdifpcozfpdfcu.supabase.co";
+const SB_KEY="sb_publishable_aHINXeQ9NT_vXMamxc8GFw_iLZvOZKE";
+const STUDENT="kimberly";
+const sb=supabase.createClient(SB_URL,SB_KEY);
+const Progress={
+  cache:{},
+  async load(){
+    try{this.cache=JSON.parse(localStorage.getItem("kim_progress")||"{}");}catch(e){this.cache={};}
+    try{const {data}=await sb.from("student_progress").select("progress").eq("student_id",STUDENT).single();
+        if(data&&data.progress){this.cache=data.progress;localStorage.setItem("kim_progress",JSON.stringify(this.cache));}}catch(e){}
+    return this.cache;
+  }
+};
+
+function varrer(progress){
+  let diasCompletos=0, diasIniciados=0, cartoesAnki=0;
+  Object.keys(progress).forEach(k=>{
+    if(/^dia\d+_completedAt$/.test(k) && progress[k]) diasCompletos++;
+    if(/^dia\d+_decifrar$/.test(k) && Object.values(progress[k]||{}).some(Boolean)) diasIniciados++;
+    if(/^dia\d+_baixar$/.test(k)) cartoesAnki += Object.values(progress[k]||{}).filter(Boolean).length;
+  });
+  const textosOuvidos = Object.values(progress['lily_textos_ouvidos']||{}).filter(Boolean).length;
+  return {diasCompletos, diasIniciados, cartoesAnki, textosOuvidos};
+}
+
+const medalhasDef=[
+  { id:'m1', icone:'🌱', nome:'Primeiro dia completo', check:s=>s.diasCompletos>=1 },
+  { id:'m2', icone:'🗂️', nome:'10 cartões no Anki', check:s=>s.cartoesAnki>=10 },
+  { id:'m3', icone:'🎧', nome:'Primeira escuta da Lily', check:s=>s.textosOuvidos>=1 },
+  { id:'m4', icone:'📅', nome:'Semana 1 completa', check:s=>s.diasCompletos>=5 }
+];
+
+(async function(){
+  const progress = await Progress.load();
+  const s = varrer(progress);
+
+  document.getElementById('numAnki').textContent = s.cartoesAnki;
+  document.getElementById('numDias').textContent = s.diasCompletos;
+  document.getElementById('numLily').textContent = s.textosOuvidos;
+
+  const totalPassos = 60; // 12 semanas x 5 passos diários (estimativa para a barra do certificado)
+  const pct = Math.min(100, (s.diasCompletos/totalPassos)*100);
+  document.getElementById('certBarra').style.width = pct+'%';
+  document.getElementById('certTexto').textContent = `${s.diasCompletos} / ${totalPassos} passos diários`;
+
+  // estágio da árvore: 0 nada · 1 iniciou · 2 escutou bastante · 3 dia completo · 4 +lily · 5 mais de 1 dia completo
+  let estagio=0;
+  if(s.diasIniciados>0 || s.diasCompletos>0) estagio=1;
+  if(s.diasCompletos>=1) estagio=3;
+  if(s.diasCompletos>=1 && s.textosOuvidos>=1) estagio=4;
+  if(s.diasCompletos>=3) estagio=5;
+
+  const escalas={0:.5,1:.7,2:.85,3:1,4:1,5:1.08};
+  const escala=escalas[estagio]||.5;
+  ['folhaA','folhaB','folhaC'].forEach((id,i)=>{
+    const el=document.getElementById(id);
+    const visivel = estagio>=(i===0?1:i===1?2:3);
+    el.style.opacity = visivel?1:0;
+    el.style.transform = `scale(${visivel?escala:.3})`;
+  });
+
+  const frutos=document.querySelectorAll('.fruto');
+  const frutosVisiveis = Math.min(frutos.length, s.diasCompletos + (s.textosOuvidos>0?1:0));
+  frutos.forEach((f,i)=>{ f.style.transition='opacity .5s'; f.style.opacity = i<frutosVisiveis ? 1 : 0; });
+
+  const legendas={
+    0:'Sua árvore começa a crescer no Dia 1.',
+    1:'Os primeiros brotos já apareceram. Continue!',
+    3:'Seu Dia 1 está completo — a árvore cresceu! 🌳',
+    4:'Primeiro fruto dourado conquistado. 🌟',
+    5:'Sua árvore está cada vez mais forte. 🌳✨'
+  };
+  document.getElementById('arvoreLegenda').textContent = legendas[estagio] || legendas[0];
+
+  const medEl=document.getElementById('medalhas');
+  medalhasDef.forEach(m=>{
+    const ok=m.check(s);
+    const div=document.createElement('div');
+    div.className='medalha'+(ok?' desbloqueada':'');
+    div.innerHTML=`<div class="icone">${m.icone}</div><div class="nome">${m.nome}</div>`;
+    medEl.appendChild(div);
+  });
+})();
+</script>
+</body>
+</html>

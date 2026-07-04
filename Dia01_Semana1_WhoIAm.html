@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 1 · Who I Am — Kimberly Mentoria VIP</title>
+<!--
+  Dia 1 — fluxo de 4 etapas (Reforma VIP 2.0).
+  Conteúdo reformado na Fase C da Reforma Pedagógica (aprovado 03/07/2026) — fonte: Acervo de Conteúdo, KIM-S01-D01-C01 a C10.
+  Áudios novos S01_Dia01_CardXX (formato Q+A quando há pergunta) + audio/Lily_S01_Texto01.mp3 — geração na Fase G.
+  Enquanto os mp3 não existem em /audio, os players mostram "Esse áudio chega em breve." em vez de quebrar.
+-->
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root{
+    --azul:#1e3651; --azul-2:#2c4e73;
+    --verde:#2f7d52; --verde-2:#4fa37a; --verde-escuro:#1f5a3a;
+    --dourado:#c9a84c; --dourado-2:#e3c878;
+    --creme:#f8f5ef; --creme-2:#edf4f4;
+    --texto:#1e3651;
+    --sombra:0 10px 30px rgba(30,54,81,.12);
+  }
+  body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:linear-gradient(180deg,var(--creme) 0%,var(--creme-2) 100%);
+    color:var(--texto);
+    min-height:100vh;
+    padding-bottom:60px;
+  }
+  h1,h2,.frase{ font-family:Georgia,'Times New Roman',serif; }
+
+  header.topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 24px; background:var(--azul); color:#fff;
+  }
+  header.topbar a{ color:#fff; text-decoration:none; font-size:.9rem; opacity:.9; }
+  header.topbar a:hover{ opacity:1; text-decoration:underline; }
+  .brand{ font-family:Georgia,serif; font-size:1.05rem; letter-spacing:.02em; }
+  .brand b{ color:var(--dourado-2); }
+
+  .wrap{ max-width:760px; margin:0 auto; padding:28px 18px; }
+
+  .titulo-dia{ text-align:center; margin-bottom:6px; }
+  .titulo-dia h1{ font-size:1.8rem; color:var(--azul); }
+  .titulo-dia p{ color:var(--azul-2); font-size:.95rem; margin-top:4px; }
+
+  /* stepper */
+  .stepper{ display:flex; justify-content:center; gap:10px; margin:24px 0 30px; flex-wrap:wrap; }
+  .step{
+    display:flex; align-items:center; gap:8px; padding:8px 14px; border-radius:999px;
+    background:#fff; border:1px solid #e3ddd0; font-size:.82rem; color:#9aa3ad;
+    transition:.25s;
+  }
+  .step .dot{ width:20px; height:20px; border-radius:50%; background:#e3ddd0; color:#fff;
+    display:flex; align-items:center; justify-content:center; font-size:.72rem; font-weight:bold; }
+  .step.ativo{ background:var(--azul); color:#fff; border-color:var(--azul); box-shadow:var(--sombra); }
+  .step.ativo .dot{ background:var(--dourado); color:var(--azul); }
+  .step.feito{ background:var(--verde); color:#fff; border-color:var(--verde); }
+  .step.feito .dot{ background:#fff; color:var(--verde); }
+
+  .instrucao{
+    background:#fff; border-left:4px solid var(--dourado); border-radius:10px;
+    padding:16px 20px; margin-bottom:26px; box-shadow:var(--sombra); font-size:.97rem; line-height:1.5;
+  }
+
+  .etapa{ display:none; }
+  .etapa.ativa{ display:block; }
+
+  /* ---- Etapa 1: Decifrar (um a um) ---- */
+  .progresso-decifrar{ text-align:center; color:var(--azul-2); font-size:.85rem; margin-bottom:14px; }
+  .card-unico{
+    background:#fff; border-radius:18px; box-shadow:var(--sombra); padding:32px 26px;
+    text-align:center; min-height:260px; display:flex; flex-direction:column; justify-content:center; gap:16px;
+  }
+  .cenario{ font-size:.92rem; color:#5a6b7a; line-height:1.5; }
+  .frase{ font-size:1.7rem; color:var(--azul); font-weight:bold; }
+  .traducao{ font-size:1.15rem; color:var(--verde-escuro); font-weight:bold; }
+  .sensacao{ font-size:.92rem; color:#5a6b7a; line-height:1.5; font-style:italic; }
+
+  button, .btn{
+    font-family:Arial,sans-serif; cursor:pointer; border:none; border-radius:999px;
+    padding:11px 22px; font-size:.92rem; font-weight:bold; transition:.2s;
+  }
+  .btn-ouvir{ background:var(--azul); color:#fff; }
+  .btn-ouvir:hover{ background:var(--azul-2); }
+  .btn-principal{ background:var(--verde); color:#fff; }
+  .btn-principal:hover{ background:var(--verde-2); }
+  .btn-principal:disabled{ background:#cfd6cf; color:#8b938b; cursor:not-allowed; }
+  .btn-dourado{ background:var(--dourado); color:var(--azul); }
+  .btn-dourado:hover{ background:var(--dourado-2); }
+  .btn-dourado:disabled{ background:#e7decb; color:#a89a6f; cursor:not-allowed; }
+  .btn-fantasma{ background:transparent; color:var(--azul); border:1.5px solid var(--azul); }
+
+  .acoes-card{ display:flex; justify-content:center; gap:12px; flex-wrap:wrap; margin-top:6px; }
+
+  /* ---- Etapa 2: Escutar / Etapa 3: Anki — grade ---- */
+  .total-escutas{ text-align:center; margin-bottom:18px; }
+  .barra{ background:#e3ddd0; border-radius:999px; height:10px; overflow:hidden; max-width:340px; margin:8px auto 0; }
+  .barra > div{ background:linear-gradient(90deg,var(--verde),var(--verde-2)); height:100%; width:0%; transition:.3s; }
+
+  .grade{ display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; margin-bottom:24px; }
+  .mini-card{ background:#fff; border-radius:14px; box-shadow:var(--sombra); padding:16px; text-align:center; }
+  .mini-card .frase{ font-size:1.05rem; margin-bottom:10px; }
+  .contador{ font-size:.8rem; color:var(--azul-2); margin-top:8px; font-weight:bold; }
+  .contador.completo{ color:var(--verde-escuro); }
+  .check-baixado{ font-size:.78rem; color:var(--verde-escuro); font-weight:bold; margin-top:8px; display:none; }
+  .check-baixado.on{ display:block; }
+
+  .rodape-etapa{ text-align:center; margin-top:10px; }
+
+  /* ---- Etapa 4: Com a Lily ---- */
+  .lily-box{ background:#fff; border-radius:18px; box-shadow:var(--sombra); padding:30px; text-align:center; }
+  .lily-box h2{ color:var(--azul); font-size:1.4rem; margin-bottom:6px; }
+  .lily-box p.legenda{ color:#5a6b7a; font-size:.9rem; margin-bottom:20px; }
+  .texto-lily{ display:none; text-align:left; background:var(--creme-2); border-radius:10px; padding:18px 20px; margin-top:18px; font-family:Georgia,serif; font-size:1.05rem; line-height:1.9; color:var(--azul); }
+  .texto-lily.on{ display:block; }
+  audio{ width:100%; max-width:380px; margin:10px auto; display:block; }
+  .audio-fallback{ font-size:.85rem; color:#a08a3f; margin-top:6px; display:none; }
+
+  /* celebração */
+  .overlay{ position:fixed; inset:0; background:rgba(30,54,81,.55); display:none; align-items:center; justify-content:center; z-index:50; padding:20px; }
+  .overlay.on{ display:flex; }
+  .modal{ background:#fff; border-radius:18px; padding:36px 30px; max-width:420px; text-align:center; box-shadow:0 20px 50px rgba(0,0,0,.3); }
+  .modal .arvore-emoji{ font-size:3rem; margin-bottom:10px; }
+  .modal h2{ color:var(--azul); margin-bottom:10px; }
+  .modal p{ color:#5a6b7a; margin-bottom:22px; line-height:1.5; }
+  .modal .acoes{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+
+  @media(max-width:480px){
+    .frase{ font-size:1.4rem; }
+    .card-unico{ padding:24px 18px; }
+    .stepper{ gap:6px; }
+    .step{ padding:7px 10px; font-size:.74rem; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <span class="brand">🌳 Kimberly | <b>Mentoria VIP</b></span>
+  <a href="Passos_Diarios.html">← Passos Diários</a>
+</header>
+
+<div class="wrap">
+
+  <div class="titulo-dia">
+    <h1>Dia 1 — Who I Am</h1>
+    <p>Falando sobre você · I'm...</p>
+  </div>
+
+  <div class="stepper" id="stepper">
+    <div class="step" data-etapa="1"><span class="dot">1</span> Decifrar</div>
+    <div class="step" data-etapa="2"><span class="dot">2</span> Escutar</div>
+    <div class="step" data-etapa="3"><span class="dot">3</span> Anki</div>
+    <div class="step" data-etapa="4"><span class="dot">4</span> Com a Lily</div>
+  </div>
+
+  <div class="instrucao" id="instrucao"></div>
+
+  <!-- ETAPA 1 — DECIFRAR -->
+  <section class="etapa" data-etapa="1" id="etapa1">
+    <div class="progresso-decifrar" id="decifrarProgresso">Cartão 1 de 10</div>
+    <div class="card-unico" id="cardUnico">
+      <div class="cenario" id="dCenario"></div>
+      <div class="frase" id="dFrase"></div>
+      <div class="acoes-card">
+        <button class="btn-ouvir" id="dBtnOuvir">🔊 Ouvir</button>
+      </div>
+      <p class="audio-fallback" id="dAudioFallback">Esse áudio chega em breve.</p>
+      <div id="dVersoArea" style="display:none">
+        <div class="traducao" id="dTraducao"></div>
+        <div class="sensacao" id="dSensacao"></div>
+      </div>
+      <div class="acoes-card">
+        <button class="btn-principal" id="dBtnVerVerso" disabled>Ver tradução →</button>
+        <button class="btn-principal" id="dBtnProximo" style="display:none">Próximo cartão →</button>
+      </div>
+    </div>
+    <audio id="dAudio"></audio>
+  </section>
+
+  <!-- ETAPA 2 — ESCUTAR MUITO -->
+  <section class="etapa" data-etapa="2" id="etapa2">
+    <div class="total-escutas">
+      <strong id="totalEscutas">Total: 0/100 escutas</strong>
+      <div class="barra"><div id="barraEscutas"></div></div>
+    </div>
+    <div class="grade" id="gradeEscutar"></div>
+    <div class="rodape-etapa">
+      <button class="btn-principal" id="btnAvancarEscutar" disabled>Avançar para o Anki →</button>
+    </div>
+  </section>
+
+  <!-- ETAPA 3 — ANKI -->
+  <section class="etapa" data-etapa="3" id="etapa3">
+    <div class="total-escutas">
+      <strong id="totalBaixados">0/10 baixados</strong>
+      <div class="barra"><div id="barraBaixados"></div></div>
+    </div>
+    <div class="grade" id="gradeBaixar"></div>
+    <div class="rodape-etapa">
+      <button class="btn-dourado" id="btnTerminei" disabled>✅ Terminei</button>
+    </div>
+  </section>
+
+  <!-- ETAPA 4 — COM A LILY -->
+  <section class="etapa" data-etapa="4" id="etapa4">
+    <div class="lily-box">
+      <h2>Com a Lily</h2>
+      <p class="legenda">Aperte o play e deixe o áudio te levar. Se pegar metade, já valeu.</p>
+      <audio id="audioLily" controls src="audio/Lily_S01_Texto01.mp3"></audio>
+      <p class="audio-fallback" id="lilyFallback">Esse áudio chega em breve.</p>
+      <button class="btn-fantasma" id="btnMostrarTexto">Mostrar texto</button>
+      <div class="texto-lily" id="textoLily">
+        Hi! I'm Lily.<br>
+        I'm your new neighbor.<br>
+        I'm from a small town, but I'm here now.<br>
+        I'm really happy to meet you.<br>
+        I'm a little tired today — these boxes are heavy!<br>
+        But I'm ready for a fresh start.<br>
+        I'm practicing my English, so let's talk soon!
+      </div>
+      <div class="acoes-card" style="margin-top:24px">
+        <button class="btn-dourado" id="btnConcluirDia">🌳 Concluir o Dia 1</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="overlay" id="overlayFim">
+  <div class="modal">
+    <div class="arvore-emoji">🌳🎉</div>
+    <h2>Dia 1 completo!</h2>
+    <p>Sua árvore acabou de crescer um pouquinho. Continue assim — cada dia conta.</p>
+    <div class="acoes">
+      <a class="btn btn-dourado" href="Conquistas.html" style="text-decoration:none;display:inline-block">Ver meu progresso →</a>
+      <a class="btn btn-fantasma" href="Passos_Diarios.html" style="text-decoration:none;display:inline-block">Passos Diários</a>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* ---------- Persistência (local-first + sync Supabase) — §8 da especificação ---------- */
+const SB_URL="https://yhsntdsdifpcozfpdfcu.supabase.co";
+const SB_KEY="sb_publishable_aHINXeQ9NT_vXMamxc8GFw_iLZvOZKE";
+const STUDENT="kimberly";
+const sb=supabase.createClient(SB_URL,SB_KEY);
+const Progress={
+  cache:{},
+  async load(){
+    try{this.cache=JSON.parse(localStorage.getItem("kim_progress")||"{}");}catch(e){this.cache={};}
+    try{const {data}=await sb.from("student_progress").select("progress").eq("student_id",STUDENT).single();
+        if(data&&data.progress){this.cache=data.progress;localStorage.setItem("kim_progress",JSON.stringify(this.cache));}}catch(e){}
+    return this.cache;
+  },
+  get(k,def){return (k in this.cache)?this.cache[k]:def;},
+  async set(k,v){
+    this.cache[k]=v; localStorage.setItem("kim_progress",JSON.stringify(this.cache));
+    try{await sb.from("student_progress").upsert({student_id:STUDENT,progress:this.cache,updated_at:new Date().toISOString()});}catch(e){}
+  }
+};
+
+/* ---------- Dados dos 10 cards do Dia 1 (Acervo de Conteúdo — KIM-S01-D01-C01 a C10, Fase C) ---------- */
+const cards=[
+ {id:'c01',cenario:"Fim de um dia cheio. Na videochamada, sua amiga olha pro seu rosto e pergunta: \"Are you tired?\" Você responde:",frase:"I'm tired.",traducao:"Estou cansada.",sensacao:"Um dia inteiro no corpo. Eu, neste momento, cansada — sem drama, só a verdade do fim do dia.",audio:"audio/S01_Dia01_Card01_Im_tired.mp3"},
+ {id:'c02',cenario:"Café da manhã do hotel, em viagem. O casal da mesa ao lado puxa conversa: \"Where are you from?\" Você responde:",frase:"I'm from Brazil.",traducao:"Sou do Brasil.",sensacao:"Sua origem entrando na conversa, com aquele orgulho quieto de dizer de onde você vem.",audio:"audio/S01_Dia01_Card02_Im_from_Brazil.mp3"},
+ {id:'c03',cenario:"A aula vai começar e Agnes pergunta: \"Are you ready?\" Você responde:",frase:"I'm ready.",traducao:"Estou pronta.",sensacao:"Tudo no lugar, olhar pra frente: pode começar.",audio:"audio/S01_Dia01_Card03_Im_ready.mp3"},
+ {id:'c04',cenario:"A notícia que você esperava chegou. Você manda um áudio pra sua irmã contando tudo e fecha com:",frase:"I'm happy.",traducao:"Estou feliz.",sensacao:"Alegria simples, dessas que não pedem explicação — só querem ser ditas em voz alta.",audio:"audio/S01_Dia01_Card04_Im_happy.mp3"},
+ {id:'c05',cenario:"Foto em família. O fotógrafo já levanta a câmera — \"Ready?\" — mas você ainda está ajeitando o cabelo:",frase:"I'm not ready.",traducao:"Não estou pronta.",sensacao:"Espera um segundinho — ainda não. Um momento a mais e aí sim.",audio:"audio/S01_Dia01_Card05_Im_not_ready.mp3"},
+ {id:'c06',cenario:"Sua sócia precisa deixar uns papéis com você e manda mensagem: \"Where are you?\" Você responde:",frase:"I'm at home.",traducao:"Estou em casa.",sensacao:"No seu canto, no seu ritmo. <i>At home</i> anda num bloco só: em casa.",audio:"audio/S01_Dia01_Card06_Im_at_home.mp3"},
+ {id:'c07',cenario:"Num evento, a conversa flui até a pergunta clássica: \"What do you do?\" Você responde:",frase:"I'm a business owner.",traducao:"Sou empresária. / Sou dona de um negócio.",sensacao:"Três palavras carregando o que você construiu. <i>Business owner</i> é o bloco: dona do próprio negócio.",audio:"audio/S01_Dia01_Card07_Im_a_business_owner.mp3"},
+ {id:'c08',cenario:"No elevador do hotel, um hóspede te pergunta: \"Is the restaurant open?\" Você não sabe dizer:",frase:"I'm not sure.",traducao:"Não tenho certeza.",sensacao:"Honestidade leve: não sei ao certo — e a conversa segue, sem travar e sem inventar.",audio:"audio/S01_Dia01_Card08_Im_not_sure.mp3"},
+ {id:'c09',cenario:"Você está repetindo frases em voz alta pelo quarto. Alguém da casa aparece na porta, curioso: \"What are you doing?\" Você responde:",frase:"I'm practicing English.",traducao:"Estou praticando inglês.",sensacao:"Flagrada no treino — e sem vergonha nenhuma: é inglês saindo da boca, acontecendo.",audio:"audio/S01_Dia01_Card09_Im_practicing_English.mp3"},
+ {id:'c10',cenario:"A atendente da padaria que você visita todo dia na viagem cumprimenta: \"Hi! How are you?\" Você responde sorrindo:",frase:"I'm fine.",traducao:"Estou bem.",sensacao:"A resposta de porta de entrada das conversas: tudo bem por aqui, seguimos.",audio:"audio/S01_Dia01_Card10_Im_fine.mp3"}
+];
+
+const instrucoes={
+  1:"Vamos decifrar, um cartão de cada vez. Ouça a frase pelo menos uma vez, depois veja o que ela significa. Sem pressa.",
+  2:"Agora é escutar bastante. Clique em Ouvir em cada cartão até cada contador chegar a 10. Pode ouvir na ordem que quiser.",
+  3:"Hora do Anki. Baixe o áudio de cada um dos 10 cartões. Quando terminar todos, confirme abaixo.",
+  4:"Para fechar o dia, um tempo com a Lily."
+};
+
+let etapaAtual=1;
+let idxDecifrar=0;
+let dOuviu=false;
+
+function $(s){return document.querySelector(s);}
+function $all(s){return document.querySelectorAll(s);}
+
+function mostrarEtapa(n){
+  etapaAtual=n;
+  $all('.etapa').forEach(e=>e.classList.toggle('ativa', +e.dataset.etapa===n));
+  $all('.step').forEach(s=>{
+    const e=+s.dataset.etapa;
+    s.classList.toggle('ativo', e===n);
+    s.classList.toggle('feito', e<n);
+  });
+  $('#instrucao').textContent=instrucoes[n];
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ===== Etapa 1: Decifrar ===== */
+function renderDecifrar(){
+  const c=cards[idxDecifrar];
+  $('#decifrarProgresso').textContent=`Cartão ${idxDecifrar+1} de ${cards.length}`;
+  $('#dCenario').textContent=c.cenario;
+  $('#dFrase').textContent=c.frase;
+  $('#dAudioFallback').style.display='none';
+  $('#dAudio').src=c.audio;
+  $('#dVersoArea').style.display='none';
+  $('#dTraducao').textContent=c.traducao;
+  $('#dSensacao').innerHTML=c.sensacao;
+  $('#dBtnVerVerso').disabled=true;
+  $('#dBtnVerVerso').style.display='inline-block';
+  $('#dBtnProximo').style.display='none';
+  dOuviu=false;
+}
+$('#dAudio').addEventListener('error',()=>{ $('#dAudioFallback').style.display='block'; });
+$('#dBtnOuvir').addEventListener('click',()=>{
+  const a=$('#dAudio'); a.currentTime=0; a.play().catch(()=>{});
+  dOuviu=true;
+  $('#dBtnVerVerso').disabled=false;
+});
+$('#dBtnVerVerso').addEventListener('click',()=>{
+  $('#dVersoArea').style.display='block';
+  $('#dBtnVerVerso').style.display='none';
+  $('#dBtnProximo').style.display='inline-block';
+  const decifrar=Progress.get('dia1_decifrar',{});
+  decifrar[cards[idxDecifrar].id]=true;
+  Progress.set('dia1_decifrar',decifrar);
+});
+$('#dBtnProximo').addEventListener('click',()=>{
+  if(idxDecifrar<cards.length-1){ idxDecifrar++; renderDecifrar(); }
+  else{ iniciarEscutar(); mostrarEtapa(2); }
+});
+
+/* ===== Etapa 2: Escutar muito ===== */
+function iniciarEscutar(){
+  const grade=$('#gradeEscutar'); grade.innerHTML='';
+  const escutas=Progress.get('dia1_escutar',{});
+  cards.forEach(c=>{
+    const n=escutas[c.id]||0;
+    const div=document.createElement('div');
+    div.className='mini-card';
+    div.innerHTML=`<div class="frase">${c.frase}</div>
+      <button class="btn-ouvir" data-id="${c.id}">🔊 Ouvir</button>
+      <div class="contador" id="cont-${c.id}">${n}/10</div>
+      <audio id="audio-${c.id}" src="${c.audio}"></audio>`;
+    grade.appendChild(div);
+  });
+  atualizarTotalEscutas();
+  grade.querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const id=btn.dataset.id;
+      const a=document.getElementById('audio-'+id); a.currentTime=0; a.play().catch(()=>{});
+      const escutas=Progress.get('dia1_escutar',{});
+      escutas[id]=(escutas[id]||0)+1;
+      Progress.set('dia1_escutar',escutas);
+      const el=document.getElementById('cont-'+id);
+      el.textContent=`${escutas[id]}/10`;
+      el.classList.toggle('completo',escutas[id]>=10);
+      atualizarTotalEscutas();
+    });
+  });
+}
+function atualizarTotalEscutas(){
+  const escutas=Progress.get('dia1_escutar',{});
+  let total=0, todosCompletos=true;
+  cards.forEach(c=>{ const n=escutas[c.id]||0; total+=n; if(n<10) todosCompletos=false; });
+  $('#totalEscutas').textContent=`Total: ${total}/100 escutas`;
+  $('#barraEscutas').style.width=Math.min(100,(total/100)*100)+'%';
+  $('#btnAvancarEscutar').disabled=!todosCompletos;
+}
+$('#btnAvancarEscutar').addEventListener('click',()=>{ iniciarBaixar(); mostrarEtapa(3); });
+
+/* ===== Etapa 3: Anki (baixar) ===== */
+function iniciarBaixar(){
+  const grade=$('#gradeBaixar'); grade.innerHTML='';
+  const baixados=Progress.get('dia1_baixar',{});
+  cards.forEach(c=>{
+    const ok=!!baixados[c.id];
+    const div=document.createElement('div');
+    div.className='mini-card';
+    div.innerHTML=`<div class="frase">${c.frase}</div>
+      <a class="btn btn-ouvir" style="text-decoration:none;display:inline-block" href="${c.audio}" download data-id="${c.id}">⬇ Baixar</a>
+      <div class="check-baixado ${ok?'on':''}" id="chk-${c.id}">✓ baixado</div>`;
+    grade.appendChild(div);
+  });
+  atualizarTotalBaixados();
+  grade.querySelectorAll('a').forEach(link=>{
+    link.addEventListener('click',()=>{
+      const id=link.dataset.id;
+      const baixados=Progress.get('dia1_baixar',{});
+      baixados[id]=true;
+      Progress.set('dia1_baixar',baixados);
+      document.getElementById('chk-'+id).classList.add('on');
+      atualizarTotalBaixados();
+    });
+  });
+}
+function atualizarTotalBaixados(){
+  const baixados=Progress.get('dia1_baixar',{});
+  const n=cards.filter(c=>baixados[c.id]).length;
+  $('#totalBaixados').textContent=`${n}/10 baixados`;
+  $('#barraBaixados').style.width=(n/10*100)+'%';
+  $('#btnTerminei').disabled = n<10;
+}
+$('#btnTerminei').addEventListener('click',()=>{
+  Progress.set('dia1_terminei',true);
+  mostrarEtapa(4);
+});
+
+/* ===== Etapa 4: Com a Lily ===== */
+$('#audioLily').addEventListener('error',()=>{ $('#lilyFallback').style.display='block'; });
+$('#btnMostrarTexto').addEventListener('click',()=>{
+  const t=$('#textoLily'); const on=t.classList.toggle('on');
+  $('#btnMostrarTexto').textContent = on ? 'Esconder texto' : 'Mostrar texto';
+});
+$('#btnConcluirDia').addEventListener('click', async ()=>{
+  const lily=Progress.get('lily_textos_ouvidos',{});
+  lily['texto01']=true;
+  await Progress.set('lily_textos_ouvidos',lily);
+  await Progress.set('dia1_completedAt', new Date().toISOString());
+  $('#overlayFim').classList.add('on');
+});
+
+/* ===== Início ===== */
+(async function start(){
+  await Progress.load();
+  renderDecifrar();
+  mostrarEtapa(1);
+})();
+</script>
+</body>
+</html>

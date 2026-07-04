@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Construindo o Meu Listening — Kimberly Mentoria VIP</title>
+<!--
+  Bloco "Construindo o Meu Listening" / playlist da Lily — acumulativa.
+  Semana 1 completa (Fase E da Reforma Pedagógica, aprovada 04/07/2026): Textos #1–#5 — Acervo, KIM-S01-LILY-T01 a T05.
+  Texto #3 é o piloto multi-voz (falas da mãe); #5 tem 1 fala da Anna. Falas de outras vozes levam prefixo em inglês (Mom:/Anna:).
+  Sem português nos textos — só o áudio e, como opção, o texto em inglês.
+  Áudios audio/Lily_S01_Texto01–05.mp3 — geração na Fase G; até lá o player mostra "Esse áudio chega em breve."
+-->
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root{
+    --azul:#1e3651; --azul-2:#2c4e73;
+    --verde:#2f7d52; --verde-2:#4fa37a; --verde-escuro:#1f5a3a;
+    --dourado:#c9a84c; --dourado-2:#e3c878;
+    --creme:#f8f5ef; --creme-2:#edf4f4;
+    --texto:#1e3651;
+    --sombra:0 10px 30px rgba(30,54,81,.12);
+  }
+  body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:linear-gradient(180deg,var(--creme) 0%,var(--creme-2) 100%);
+    color:var(--texto); min-height:100vh; padding-bottom:60px;
+  }
+  h1,h2{ font-family:Georgia,'Times New Roman',serif; }
+
+  header.topbar{ display:flex; align-items:center; justify-content:space-between; padding:16px 24px; background:var(--azul); color:#fff; }
+  header.topbar a{ color:#fff; text-decoration:none; font-size:.9rem; opacity:.9; }
+  header.topbar a:hover{ opacity:1; text-decoration:underline; }
+  .brand{ font-family:Georgia,serif; font-size:1.05rem; }
+  .brand b{ color:var(--dourado-2); }
+
+  .wrap{ max-width:680px; margin:0 auto; padding:30px 18px; }
+  .intro{ text-align:center; margin-bottom:30px; }
+  .intro h1{ color:var(--azul); font-size:1.7rem; margin-bottom:8px; }
+  .intro p{ color:#5a6b7a; font-size:.95rem; line-height:1.5; }
+
+  .playlist{ display:flex; flex-direction:column; gap:16px; }
+  .faixa{ background:#fff; border-radius:18px; box-shadow:var(--sombra); padding:24px; }
+  .faixa-cabecalho{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+  .faixa-cabecalho h2{ font-size:1.15rem; color:var(--azul); }
+  .selo{ font-size:.74rem; font-weight:bold; padding:4px 12px; border-radius:999px; background:#dff1e6; color:var(--verde-escuro); display:none; }
+  .selo.on{ display:inline-block; }
+
+  audio{ width:100%; margin:12px 0; }
+  .audio-fallback{ font-size:.85rem; color:#a08a3f; margin:6px 0; display:none; }
+
+  .acoes{ display:flex; gap:10px; flex-wrap:wrap; }
+  button, .btn{ font-family:Arial,sans-serif; cursor:pointer; border:none; border-radius:999px; padding:9px 18px; font-size:.86rem; font-weight:bold; }
+  .btn-fantasma{ background:transparent; color:var(--azul); border:1.5px solid var(--azul); }
+
+  .texto-en{ display:none; margin-top:16px; background:var(--creme-2); border-radius:10px; padding:18px 20px; font-family:Georgia,serif; font-size:1.05rem; line-height:1.9; color:var(--azul); }
+  .texto-en.on{ display:block; }
+
+  .em-breve{ text-align:center; color:#9aa3ad; font-size:.88rem; padding:20px; background:#fff; border-radius:18px; box-shadow:var(--sombra); }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <span class="brand">🌳 Kimberly | <b>Mentoria VIP</b></span>
+  <a href="index.html">← Início</a>
+</header>
+
+<div class="wrap">
+  <div class="intro">
+    <h1>🎧 Construindo o Meu Listening</h1>
+    <p>A playlist da Lily. Aperte o play, deixe rolar — não precisa entender cada palavra.</p>
+  </div>
+
+  <div class="playlist" id="playlist"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* ---------- Persistência (local-first + sync Supabase) — §8 da especificação ---------- */
+const SB_URL="https://yhsntdsdifpcozfpdfcu.supabase.co";
+const SB_KEY="sb_publishable_aHINXeQ9NT_vXMamxc8GFw_iLZvOZKE";
+const STUDENT="kimberly";
+const sb=supabase.createClient(SB_URL,SB_KEY);
+const Progress={
+  cache:{},
+  async load(){
+    try{this.cache=JSON.parse(localStorage.getItem("kim_progress")||"{}");}catch(e){this.cache={};}
+    try{const {data}=await sb.from("student_progress").select("progress").eq("student_id",STUDENT).single();
+        if(data&&data.progress){this.cache=data.progress;localStorage.setItem("kim_progress",JSON.stringify(this.cache));}}catch(e){}
+    return this.cache;
+  },
+  get(k,def){return (k in this.cache)?this.cache[k]:def;},
+  async set(k,v){
+    this.cache[k]=v; localStorage.setItem("kim_progress",JSON.stringify(this.cache));
+    try{await sb.from("student_progress").upsert({student_id:STUDENT,progress:this.cache,updated_at:new Date().toISOString()});}catch(e){}
+  }
+};
+
+/* Playlist acumulativa — Semana 1 completa (Textos #1–#5, Acervo KIM-S01-LILY-T01 a T05). Frases sem alteração. */
+const textos=[
+  { id:'texto01', titulo:'Texto #1 — Who I Am', audio:'audio/Lily_S01_Texto01.mp3',
+    frases:[
+      "Hi! I'm Lily.",
+      "I'm your new neighbor.",
+      "I'm from a small town, but I'm here now.",
+      "I'm really happy to meet you.",
+      "I'm a little tired today — these boxes are heavy!",
+      "But I'm ready for a fresh start.",
+      "I'm practicing my English, so let's talk soon!"
+    ]},
+  { id:'texto02', titulo:'Texto #2 — Como estou agora', audio:'audio/Lily_S01_Texto02.mp3',
+    frases:[
+      "Good morning! I'm still in bed.",
+      "I'm sleepy... but I'm okay!",
+      "Juice first — I'm thirsty.",
+      "And I'm hungry too. Breakfast time!",
+      "Mmm... now I'm full.",
+      "Today I'm busy — so many boxes! But I'm calm.",
+      "One box, one step. I'm proud of myself!"
+    ]},
+  { id:'texto03', titulo:'Texto #3 — Onde estou', audio:'audio/Lily_S01_Texto03.mp3',
+    frases:[
+      "Mom: \"Hi, Lily! Where are you?\"",
+      "I'm at home, Mom — my new home!",
+      "Mom: \"Are you okay? Are you happy there?\"",
+      "I'm okay. I'm really happy here.",
+      "Mom: \"Are you busy now?\"",
+      "I'm busy with the boxes... but I'm not busy for you!",
+      "I'm fine, Mom. Talk soon!"
+    ]},
+  { id:'texto04', titulo:'Texto #4 — Quem eu sou', audio:'audio/Lily_S01_Texto04.mp3',
+    frases:[
+      "Hello again! Today I'm not alone.",
+      "This is my brother, Tom.",
+      "He's here for the weekend.",
+      "He is strong — and these boxes are heavy!",
+      "Tom is a student. I'm so proud of him.",
+      "Me? I'm still learning... but I'm practicing every day!",
+      "Okay — back to the boxes. Bye!"
+    ]},
+  { id:'texto05', titulo:"Texto #5 — I'm not...", audio:'audio/Lily_S01_Texto05.mp3',
+    frases:[
+      "What a week! Boxes, juice, English... but I'm not tired!",
+      "Okay, okay... maybe I'm a little tired.",
+      "My neighbor Anna is here — she's my first friend in town.",
+      "She is fun, and she is a business owner.",
+      "Anna: \"Are you hungry, Lily?\"",
+      "I'm not hungry, but I'm thirsty. So — lemonade for two!",
+      "I'm really happy here. A fresh start, step by step!"
+    ]}
+];
+
+const playlistEl=document.getElementById('playlist');
+
+(async function(){
+  await Progress.load();
+  const ouvidos=Progress.get('lily_textos_ouvidos',{});
+
+  textos.forEach(t=>{
+    const div=document.createElement('div');
+    div.className='faixa';
+    div.innerHTML=`
+      <div class="faixa-cabecalho">
+        <h2>${t.titulo}</h2>
+        <span class="selo ${ouvidos[t.id]?'on':''}" id="selo-${t.id}">já ouvido</span>
+      </div>
+      <audio id="audio-${t.id}" controls src="${t.audio}"></audio>
+      <p class="audio-fallback" id="fallback-${t.id}">Esse áudio chega em breve.</p>
+      <div class="acoes">
+        <button class="btn-fantasma" id="toggle-${t.id}">Mostrar texto</button>
+      </div>
+      <div class="texto-en" id="texto-${t.id}">${t.frases.join('<br>')}</div>
+    `;
+    playlistEl.appendChild(div);
+
+    const audioEl=document.getElementById(`audio-${t.id}`);
+    audioEl.addEventListener('error', ()=>{ document.getElementById(`fallback-${t.id}`).style.display='block'; });
+    audioEl.addEventListener('play', async ()=>{
+      const o=Progress.get('lily_textos_ouvidos',{});
+      if(!o[t.id]){
+        o[t.id]=true;
+        await Progress.set('lily_textos_ouvidos',o);
+        document.getElementById(`selo-${t.id}`).classList.add('on');
+      }
+    });
+
+    document.getElementById(`toggle-${t.id}`).addEventListener('click', ()=>{
+      const el=document.getElementById(`texto-${t.id}`);
+      const on=el.classList.toggle('on');
+      document.getElementById(`toggle-${t.id}`).textContent = on ? 'Esconder texto' : 'Mostrar texto';
+    });
+  });
+
+  const breve=document.createElement('div');
+  breve.className='em-breve';
+  breve.textContent='Novos textos da Lily chegam a cada novo Dia.';
+  playlistEl.appendChild(breve);
+})();
+</script>
+</body>
+</html>
