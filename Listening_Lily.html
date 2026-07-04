@@ -176,6 +176,7 @@ const playlistEl=document.getElementById('playlist');
 
     const audioEl=document.getElementById(`audio-${t.id}`);
     audioEl.addEventListener('error', ()=>{ document.getElementById(`fallback-${t.id}`).style.display='block'; });
+    fetch(t.audio,{method:'HEAD'}).then(r=>{ if(!r.ok) document.getElementById(`fallback-${t.id}`).style.display='block'; }).catch(()=>{});
     audioEl.addEventListener('play', async ()=>{
       const o=Progress.get('lily_textos_ouvidos',{});
       if(!o[t.id]){

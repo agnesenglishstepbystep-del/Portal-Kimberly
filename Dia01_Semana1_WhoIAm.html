@@ -303,12 +303,20 @@ function mostrarEtapa(n){
 }
 
 /* ===== Etapa 1: Decifrar ===== */
+/* Aviso "áudio chega em breve": checagem ativa (o evento error do <audio> nem sempre dispara no 404) */
+async function marcarAudiosPendentes(){
+  await Promise.all(cards.map(async c=>{
+    try{const r=await fetch(c.audio,{method:'HEAD'}); if(!r.ok) c.semAudio=true;}catch(e){}
+  }));
+  try{const r=await fetch('audio/Lily_S01_Texto01.mp3',{method:'HEAD'}); if(!r.ok) $('#lilyFallback').style.display='block';}catch(e){}
+}
+
 function renderDecifrar(){
   const c=cards[idxDecifrar];
   $('#decifrarProgresso').textContent=`Cartão ${idxDecifrar+1} de ${cards.length}`;
   $('#dCenario').textContent=c.cenario;
   $('#dFrase').textContent=c.frase;
-  $('#dAudioFallback').style.display='none';
+  $('#dAudioFallback').style.display=c.semAudio?'block':'none';
   $('#dAudio').src=c.audio;
   $('#dVersoArea').style.display='none';
   $('#dTraducao').textContent=c.traducao;
@@ -348,6 +356,7 @@ function iniciarEscutar(){
     div.innerHTML=`<div class="frase">${c.frase}</div>
       <button class="btn-ouvir" data-id="${c.id}">🔊 Ouvir</button>
       <div class="contador" id="cont-${c.id}">${n}/10</div>
+      ${c.semAudio?'<div class="audio-fallback" style="display:block">Esse áudio chega em breve.</div>':''}
       <audio id="audio-${c.id}" src="${c.audio}"></audio>`;
     grade.appendChild(div);
   });
@@ -386,6 +395,7 @@ function iniciarBaixar(){
     div.className='mini-card';
     div.innerHTML=`<div class="frase">${c.frase}</div>
       <a class="btn btn-ouvir" style="text-decoration:none;display:inline-block" href="${c.audio}" download data-id="${c.id}">⬇ Baixar</a>
+      ${c.semAudio?'<div class="audio-fallback" style="display:block">Esse áudio chega em breve.</div>':''}
       <div class="check-baixado ${ok?'on':''}" id="chk-${c.id}">✓ baixado</div>`;
     grade.appendChild(div);
   });
@@ -430,6 +440,7 @@ $('#btnConcluirDia').addEventListener('click', async ()=>{
 /* ===== Início ===== */
 (async function start(){
   await Progress.load();
+  await marcarAudiosPendentes();
   renderDecifrar();
   mostrarEtapa(1);
 })();

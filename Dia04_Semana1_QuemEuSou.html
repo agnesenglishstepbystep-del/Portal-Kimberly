@@ -207,6 +207,7 @@ function render(){
     document.getElementById('audio-'+c.id).addEventListener('error',()=>{
       document.getElementById('fallback-'+c.id).style.display='block';
     });
+    fetch(c.audio,{method:'HEAD'}).then(r=>{ if(!r.ok) document.getElementById('fallback-'+c.id).style.display='block'; }).catch(()=>{});
   });
   atualizarBaixados();
 }
