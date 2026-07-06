@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dia 3 · Onde estou — Kimberly Mentoria VIP</title>
 <!--
-  Dia 3 (ex-Daily Step 2) — mecânica legada: flip só por botão Verso/Frente, página única, sem toggle.
-  Conteúdo reformado na Fase C da Reforma Pedagógica (aprovado 03/07/2026) — fonte: Acervo, KIM-S01-D03-C01 a C10.
-  Áudios S01_Dia03_CardXX em /audio (formato Q+A quando há pergunta) — geração na Fase G.
-  Enquanto os mp3 não existem, os players mostram "Esse áudio chega em breve." em vez de quebrar.
+  Dia 3 — fluxo de 4 etapas (Reforma VIP 2.0), igual ao Dia 1 (padronização de 06/07/2026).
+  Conteúdo reformado na Fase C da Reforma Pedagógica (aprovado 03/07/2026) — fonte: Acervo de Conteúdo, KIM-S01-D03-C01 a C10.
+  Áudios S01_Dia03_CardXX (formato Q+A quando há pergunta) + audio/Lily_S01_Texto03.mp3.
+  Enquanto os mp3 não existem em /audio, os players mostram "Esse áudio chega em breve." em vez de quebrar.
 -->
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
@@ -23,58 +23,107 @@
   body{
     font-family:Arial,Helvetica,sans-serif;
     background:linear-gradient(180deg,var(--creme) 0%,var(--creme-2) 100%);
-    color:var(--texto); min-height:100vh; padding-bottom:60px;
+    color:var(--texto);
+    min-height:100vh;
+    padding-bottom:60px;
   }
   h1,h2,.frase{ font-family:Georgia,'Times New Roman',serif; }
 
-  header.topbar{ display:flex; align-items:center; justify-content:space-between; padding:16px 24px; background:var(--azul); color:#fff; }
+  header.topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 24px; background:var(--azul); color:#fff;
+  }
   header.topbar a{ color:#fff; text-decoration:none; font-size:.9rem; opacity:.9; }
   header.topbar a:hover{ opacity:1; text-decoration:underline; }
-  .brand{ font-family:Georgia,serif; font-size:1.05rem; }
+  .brand{ font-family:Georgia,serif; font-size:1.05rem; letter-spacing:.02em; }
   .brand b{ color:var(--dourado-2); }
 
   .wrap{ max-width:760px; margin:0 auto; padding:28px 18px; }
-  .titulo-dia{ text-align:center; margin-bottom:22px; }
+
+  .titulo-dia{ text-align:center; margin-bottom:6px; }
   .titulo-dia h1{ font-size:1.8rem; color:var(--azul); }
   .titulo-dia p{ color:var(--azul-2); font-size:.95rem; margin-top:4px; }
 
-  .como-praticar{
-    background:#fff; border-left:4px solid var(--dourado); border-radius:10px;
-    padding:16px 20px 16px 20px; margin-bottom:26px; box-shadow:var(--sombra); font-size:.95rem; line-height:1.6;
+  /* stepper */
+  .stepper{ display:flex; justify-content:center; gap:10px; margin:24px 0 30px; flex-wrap:wrap; }
+  .step{
+    display:flex; align-items:center; gap:8px; padding:8px 14px; border-radius:999px;
+    background:#fff; border:1px solid #e3ddd0; font-size:.82rem; color:#9aa3ad;
+    transition:.25s;
   }
-  .como-praticar b{ display:block; margin-bottom:6px; color:var(--azul); }
-  .como-praticar ol{ margin-left:20px; }
+  .step .dot{ width:20px; height:20px; border-radius:50%; background:#e3ddd0; color:#fff;
+    display:flex; align-items:center; justify-content:center; font-size:.72rem; font-weight:bold; }
+  .step.ativo{ background:var(--azul); color:#fff; border-color:var(--azul); box-shadow:var(--sombra); }
+  .step.ativo .dot{ background:var(--dourado); color:var(--azul); }
+  .step.feito{ background:var(--verde); color:#fff; border-color:var(--verde); }
+  .step.feito .dot{ background:#fff; color:var(--verde); }
 
-  .cards{ display:flex; flex-direction:column; gap:16px; }
-  .card{ background:#fff; border-radius:18px; box-shadow:var(--sombra); padding:26px 24px; text-align:center; }
-  .num{ font-size:.78rem; font-weight:bold; color:var(--azul-2); margin-bottom:10px; letter-spacing:.04em; }
-  .cenario{ font-size:.92rem; color:#5a6b7a; line-height:1.5; margin-bottom:12px; }
-  .frase{ font-size:1.5rem; color:var(--azul); font-weight:bold; margin-bottom:14px; }
-  .traducao{ font-size:1.15rem; color:var(--verde-escuro); font-weight:bold; margin-bottom:10px; }
-  .sensacao{ font-size:.92rem; color:#5a6b7a; line-height:1.5; font-style:italic; margin-bottom:14px; }
+  .instrucao{
+    background:#fff; border-left:4px solid var(--dourado); border-radius:10px;
+    padding:16px 20px; margin-bottom:26px; box-shadow:var(--sombra); font-size:.97rem; line-height:1.5;
+  }
 
-  button,.btn{ font-family:Arial,sans-serif; cursor:pointer; border:none; border-radius:999px; padding:10px 20px; font-size:.88rem; font-weight:bold; transition:.2s; }
+  .etapa{ display:none; }
+  .etapa.ativa{ display:block; }
+
+  /* ---- Etapa 1: Decifrar (um a um) ---- */
+  .progresso-decifrar{ text-align:center; color:var(--azul-2); font-size:.85rem; margin-bottom:14px; }
+  .card-unico{
+    background:#fff; border-radius:18px; box-shadow:var(--sombra); padding:32px 26px;
+    text-align:center; min-height:260px; display:flex; flex-direction:column; justify-content:center; gap:16px;
+  }
+  .cenario{ font-size:.92rem; color:#5a6b7a; line-height:1.5; }
+  .frase{ font-size:1.7rem; color:var(--azul); font-weight:bold; }
+  .traducao{ font-size:1.15rem; color:var(--verde-escuro); font-weight:bold; }
+  .sensacao{ font-size:.92rem; color:#5a6b7a; line-height:1.5; font-style:italic; }
+
+  button, .btn{
+    font-family:Arial,sans-serif; cursor:pointer; border:none; border-radius:999px;
+    padding:11px 22px; font-size:.92rem; font-weight:bold; transition:.2s;
+  }
   .btn-ouvir{ background:var(--azul); color:#fff; }
   .btn-ouvir:hover{ background:var(--azul-2); }
-  .btn-baixar{ background:var(--verde); color:#fff; text-decoration:none; display:inline-block; }
-  .btn-baixar:hover{ background:var(--verde-2); }
-  .btn-flip{ background:transparent; color:var(--azul); border:1.5px solid var(--azul); }
+  .btn-principal{ background:var(--verde); color:#fff; }
+  .btn-principal:hover{ background:var(--verde-2); }
+  .btn-principal:disabled{ background:#cfd6cf; color:#8b938b; cursor:not-allowed; }
   .btn-dourado{ background:var(--dourado); color:var(--azul); }
   .btn-dourado:hover{ background:var(--dourado-2); }
   .btn-dourado:disabled{ background:#e7decb; color:#a89a6f; cursor:not-allowed; }
   .btn-fantasma{ background:transparent; color:var(--azul); border:1.5px solid var(--azul); }
-  .acoes{ display:flex; justify-content:center; gap:10px; flex-wrap:wrap; }
 
-  .audio-fallback{ font-size:.85rem; color:#a08a3f; margin-top:10px; display:none; }
-  .check-baixado{ font-size:.78rem; color:var(--verde-escuro); font-weight:bold; margin-top:10px; display:none; }
+  .acoes-card{ display:flex; justify-content:center; gap:12px; flex-wrap:wrap; margin-top:6px; }
+
+  /* ---- Etapa 2: Escutar / Etapa 3: Anki — grade ---- */
+  .total-escutas{ text-align:center; margin-bottom:18px; }
+  .barra{ background:#e3ddd0; border-radius:999px; height:10px; overflow:hidden; max-width:340px; margin:8px auto 0; }
+  .barra > div{ background:linear-gradient(90deg,var(--verde),var(--verde-2)); height:100%; width:0%; transition:.3s; }
+
+  .grade{ display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; margin-bottom:24px; }
+  .mini-card{ background:#fff; border-radius:14px; box-shadow:var(--sombra); padding:16px; text-align:center; }
+  .mini-card .frase{ font-size:1.05rem; margin-bottom:10px; }
+  .mini-card .cenario{ font-size:.78rem; color:#5a6b7a; line-height:1.4; margin-bottom:10px; }
+  .mini-card .traducao{ font-size:.98rem; color:var(--verde-escuro); font-weight:bold; margin-bottom:6px; }
+  .mini-card .sensacao{ font-size:.78rem; color:#5a6b7a; font-style:italic; line-height:1.4; }
+  .mini-card .verso{ display:none; margin-top:4px; }
+  .mini-card.virado .frente{ display:none; }
+  .mini-card.virado .verso{ display:block; }
+  .contador{ font-size:.8rem; color:var(--azul-2); margin-top:8px; font-weight:bold; }
+  .contador.completo{ color:var(--verde-escuro); }
+  .check-baixado{ font-size:.78rem; color:var(--verde-escuro); font-weight:bold; margin-top:8px; display:none; }
   .check-baixado.on{ display:block; }
-  .verso{ display:none; }
-  .card.virado .frente{ display:none; }
-  .card.virado .verso{ display:block; }
 
-  .rodape{ text-align:center; margin-top:28px; }
-  .rodape .status-baixados{ font-size:.85rem; color:var(--azul-2); margin-bottom:12px; }
+  .rodape-etapa{ text-align:center; margin-top:10px; }
 
+  /* ---- Etapa 4: Com a Lily ---- */
+  .lily-box{ background:#fff; border-radius:18px; box-shadow:var(--sombra); padding:30px; text-align:center; }
+  .lily-box h2{ color:var(--azul); font-size:1.4rem; margin-bottom:6px; }
+  .lily-box p.legenda{ color:#5a6b7a; font-size:.9rem; margin-bottom:20px; }
+  .texto-lily{ display:none; text-align:left; background:var(--creme-2); border-radius:10px; padding:18px 20px; margin-top:18px; font-family:Georgia,serif; font-size:1.05rem; line-height:1.9; color:var(--azul); }
+  .texto-lily.on{ display:block; }
+  audio{ width:100%; max-width:380px; margin:10px auto; display:block; }
+  .audio-fallback{ font-size:.85rem; color:#a08a3f; margin-top:6px; display:none; }
+
+  /* celebração */
   .overlay{ position:fixed; inset:0; background:rgba(30,54,81,.55); display:none; align-items:center; justify-content:center; z-index:50; padding:20px; }
   .overlay.on{ display:flex; }
   .modal{ background:#fff; border-radius:18px; padding:36px 30px; max-width:420px; text-align:center; box-shadow:0 20px 50px rgba(0,0,0,.3); }
@@ -84,8 +133,10 @@
   .modal .acoes{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
 
   @media(max-width:480px){
-    .frase{ font-size:1.25rem; }
-    .card{ padding:20px 16px; }
+    .frase{ font-size:1.4rem; }
+    .card-unico{ padding:24px 18px; }
+    .stepper{ gap:6px; }
+    .step{ padding:7px 10px; font-size:.74rem; }
   }
 </style>
 </head>
@@ -106,23 +157,83 @@
     <p>Semana 1 — Who I Am · I'm...</p>
   </div>
 
-  <div class="como-praticar">
-    <b>Como praticar hoje</b>
-    <ol>
-      <li>Ouça os cards.</li>
-      <li>Repita em voz alta.</li>
-      <li>Imagine a situação.</li>
-      <li>Revise novamente.</li>
-      <li>Adicione os 10 cartões ao Anki com calma.</li>
-    </ol>
+  <div class="stepper" id="stepper">
+    <div class="step" data-etapa="1"><span class="dot">1</span> Decifrar</div>
+    <div class="step" data-etapa="2"><span class="dot">2</span> Escutar</div>
+    <div class="step" data-etapa="3"><span class="dot">3</span> Anki</div>
+    <div class="step" data-etapa="4"><span class="dot">4</span> Com a Lily</div>
   </div>
 
-  <div class="cards" id="cards"></div>
+  <div class="instrucao" id="instrucao"></div>
 
-  <div class="rodape">
-    <div class="status-baixados" id="statusBaixados">0/10 no Anki</div>
-    <button class="btn-dourado" id="btnConcluir" disabled>🌳 Concluir o Dia 3</button>
-  </div>
+  <!-- ETAPA 1 — DECIFRAR -->
+  <section class="etapa" data-etapa="1" id="etapa1">
+    <div class="progresso-decifrar" id="decifrarProgresso">Cartão 1 de 10</div>
+    <div class="card-unico" id="cardUnico">
+      <div class="cenario" id="dCenario"></div>
+      <div class="frase" id="dFrase"></div>
+      <div class="acoes-card">
+        <button class="btn-ouvir" id="dBtnOuvir">🔊 Ouvir</button>
+      </div>
+      <p class="audio-fallback" id="dAudioFallback">Esse áudio chega em breve.</p>
+      <div id="dVersoArea" style="display:none">
+        <div class="traducao" id="dTraducao"></div>
+        <div class="sensacao" id="dSensacao"></div>
+      </div>
+      <div class="acoes-card">
+        <button class="btn-principal" id="dBtnVerVerso" disabled>Ver tradução →</button>
+        <button class="btn-principal" id="dBtnProximo" style="display:none">Próximo cartão →</button>
+      </div>
+    </div>
+    <audio id="dAudio"></audio>
+  </section>
+
+  <!-- ETAPA 2 — ESCUTAR MUITO -->
+  <section class="etapa" data-etapa="2" id="etapa2">
+    <div class="total-escutas">
+      <strong id="totalEscutas">Total: 0/100 escutas</strong>
+      <div class="barra"><div id="barraEscutas"></div></div>
+    </div>
+    <div class="grade" id="gradeEscutar"></div>
+    <div class="rodape-etapa">
+      <button class="btn-principal" id="btnAvancarEscutar" disabled>Avançar para o Anki →</button>
+    </div>
+  </section>
+
+  <!-- ETAPA 3 — ANKI -->
+  <section class="etapa" data-etapa="3" id="etapa3">
+    <div class="total-escutas">
+      <strong id="totalBaixados">0/10 baixados</strong>
+      <div class="barra"><div id="barraBaixados"></div></div>
+    </div>
+    <div class="grade" id="gradeBaixar"></div>
+    <div class="rodape-etapa">
+      <button class="btn-dourado" id="btnTerminei" disabled>✅ Terminei</button>
+    </div>
+  </section>
+
+  <!-- ETAPA 4 — COM A LILY -->
+  <section class="etapa" data-etapa="4" id="etapa4">
+    <div class="lily-box">
+      <h2>Com a Lily</h2>
+      <p class="legenda">Aperte o play e deixe o áudio te levar. Se pegar metade, já valeu.</p>
+      <audio id="audioLily" controls src="audio/Lily_S01_Texto03.mp3"></audio>
+      <p class="audio-fallback" id="lilyFallback">Esse áudio chega em breve.</p>
+      <button class="btn-fantasma" id="btnMostrarTexto">Mostrar texto</button>
+      <div class="texto-lily" id="textoLily">
+        Mom: "Hi, Lily! Where are you?"<br>
+        I'm at home, Mom — my new home!<br>
+        Mom: "Are you okay? Are you happy there?"<br>
+        I'm okay. I'm really happy here.<br>
+        Mom: "Are you busy now?"<br>
+        I'm busy with the boxes... but I'm not busy for you!<br>
+        I'm fine, Mom. Talk soon!
+      </div>
+      <div class="acoes-card" style="margin-top:24px">
+        <button class="btn-dourado" id="btnConcluirDia">🌳 Concluir o Dia 3</button>
+      </div>
+    </div>
+  </section>
 
 </div>
 
@@ -140,7 +251,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-/* ---------- Persistência (local-first + sync Supabase) — complementos/Infra_Portal_Supabase.md ---------- */
+/* ---------- Persistência (local-first + sync Supabase) — §8 da especificação ---------- */
 const SB_URL="https://yhsntdsdifpcozfpdfcu.supabase.co";
 const SB_KEY="sb_publishable_aHINXeQ9NT_vXMamxc8GFw_iLZvOZKE";
 const sb=supabase.createClient(SB_URL,SB_KEY);
@@ -169,9 +280,9 @@ const Progress={
   }
 };
 
-const DIA_KEY="dia3";
+const DIA="dia3";
 
-/* ---------- 10 cards do Dia 3 (Acervo — KIM-S01-D03-C01 a C10, Fase C) ---------- */
+/* ---------- Dados dos 10 cards do Dia 3 (Acervo de Conteúdo — KIM-S01-D03-C01 a C10, Fase C) ---------- */
 const cards=[
  {id:'c01',cenario:"Fim da noite. Você entra, larga a bolsa e manda no grupo da família, pra ninguém ficar preocupado:",frase:"I'm home.",traducao:"Cheguei em casa. / Estou em casa.",sensacao:"Chave girando, bolsa no sofá: o aviso curtinho de \"cheguei bem\".",audio:"audio/S01_Dia03_Card01_Im_home.mp3"},
  {id:'c02',cenario:"Sua amiga liga no meio da tarde: \"Hi! Where are you?\" Você responde baixinho:",frase:"I'm at work.",traducao:"Estou no trabalho.",sensacao:"Modo trabalho ligado — a frase explica a voz baixa e a pressa.",audio:"audio/S01_Dia03_Card02_Im_at_work.mp3"},
@@ -185,81 +296,217 @@ const cards=[
  {id:'c10',cenario:"Aeroporto cheio, vocês se perderam de vista. Sua companheira de viagem manda mensagem: \"Where are you?\" Você responde:",frase:"I'm near the gate.",traducao:"Estou perto do portão.",sensacao:"Ponto de referência dado: estou no lugar certo, é só me achar. <i>Near the gate</i>, o bloco de aeroporto: perto do portão.",audio:"audio/S01_Dia03_Card10_Im_near_the_gate.mp3"}
 ];
 
-const cardsEl=document.getElementById('cards');
+const instrucoes={
+  1:"Vamos decifrar, um cartão de cada vez. Ouça a frase pelo menos uma vez, depois veja o que ela significa. Sem pressa.",
+  2:"Agora é escutar bastante. Clique em Ouvir em cada cartão até cada contador chegar a 10. Se esquecer o significado, vire o cartão pra dar uma olhada rápida no verso.",
+  3:"Hora do Anki. Veja a frente e o verso de cada cartão pra copiar pro seu Anki, e baixe o áudio de cada um dos 10. Quando terminar todos, confirme abaixo.",
+  4:"Para fechar o dia, um tempo com a Lily."
+};
 
-function render(){
-  const baixados=Progress.get(DIA_KEY+'_baixar',{});
-  cards.forEach((c,i)=>{
+let etapaAtual=1;
+let idxDecifrar=0;
+let dOuviu=false;
+
+function $(s){return document.querySelector(s);}
+function $all(s){return document.querySelectorAll(s);}
+
+function mostrarEtapa(n){
+  etapaAtual=n;
+  $all('.etapa').forEach(e=>e.classList.toggle('ativa', +e.dataset.etapa===n));
+  $all('.step').forEach(s=>{
+    const e=+s.dataset.etapa;
+    s.classList.toggle('ativo', e===n);
+    s.classList.toggle('feito', e<n);
+  });
+  $('#instrucao').textContent=instrucoes[n];
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ===== Etapa 1: Decifrar ===== */
+/* Aviso "áudio chega em breve": checagem ativa (o evento error do <audio> nem sempre dispara no 404) */
+async function marcarAudiosPendentes(){
+  await Promise.all(cards.map(async c=>{
+    try{const r=await fetch(c.audio,{method:'HEAD'}); if(!r.ok) c.semAudio=true;}catch(e){}
+  }));
+  try{const r=await fetch('audio/Lily_S01_Texto03.mp3',{method:'HEAD'}); if(!r.ok) $('#lilyFallback').style.display='block';}catch(e){}
+}
+
+function renderDecifrar(){
+  const c=cards[idxDecifrar];
+  $('#decifrarProgresso').textContent=`Cartão ${idxDecifrar+1} de ${cards.length}`;
+  $('#dCenario').textContent=c.cenario;
+  $('#dFrase').textContent=c.frase;
+  $('#dAudioFallback').style.display=c.semAudio?'block':'none';
+  $('#dAudio').src=c.audio;
+  $('#dVersoArea').style.display='none';
+  $('#dTraducao').textContent=c.traducao;
+  $('#dSensacao').innerHTML=c.sensacao;
+  $('#dBtnVerVerso').disabled=true;
+  $('#dBtnVerVerso').style.display='inline-block';
+  $('#dBtnProximo').style.display='none';
+  dOuviu=false;
+}
+$('#dAudio').addEventListener('error',()=>{ $('#dAudioFallback').style.display='block'; });
+$('#dBtnOuvir').addEventListener('click',()=>{
+  const a=$('#dAudio'); a.currentTime=0; a.play().catch(()=>{});
+  dOuviu=true;
+  $('#dBtnVerVerso').disabled=false;
+});
+$('#dBtnVerVerso').addEventListener('click',()=>{
+  $('#dVersoArea').style.display='block';
+  $('#dBtnVerVerso').style.display='none';
+  $('#dBtnProximo').style.display='inline-block';
+  const decifrar=Progress.get(DIA+'_decifrar',{});
+  decifrar[cards[idxDecifrar].id]=true;
+  Progress.set(DIA+'_decifrar',decifrar);
+});
+$('#dBtnProximo').addEventListener('click',()=>{
+  if(idxDecifrar<cards.length-1){ idxDecifrar++; renderDecifrar(); }
+  else{ iniciarEscutar(); mostrarEtapa(2); }
+});
+
+/* ===== Etapa 2: Escutar muito ===== */
+function iniciarEscutar(){
+  const grade=$('#gradeEscutar'); grade.innerHTML='';
+  const escutas=Progress.get(DIA+'_escutar',{});
+  cards.forEach(c=>{
+    const n=escutas[c.id]||0;
     const div=document.createElement('div');
-    div.className='card';
-    div.id='card-'+c.id;
+    div.className='mini-card';
+    div.id='ecard-'+c.id;
     div.innerHTML=`
       <div class="frente">
-        <div class="num">CARTÃO ${i+1} DE ${cards.length}</div>
         <div class="cenario">${c.cenario}</div>
         <div class="frase">${c.frase}</div>
-        <div class="acoes">
+        <div class="acoes-card">
           <button class="btn-ouvir" data-acao="ouvir" data-id="${c.id}">🔊 Ouvir</button>
-          <a class="btn btn-baixar" href="${c.audio}" download data-acao="baixar" data-id="${c.id}">⬇ Baixar</a>
-          <button class="btn-flip" data-acao="verso" data-id="${c.id}">Verso ↻</button>
+          <button class="btn-fantasma" data-acao="verso" data-id="${c.id}">Verso ↻</button>
         </div>
-        <p class="audio-fallback" id="fallback-${c.id}">Esse áudio chega em breve.</p>
-        <div class="check-baixado ${baixados[c.id]?'on':''}" id="chk-${c.id}">✓ no Anki</div>
+        <div class="contador" id="cont-${c.id}">${n}/10</div>
+        ${c.semAudio?'<div class="audio-fallback" style="display:block">Esse áudio chega em breve.</div>':''}
       </div>
       <div class="verso">
-        <div class="num">CARTÃO ${i+1} DE ${cards.length}</div>
         <div class="traducao">${c.traducao}</div>
         <div class="sensacao">${c.sensacao}</div>
-        <div class="acoes">
-          <button class="btn-flip" data-acao="frente" data-id="${c.id}">← Frente</button>
+        <div class="acoes-card">
+          <button class="btn-fantasma" data-acao="frente" data-id="${c.id}">← Frente</button>
         </div>
       </div>
       <audio id="audio-${c.id}" src="${c.audio}"></audio>`;
-    cardsEl.appendChild(div);
-    document.getElementById('audio-'+c.id).addEventListener('error',()=>{
-      document.getElementById('fallback-'+c.id).style.display='block';
-    });
-    fetch(c.audio,{method:'HEAD'}).then(r=>{ if(!r.ok) document.getElementById('fallback-'+c.id).style.display='block'; }).catch(()=>{});
+    grade.appendChild(div);
   });
-  atualizarBaixados();
+  atualizarTotalEscutas();
+  grade.addEventListener('click',ev=>{
+    const el=ev.target.closest('[data-acao]');
+    if(!el) return;
+    const id=el.dataset.id, acao=el.dataset.acao;
+    if(acao==='ouvir'){
+      const a=document.getElementById('audio-'+id); a.currentTime=0; a.play().catch(()=>{});
+      const escutas=Progress.get(DIA+'_escutar',{});
+      escutas[id]=(escutas[id]||0)+1;
+      Progress.set(DIA+'_escutar',escutas);
+      const elc=document.getElementById('cont-'+id);
+      elc.textContent=`${escutas[id]}/10`;
+      elc.classList.toggle('completo',escutas[id]>=10);
+      atualizarTotalEscutas();
+    }else if(acao==='verso'){
+      document.getElementById('ecard-'+id).classList.add('virado');
+    }else if(acao==='frente'){
+      document.getElementById('ecard-'+id).classList.remove('virado');
+    }
+  });
 }
+function atualizarTotalEscutas(){
+  const escutas=Progress.get(DIA+'_escutar',{});
+  let total=0, todosCompletos=true;
+  cards.forEach(c=>{ const n=escutas[c.id]||0; total+=n; if(n<10) todosCompletos=false; });
+  $('#totalEscutas').textContent=`Total: ${total}/100 escutas`;
+  $('#barraEscutas').style.width=Math.min(100,(total/100)*100)+'%';
+  $('#btnAvancarEscutar').disabled=!todosCompletos;
+}
+$('#btnAvancarEscutar').addEventListener('click',()=>{ iniciarBaixar(); mostrarEtapa(3); });
 
-cardsEl.addEventListener('click',async ev=>{
-  const el=ev.target.closest('[data-acao]');
-  if(!el) return;
-  const id=el.dataset.id, acao=el.dataset.acao;
-  if(acao==='ouvir'){
-    const a=document.getElementById('audio-'+id); a.currentTime=0; a.play().catch(()=>{});
-  }else if(acao==='verso'){
-    document.getElementById('card-'+id).classList.add('virado');
-  }else if(acao==='frente'){
-    document.getElementById('card-'+id).classList.remove('virado');
-  }else if(acao==='baixar'){
-    const baixados=Progress.get(DIA_KEY+'_baixar',{});
-    baixados[id]=true;
-    await Progress.set(DIA_KEY+'_baixar',baixados);
-    document.getElementById('chk-'+id).classList.add('on');
-    atualizarBaixados();
-  }
-});
-
-function atualizarBaixados(){
-  const baixados=Progress.get(DIA_KEY+'_baixar',{});
+/* ===== Etapa 3: Anki (ver cartão completo + baixar) ===== */
+function iniciarBaixar(){
+  const grade=$('#gradeBaixar'); grade.innerHTML='';
+  const baixados=Progress.get(DIA+'_baixar',{});
+  cards.forEach(c=>{
+    const ok=!!baixados[c.id];
+    const div=document.createElement('div');
+    div.className='mini-card';
+    div.id='acard-'+c.id;
+    div.innerHTML=`
+      <div class="frente">
+        <div class="cenario">${c.cenario}</div>
+        <div class="frase">${c.frase}</div>
+        <div class="acoes-card">
+          <a class="btn btn-ouvir" style="text-decoration:none;display:inline-block" href="${c.audio}" download data-acao="baixar" data-id="${c.id}">⬇ Baixar</a>
+          <button class="btn-fantasma" data-acao="verso" data-id="${c.id}">Verso ↻</button>
+        </div>
+        ${c.semAudio?'<div class="audio-fallback" style="display:block">Esse áudio chega em breve.</div>':''}
+        <div class="check-baixado ${ok?'on':''}" id="chk-${c.id}">✓ baixado</div>
+      </div>
+      <div class="verso">
+        <div class="traducao">${c.traducao}</div>
+        <div class="sensacao">${c.sensacao}</div>
+        <div class="acoes-card">
+          <button class="btn-fantasma" data-acao="frente" data-id="${c.id}">← Frente</button>
+        </div>
+      </div>`;
+    grade.appendChild(div);
+  });
+  atualizarTotalBaixados();
+  grade.addEventListener('click',async ev=>{
+    const el=ev.target.closest('[data-acao]');
+    if(!el) return;
+    const id=el.dataset.id, acao=el.dataset.acao;
+    if(acao==='baixar'){
+      const baixados=Progress.get(DIA+'_baixar',{});
+      baixados[id]=true;
+      await Progress.set(DIA+'_baixar',baixados);
+      document.getElementById('chk-'+id).classList.add('on');
+      atualizarTotalBaixados();
+    }else if(acao==='verso'){
+      document.getElementById('acard-'+id).classList.add('virado');
+    }else if(acao==='frente'){
+      document.getElementById('acard-'+id).classList.remove('virado');
+    }
+  });
+}
+function atualizarTotalBaixados(){
+  const baixados=Progress.get(DIA+'_baixar',{});
   const n=cards.filter(c=>baixados[c.id]).length;
-  document.getElementById('statusBaixados').textContent=`${n}/10 no Anki`;
-  document.getElementById('btnConcluir').disabled = n<10;
+  $('#totalBaixados').textContent=`${n}/10 baixados`;
+  $('#barraBaixados').style.width=(n/10*100)+'%';
+  $('#btnTerminei').disabled = n<10;
 }
-
-document.getElementById('btnConcluir').addEventListener('click',async ()=>{
-  await Progress.set(DIA_KEY+'_completedAt', new Date().toISOString());
-  document.getElementById('overlayFim').classList.add('on');
+$('#btnTerminei').addEventListener('click',()=>{
+  Progress.set(DIA+'_terminei',true);
+  mostrarEtapa(4);
 });
 
+/* ===== Etapa 4: Com a Lily ===== */
+$('#audioLily').addEventListener('error',()=>{ $('#lilyFallback').style.display='block'; });
+$('#btnMostrarTexto').addEventListener('click',()=>{
+  const t=$('#textoLily'); const on=t.classList.toggle('on');
+  $('#btnMostrarTexto').textContent = on ? 'Esconder texto' : 'Mostrar texto';
+});
+$('#btnConcluirDia').addEventListener('click', async ()=>{
+  const lily=Progress.get('lily_textos_ouvidos',{});
+  lily['texto03']=true;
+  await Progress.set('lily_textos_ouvidos',lily);
+  await Progress.set(DIA+'_completedAt', new Date().toISOString());
+  $('#overlayFim').classList.add('on');
+});
+
+/* ===== Início ===== */
 (async function start(){
   const session = await requireLogin();
   if(!session) return;
   await Progress.load();
-  render();
+  await marcarAudiosPendentes();
+  renderDecifrar();
+  mostrarEtapa(1);
 })();
 </script>
 </body>
