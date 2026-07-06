@@ -101,6 +101,12 @@
   .grade{ display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; margin-bottom:24px; }
   .mini-card{ background:#fff; border-radius:14px; box-shadow:var(--sombra); padding:16px; text-align:center; }
   .mini-card .frase{ font-size:1.05rem; margin-bottom:10px; }
+  .mini-card .cenario{ font-size:.78rem; color:#5a6b7a; line-height:1.4; margin-bottom:10px; }
+  .mini-card .traducao{ font-size:.98rem; color:var(--verde-escuro); font-weight:bold; margin-bottom:6px; }
+  .mini-card .sensacao{ font-size:.78rem; color:#5a6b7a; font-style:italic; line-height:1.4; }
+  .mini-card .verso{ display:none; margin-top:4px; }
+  .mini-card.virado .frente{ display:none; }
+  .mini-card.virado .verso{ display:block; }
   .contador{ font-size:.8rem; color:var(--azul-2); margin-top:8px; font-weight:bold; }
   .contador.completo{ color:var(--verde-escuro); }
   .check-baixado{ font-size:.78rem; color:var(--verde-escuro); font-weight:bold; margin-top:8px; display:none; }
@@ -290,8 +296,8 @@ const cards=[
 
 const instrucoes={
   1:"Vamos decifrar, um cartão de cada vez. Ouça a frase pelo menos uma vez, depois veja o que ela significa. Sem pressa.",
-  2:"Agora é escutar bastante. Clique em Ouvir em cada cartão até cada contador chegar a 10. Pode ouvir na ordem que quiser.",
-  3:"Hora do Anki. Baixe o áudio de cada um dos 10 cartões. Quando terminar todos, confirme abaixo.",
+  2:"Agora é escutar bastante. Clique em Ouvir em cada cartão até cada contador chegar a 10. Se esquecer o significado, vire o cartão pra dar uma olhada rápida no verso.",
+  3:"Hora do Anki. Veja a frente e o verso de cada cartão pra copiar pro seu Anki, e baixe o áudio de cada um dos 10. Quando terminar todos, confirme abaixo.",
   4:"Para fechar o dia, um tempo com a Lily."
 };
 
@@ -365,26 +371,47 @@ function iniciarEscutar(){
     const n=escutas[c.id]||0;
     const div=document.createElement('div');
     div.className='mini-card';
-    div.innerHTML=`<div class="frase">${c.frase}</div>
-      <button class="btn-ouvir" data-id="${c.id}">🔊 Ouvir</button>
-      <div class="contador" id="cont-${c.id}">${n}/10</div>
-      ${c.semAudio?'<div class="audio-fallback" style="display:block">Esse áudio chega em breve.</div>':''}
+    div.id='ecard-'+c.id;
+    div.innerHTML=`
+      <div class="frente">
+        <div class="cenario">${c.cenario}</div>
+        <div class="frase">${c.frase}</div>
+        <div class="acoes-card">
+          <button class="btn-ouvir" data-acao="ouvir" data-id="${c.id}">🔊 Ouvir</button>
+          <button class="btn-fantasma" data-acao="verso" data-id="${c.id}">Verso ↻</button>
+        </div>
+        <div class="contador" id="cont-${c.id}">${n}/10</div>
+        ${c.semAudio?'<div class="audio-fallback" style="display:block">Esse áudio chega em breve.</div>':''}
+      </div>
+      <div class="verso">
+        <div class="traducao">${c.traducao}</div>
+        <div class="sensacao">${c.sensacao}</div>
+        <div class="acoes-card">
+          <button class="btn-fantasma" data-acao="frente" data-id="${c.id}">← Frente</button>
+        </div>
+      </div>
       <audio id="audio-${c.id}" src="${c.audio}"></audio>`;
     grade.appendChild(div);
   });
   atualizarTotalEscutas();
-  grade.querySelectorAll('button').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      const id=btn.dataset.id;
+  grade.addEventListener('click',ev=>{
+    const el=ev.target.closest('[data-acao]');
+    if(!el) return;
+    const id=el.dataset.id, acao=el.dataset.acao;
+    if(acao==='ouvir'){
       const a=document.getElementById('audio-'+id); a.currentTime=0; a.play().catch(()=>{});
       const escutas=Progress.get('dia1_escutar',{});
       escutas[id]=(escutas[id]||0)+1;
       Progress.set('dia1_escutar',escutas);
-      const el=document.getElementById('cont-'+id);
-      el.textContent=`${escutas[id]}/10`;
-      el.classList.toggle('completo',escutas[id]>=10);
+      const elc=document.getElementById('cont-'+id);
+      elc.textContent=`${escutas[id]}/10`;
+      elc.classList.toggle('completo',escutas[id]>=10);
       atualizarTotalEscutas();
-    });
+    }else if(acao==='verso'){
+      document.getElementById('ecard-'+id).classList.add('virado');
+    }else if(acao==='frente'){
+      document.getElementById('ecard-'+id).classList.remove('virado');
+    }
   });
 }
 function atualizarTotalEscutas(){
@@ -397,7 +424,7 @@ function atualizarTotalEscutas(){
 }
 $('#btnAvancarEscutar').addEventListener('click',()=>{ iniciarBaixar(); mostrarEtapa(3); });
 
-/* ===== Etapa 3: Anki (baixar) ===== */
+/* ===== Etapa 3: Anki (ver cartão completo + baixar) ===== */
 function iniciarBaixar(){
   const grade=$('#gradeBaixar'); grade.innerHTML='';
   const baixados=Progress.get('dia1_baixar',{});
@@ -405,22 +432,43 @@ function iniciarBaixar(){
     const ok=!!baixados[c.id];
     const div=document.createElement('div');
     div.className='mini-card';
-    div.innerHTML=`<div class="frase">${c.frase}</div>
-      <a class="btn btn-ouvir" style="text-decoration:none;display:inline-block" href="${c.audio}" download data-id="${c.id}">⬇ Baixar</a>
-      ${c.semAudio?'<div class="audio-fallback" style="display:block">Esse áudio chega em breve.</div>':''}
-      <div class="check-baixado ${ok?'on':''}" id="chk-${c.id}">✓ baixado</div>`;
+    div.id='acard-'+c.id;
+    div.innerHTML=`
+      <div class="frente">
+        <div class="cenario">${c.cenario}</div>
+        <div class="frase">${c.frase}</div>
+        <div class="acoes-card">
+          <a class="btn btn-ouvir" style="text-decoration:none;display:inline-block" href="${c.audio}" download data-acao="baixar" data-id="${c.id}">⬇ Baixar</a>
+          <button class="btn-fantasma" data-acao="verso" data-id="${c.id}">Verso ↻</button>
+        </div>
+        ${c.semAudio?'<div class="audio-fallback" style="display:block">Esse áudio chega em breve.</div>':''}
+        <div class="check-baixado ${ok?'on':''}" id="chk-${c.id}">✓ baixado</div>
+      </div>
+      <div class="verso">
+        <div class="traducao">${c.traducao}</div>
+        <div class="sensacao">${c.sensacao}</div>
+        <div class="acoes-card">
+          <button class="btn-fantasma" data-acao="frente" data-id="${c.id}">← Frente</button>
+        </div>
+      </div>`;
     grade.appendChild(div);
   });
   atualizarTotalBaixados();
-  grade.querySelectorAll('a').forEach(link=>{
-    link.addEventListener('click',()=>{
-      const id=link.dataset.id;
+  grade.addEventListener('click',async ev=>{
+    const el=ev.target.closest('[data-acao]');
+    if(!el) return;
+    const id=el.dataset.id, acao=el.dataset.acao;
+    if(acao==='baixar'){
       const baixados=Progress.get('dia1_baixar',{});
       baixados[id]=true;
-      Progress.set('dia1_baixar',baixados);
+      await Progress.set('dia1_baixar',baixados);
       document.getElementById('chk-'+id).classList.add('on');
       atualizarTotalBaixados();
-    });
+    }else if(acao==='verso'){
+      document.getElementById('acard-'+id).classList.add('virado');
+    }else if(acao==='frente'){
+      document.getElementById('acard-'+id).classList.remove('virado');
+    }
   });
 }
 function atualizarTotalBaixados(){
