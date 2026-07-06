@@ -96,7 +96,10 @@
 
 <header class="topbar">
   <span class="brand">🌳 Kimberly | <b>Mentoria VIP</b></span>
-  <a href="Passos_Diarios.html">← Passos Diários</a>
+  <div style="display:flex;gap:16px;align-items:center;">
+    <a href="Passos_Diarios.html">← Passos Diários</a>
+    <a href="#" onclick="sair();return false;">Sair</a>
+  </div>
 </header>
 
 <div class="wrap">
@@ -143,19 +146,28 @@
 /* ---------- Persistência (local-first + sync Supabase) — complementos/Infra_Portal_Supabase.md ---------- */
 const SB_URL="https://yhsntdsdifpcozfpdfcu.supabase.co";
 const SB_KEY="sb_publishable_aHINXeQ9NT_vXMamxc8GFw_iLZvOZKE";
-const STUDENT="kimberly";
 const sb=supabase.createClient(SB_URL,SB_KEY);
+let STUDENT=null;
+
+async function requireLogin(){
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session){ location.href="Login.html"; return null; }
+  STUDENT=session.user.id;
+  return session;
+}
+async function sair(){ await sb.auth.signOut(); location.href="Login.html"; }
+
 const Progress={
   cache:{},
   async load(){
-    try{this.cache=JSON.parse(localStorage.getItem("kim_progress")||"{}");}catch(e){this.cache={};}
+    try{this.cache=JSON.parse(localStorage.getItem("kim_progress_"+STUDENT)||"{}");}catch(e){this.cache={};}
     try{const {data}=await sb.from("student_progress").select("progress").eq("student_id",STUDENT).single();
-        if(data&&data.progress){this.cache=data.progress;localStorage.setItem("kim_progress",JSON.stringify(this.cache));}}catch(e){}
+        if(data&&data.progress){this.cache=data.progress;localStorage.setItem("kim_progress_"+STUDENT,JSON.stringify(this.cache));}}catch(e){}
     return this.cache;
   },
   get(k,def){return (k in this.cache)?this.cache[k]:def;},
   async set(k,v){
-    this.cache[k]=v; localStorage.setItem("kim_progress",JSON.stringify(this.cache));
+    this.cache[k]=v; localStorage.setItem("kim_progress_"+STUDENT,JSON.stringify(this.cache));
     try{await sb.from("student_progress").upsert({student_id:STUDENT,progress:this.cache,updated_at:new Date().toISOString()});}catch(e){}
   }
 };
@@ -231,6 +243,8 @@ document.getElementById('btnFechar').addEventListener('click',async ()=>{
 });
 
 (async function start(){
+  const session = await requireLogin();
+  if(!session) return;
   await Progress.load();
   render();
   const frases=Progress.get('checkup_frases',{});

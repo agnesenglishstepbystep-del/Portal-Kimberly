@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entrar — Kimberly Mentoria VIP</title>
+<!--
+  Fase H — Login multiusuário (Supabase Auth, e-mail + senha, autocadastro).
+  Porta de entrada do portal: quem não está logado cai aqui (ver requireLogin() nas outras páginas).
+  Cada conta enxerga só o próprio progresso (RLS por auth.uid() no Supabase).
+-->
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root{
+    --azul:#1e3651; --azul-2:#2c4e73;
+    --verde:#2f7d52; --verde-2:#4fa37a;
+    --dourado:#c9a84c; --dourado-2:#e3c878;
+    --creme:#f8f5ef; --creme-2:#edf4f4;
+    --texto:#1e3651;
+    --sombra:0 10px 30px rgba(30,54,81,.12);
+  }
+  body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:linear-gradient(180deg,var(--creme) 0%,var(--creme-2) 100%);
+    color:var(--texto);
+    min-height:100vh;
+    display:flex; flex-direction:column;
+  }
+  h1{ font-family:Georgia,'Times New Roman',serif; }
+
+  header.topbar{
+    display:flex; align-items:center; justify-content:center;
+    padding:18px 24px; background:var(--azul); color:#fff;
+  }
+  .brand{ font-family:Georgia,serif; font-size:1.15rem; letter-spacing:.02em; }
+  .brand b{ color:var(--dourado-2); }
+
+  .wrap{ flex:1; display:flex; align-items:center; justify-content:center; padding:30px 20px; }
+
+  .card{
+    background:#fff; border-radius:20px; box-shadow:var(--sombra);
+    padding:36px 30px; width:100%; max-width:380px;
+  }
+  .card h1{ color:var(--azul); font-size:1.4rem; text-align:center; margin-bottom:24px; }
+
+  label{ display:block; font-size:.85rem; color:var(--azul); margin-bottom:6px; font-weight:bold; }
+  input[type=email], input[type=password]{
+    width:100%; padding:12px 14px; border:1px solid #dde3e8; border-radius:10px;
+    font-size:1rem; margin-bottom:16px; font-family:Arial,sans-serif;
+  }
+  input[type=email]:focus, input[type=password]:focus{ outline:none; border-color:var(--azul-2); }
+
+  .botoes{ display:flex; flex-direction:column; gap:10px; margin-top:6px; }
+  button{
+    border:none; border-radius:999px; padding:13px; font-size:.95rem; font-weight:bold;
+    cursor:pointer; transition:.2s; font-family:Arial,sans-serif;
+  }
+  button:disabled{ opacity:.6; cursor:default; }
+  .btn-entrar{ background:var(--azul); color:#fff; }
+  .btn-entrar:hover:not(:disabled){ background:var(--azul-2); }
+  .btn-criar{ background:#fff; color:var(--verde); border:2px solid var(--verde); }
+  .btn-criar:hover:not(:disabled){ background:var(--verde); color:#fff; }
+
+  .msg{
+    margin-top:16px; padding:11px 14px; border-radius:10px; font-size:.85rem;
+    display:none; line-height:1.4;
+  }
+  .msg.erro{ display:block; background:#fbe9e7; color:#a13a2a; }
+  .msg.ok{ display:block; background:#dff1e6; color:#1f5a3a; }
+
+  footer{ text-align:center; padding:20px; color:#9aa3ad; font-size:.78rem; }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <span class="brand">🌳 Kimberly | <b>Mentoria VIP</b></span>
+</header>
+
+<div class="wrap">
+  <div class="card">
+    <h1>Entrar no portal</h1>
+
+    <form id="formLogin" autocomplete="on">
+      <label for="email">E-mail</label>
+      <input type="email" id="email" autocomplete="email" required>
+
+      <label for="senha">Senha</label>
+      <input type="password" id="senha" autocomplete="current-password" required>
+
+      <div class="botoes">
+        <button type="submit" class="btn-entrar" id="btnEntrar">Entrar</button>
+        <button type="button" class="btn-criar" id="btnCriar">Criar conta</button>
+      </div>
+    </form>
+
+    <div class="msg" id="msg"></div>
+  </div>
+</div>
+
+<footer>Kimberly | Mentoria VIP Step by Step · Agnes | English Step by Step</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SB_URL="https://yhsntdsdifpcozfpdfcu.supabase.co";
+const SB_KEY="sb_publishable_aHINXeQ9NT_vXMamxc8GFw_iLZvOZKE";
+const sb=supabase.createClient(SB_URL,SB_KEY);
+
+const msgEl=document.getElementById('msg');
+const emailEl=document.getElementById('email');
+const senhaEl=document.getElementById('senha');
+const btnEntrar=document.getElementById('btnEntrar');
+const btnCriar=document.getElementById('btnCriar');
+
+function msg(texto, ok){
+  msgEl.textContent=texto;
+  msgEl.className='msg '+(ok?'ok':'erro');
+}
+function limparMsg(){ msgEl.className='msg'; msgEl.textContent=''; }
+function carregando(on){
+  btnEntrar.disabled=on; btnCriar.disabled=on;
+  btnEntrar.textContent = on ? 'Entrando…' : 'Entrar';
+}
+
+function traduzErro(m){
+  if(!m) return 'Algo deu errado. Tente de novo.';
+  if(/invalid login credentials/i.test(m)) return 'E-mail ou senha incorretos.';
+  if(/already registered|already exists/i.test(m)) return 'Este e-mail já tem conta — clique em "Entrar".';
+  if(/email not confirmed/i.test(m)) return 'Confirme seu e-mail antes de entrar (verifique a caixa de entrada).';
+  if(/password should be at least/i.test(m)) return 'A senha precisa ter pelo menos 6 caracteres.';
+  if(/unable to validate email address/i.test(m)) return 'Digite um e-mail válido.';
+  return m;
+}
+
+async function entrar(){
+  limparMsg();
+  const email=emailEl.value.trim(), senha=senhaEl.value;
+  if(!email||!senha){ msg('Preencha e-mail e senha.'); return; }
+  carregando(true);
+  const {error}=await sb.auth.signInWithPassword({email,password:senha});
+  carregando(false);
+  if(error){ msg(traduzErro(error.message)); return; }
+  location.href='index.html';
+}
+
+async function criarConta(){
+  limparMsg();
+  const email=emailEl.value.trim(), senha=senhaEl.value;
+  if(!email||!senha){ msg('Preencha e-mail e senha.'); return; }
+  if(senha.length<6){ msg('A senha precisa ter pelo menos 6 caracteres.'); return; }
+  carregando(true);
+  const {data,error}=await sb.auth.signUp({email,password:senha});
+  carregando(false);
+  if(error){ msg(traduzErro(error.message)); return; }
+  if(data && data.session){ location.href='index.html'; return; }
+  msg('Conta criada! Verifique seu e-mail para confirmar antes de entrar.', true);
+}
+
+document.getElementById('formLogin').addEventListener('submit', function(e){
+  e.preventDefault();
+  entrar();
+});
+btnCriar.addEventListener('click', criarConta);
+
+/* Já logada? pula direto pro portal. */
+(async function(){
+  const {data:{session}}=await sb.auth.getSession();
+  if(session){ location.href='index.html'; }
+})();
+</script>
+</body>
+</html>

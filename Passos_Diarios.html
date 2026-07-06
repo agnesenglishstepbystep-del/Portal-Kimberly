@@ -9,6 +9,7 @@
   Nomenclatura única "Dia 1–5 + Check-up" (decisão de 03/07/2026). Arquivos DS0X aposentados —
   substituídos pelos Dia0X na Fase F da Reforma Pedagógica (04/07/2026).
   Semanas 2-12: nomes/foco vindos do Estado Atual do Projeto, sem alteração de conteúdo.
+  Fase H (06/07/2026): página agora exige login (Supabase Auth) — redireciona pra Login.html se não logada.
 -->
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
@@ -79,7 +80,10 @@
 
 <header class="topbar">
   <span class="brand">🌳 Kimberly | <b>Mentoria VIP</b></span>
-  <a href="index.html">← Início</a>
+  <div style="display:flex;gap:16px;align-items:center;">
+    <a href="index.html">← Início</a>
+    <a href="#" onclick="sair();return false;">Sair</a>
+  </div>
 </header>
 
 <div class="wrap">
@@ -87,7 +91,26 @@
   <div id="meses"></div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+/* ---------- Fase H — checagem de sessão (Supabase Auth) ---------- */
+const SB_URL="https://yhsntdsdifpcozfpdfcu.supabase.co";
+const SB_KEY="sb_publishable_aHINXeQ9NT_vXMamxc8GFw_iLZvOZKE";
+const sb=supabase.createClient(SB_URL,SB_KEY);
+
+async function requireLogin(){
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session){ location.href="Login.html"; return null; }
+  return session;
+}
+async function sair(){ await sb.auth.signOut(); location.href="Login.html"; }
+</script>
+
+<script>
+(async function(){
+const session = await requireLogin();
+if(!session) return;
+
 const curriculum = [
  { mes:1, semanas:[
    { num:1, name:"Who I Am", focus:"Falando sobre você", materiais:[
@@ -173,6 +196,7 @@ curriculum.forEach((mes, mi) => {
     corpo.classList.toggle('aberto');
   });
 });
+})();
 </script>
 </body>
 </html>

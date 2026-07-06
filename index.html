@@ -9,7 +9,9 @@
   3 blocos: Passos Diários / Construindo o Meu Listening / Meu Progresso.
   Nomes definidos na Fase 0 (30/06/2026) — ver Estado Atual.
   Versão enxuta (01/07/2026): sem status dinâmico nem rótulo "Entrar" — o cartão inteiro é o clique,
-  texto reduzido ao essencial. Sem Supabase nesta página: nada aqui depende de progresso salvo.
+  texto reduzido ao essencial.
+  Fase H (06/07/2026): página agora exige login (Supabase Auth) — quem não está logado é
+  redirecionado para Login.html. Nenhum progresso é lido/gravado aqui, só a checagem de sessão.
 -->
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
@@ -30,9 +32,11 @@
   h1,h2{ font-family:Georgia,'Times New Roman',serif; }
 
   header.topbar{
-    display:flex; align-items:center; justify-content:center;
+    display:flex; align-items:center; justify-content:space-between;
     padding:18px 24px; background:var(--azul); color:#fff;
   }
+  header.topbar a{ color:#fff; text-decoration:none; font-size:.9rem; opacity:.9; }
+  header.topbar a:hover{ opacity:1; text-decoration:underline; }
   .brand{ font-family:Georgia,serif; font-size:1.15rem; letter-spacing:.02em; }
   .brand b{ color:var(--dourado-2); }
 
@@ -68,6 +72,7 @@
 
 <header class="topbar">
   <span class="brand">🌳 Kimberly | <b>Mentoria VIP</b></span>
+  <a href="#" onclick="sair();return false;">Sair</a>
 </header>
 
 <div class="hero">
@@ -95,6 +100,23 @@
 </div>
 
 <footer>Kimberly | Mentoria VIP Step by Step · Agnes | English Step by Step</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* ---------- Fase H — checagem de sessão (Supabase Auth) ---------- */
+const SB_URL="https://yhsntdsdifpcozfpdfcu.supabase.co";
+const SB_KEY="sb_publishable_aHINXeQ9NT_vXMamxc8GFw_iLZvOZKE";
+const sb=supabase.createClient(SB_URL,SB_KEY);
+
+async function requireLogin(){
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session){ location.href="Login.html"; return null; }
+  return session;
+}
+async function sair(){ await sb.auth.signOut(); location.href="Login.html"; }
+
+requireLogin();
+</script>
 
 </body>
 </html>
