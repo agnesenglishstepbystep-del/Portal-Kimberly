@@ -10,141 +10,17 @@
   Áudios S01_Dia02_CardXX (formato Q+A quando há pergunta) + audio/Lily_S01_Texto02.mp3.
   Enquanto os mp3 não existem em /audio, os players mostram "Esse áudio chega em breve." em vez de quebrar.
 -->
+<link rel="stylesheet" href="styles.css">
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; }
-  :root{
-    --azul:#1e3651; --azul-2:#2c4e73;
-    --verde:#2f7d52; --verde-2:#4fa37a; --verde-escuro:#1f5a3a;
-    --dourado:#c9a84c; --dourado-2:#e3c878;
-    --creme:#f8f5ef; --creme-2:#edf4f4;
-    --texto:#1e3651;
-    --sombra:0 10px 30px rgba(30,54,81,.12);
-  }
-  body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:linear-gradient(180deg,var(--creme) 0%,var(--creme-2) 100%);
-    color:var(--texto);
-    min-height:100vh;
-    padding-bottom:60px;
-  }
-  h1,h2,.frase{ font-family:Georgia,'Times New Roman',serif; }
-
-  header.topbar{
-    display:flex; align-items:center; justify-content:space-between;
-    padding:16px 24px; background:var(--azul); color:#fff;
-  }
-  header.topbar a{ color:#fff; text-decoration:none; font-size:.9rem; opacity:.9; }
-  header.topbar a:hover{ opacity:1; text-decoration:underline; }
-  .brand{ font-family:Georgia,serif; font-size:1.05rem; letter-spacing:.02em; }
-  .brand b{ color:var(--dourado-2); }
-
-  .wrap{ max-width:760px; margin:0 auto; padding:28px 18px; }
-
-  .titulo-dia{ text-align:center; margin-bottom:6px; }
-  .titulo-dia h1{ font-size:1.8rem; color:var(--azul); }
-  .titulo-dia p{ color:var(--azul-2); font-size:.95rem; margin-top:4px; }
-
-  /* stepper */
-  .stepper{ display:flex; justify-content:center; gap:10px; margin:24px 0 30px; flex-wrap:wrap; }
-  .step{
-    display:flex; align-items:center; gap:8px; padding:8px 14px; border-radius:999px;
-    background:#fff; border:1px solid #e3ddd0; font-size:.82rem; color:#9aa3ad;
-    transition:.25s;
-  }
-  .step .dot{ width:20px; height:20px; border-radius:50%; background:#e3ddd0; color:#fff;
-    display:flex; align-items:center; justify-content:center; font-size:.72rem; font-weight:bold; }
-  .step.ativo{ background:var(--azul); color:#fff; border-color:var(--azul); box-shadow:var(--sombra); }
-  .step.ativo .dot{ background:var(--dourado); color:var(--azul); }
-  .step.feito{ background:var(--verde); color:#fff; border-color:var(--verde); }
-  .step.feito .dot{ background:#fff; color:var(--verde); }
-
-  .instrucao{
-    background:#fff; border-left:4px solid var(--dourado); border-radius:10px;
-    padding:16px 20px; margin-bottom:26px; box-shadow:var(--sombra); font-size:.97rem; line-height:1.5;
-  }
-
-  .etapa{ display:none; }
-  .etapa.ativa{ display:block; }
-
-  /* ---- Etapa 1: Decifrar (um a um) ---- */
-  .progresso-decifrar{ text-align:center; color:var(--azul-2); font-size:.85rem; margin-bottom:14px; }
-  .card-unico{
-    background:#fff; border-radius:18px; box-shadow:var(--sombra); padding:32px 26px;
-    text-align:center; min-height:260px; display:flex; flex-direction:column; justify-content:center; gap:16px;
-  }
-  .cenario{ font-size:.92rem; color:#5a6b7a; line-height:1.5; }
-  .frase{ font-size:1.7rem; color:var(--azul); font-weight:bold; }
-  .traducao{ font-size:1.15rem; color:var(--verde-escuro); font-weight:bold; }
-  .sensacao{ font-size:.92rem; color:#5a6b7a; line-height:1.5; font-style:italic; }
-
-  button, .btn{
-    font-family:Arial,sans-serif; cursor:pointer; border:none; border-radius:999px;
-    padding:11px 22px; font-size:.92rem; font-weight:bold; transition:.2s;
-  }
-  .btn-ouvir{ background:var(--azul); color:#fff; }
-  .btn-ouvir:hover{ background:var(--azul-2); }
-  .btn-principal{ background:var(--verde); color:#fff; }
-  .btn-principal:hover{ background:var(--verde-2); }
-  .btn-principal:disabled{ background:#cfd6cf; color:#8b938b; cursor:not-allowed; }
-  .btn-dourado{ background:var(--dourado); color:var(--azul); }
-  .btn-dourado:hover{ background:var(--dourado-2); }
-  .btn-dourado:disabled{ background:#e7decb; color:#a89a6f; cursor:not-allowed; }
-  .btn-fantasma{ background:transparent; color:var(--azul); border:1.5px solid var(--azul); }
-
-  .acoes-card{ display:flex; justify-content:center; gap:12px; flex-wrap:wrap; margin-top:6px; }
-
-  /* ---- Etapa 2: Escutar / Etapa 3: Anki — grade ---- */
-  .total-escutas{ text-align:center; margin-bottom:18px; }
-  .barra{ background:#e3ddd0; border-radius:999px; height:10px; overflow:hidden; max-width:340px; margin:8px auto 0; }
-  .barra > div{ background:linear-gradient(90deg,var(--verde),var(--verde-2)); height:100%; width:0%; transition:.3s; }
-
-  .grade{ display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; margin-bottom:24px; }
-  .mini-card{ background:#fff; border-radius:14px; box-shadow:var(--sombra); padding:16px; text-align:center; }
-  .mini-card .frase{ font-size:1.05rem; margin-bottom:10px; }
-  .mini-card .cenario{ font-size:.78rem; color:#5a6b7a; line-height:1.4; margin-bottom:10px; }
-  .mini-card .traducao{ font-size:.98rem; color:var(--verde-escuro); font-weight:bold; margin-bottom:6px; }
-  .mini-card .sensacao{ font-size:.78rem; color:#5a6b7a; font-style:italic; line-height:1.4; }
-  .mini-card .verso{ display:none; margin-top:4px; }
-  .mini-card.virado .frente{ display:none; }
-  .mini-card.virado .verso{ display:block; }
-  .contador{ font-size:.8rem; color:var(--azul-2); margin-top:8px; font-weight:bold; }
-  .contador.completo{ color:var(--verde-escuro); }
-  .check-baixado{ font-size:.78rem; color:var(--verde-escuro); font-weight:bold; margin-top:8px; display:none; }
-  .check-baixado.on{ display:block; }
-
-  .rodape-etapa{ text-align:center; margin-top:10px; }
-
-  /* ---- Etapa 4: Com a Lily ---- */
-  .lily-box{ background:#fff; border-radius:18px; box-shadow:var(--sombra); padding:30px; text-align:center; }
-  .lily-box h2{ color:var(--azul); font-size:1.4rem; margin-bottom:6px; }
-  .lily-box p.legenda{ color:#5a6b7a; font-size:.9rem; margin-bottom:20px; }
-  .texto-lily{ display:none; text-align:left; background:var(--creme-2); border-radius:10px; padding:18px 20px; margin-top:18px; font-family:Georgia,serif; font-size:1.05rem; line-height:1.9; color:var(--azul); }
-  .texto-lily.on{ display:block; }
-  audio{ width:100%; max-width:380px; margin:10px auto; display:block; }
-  .audio-fallback{ font-size:.85rem; color:#a08a3f; margin-top:6px; display:none; }
-
-  /* celebração */
-  .overlay{ position:fixed; inset:0; background:rgba(30,54,81,.55); display:none; align-items:center; justify-content:center; z-index:50; padding:20px; }
-  .overlay.on{ display:flex; }
-  .modal{ background:#fff; border-radius:18px; padding:36px 30px; max-width:420px; text-align:center; box-shadow:0 20px 50px rgba(0,0,0,.3); }
-  .modal .arvore-emoji{ font-size:3rem; margin-bottom:10px; }
-  .modal h2{ color:var(--azul); margin-bottom:10px; }
-  .modal p{ color:#5a6b7a; margin-bottom:22px; line-height:1.5; }
-  .modal .acoes{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
-
-  @media(max-width:480px){
-    .frase{ font-size:1.4rem; }
-    .card-unico{ padding:24px 18px; }
-    .stepper{ gap:6px; }
-    .step{ padding:7px 10px; font-size:.74rem; }
-  }
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
 </style>
 </head>
 <body>
 
 <header class="topbar">
   <span class="brand">🌳 Kimberly | <b>Mentoria VIP</b></span>
-  <div style="display:flex;gap:16px;align-items:center;">
+  <div class="topbar-acoes">
     <a href="Passos_Diarios.html">← Passos Diários</a>
     <a href="#" onclick="sair();return false;">Sair</a>
   </div>

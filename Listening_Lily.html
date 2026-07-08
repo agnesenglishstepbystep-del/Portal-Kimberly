@@ -11,30 +11,10 @@
   Sem português nos textos — só o áudio e, como opção, o texto em inglês.
   Áudios audio/Lily_S01_Texto01–05.mp3 — geração na Fase G; até lá o player mostra "Esse áudio chega em breve."
 -->
+<link rel="stylesheet" href="styles.css">
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; }
-  :root{
-    --azul:#1e3651; --azul-2:#2c4e73;
-    --verde:#2f7d52; --verde-2:#4fa37a; --verde-escuro:#1f5a3a;
-    --dourado:#c9a84c; --dourado-2:#e3c878;
-    --creme:#f8f5ef; --creme-2:#edf4f4;
-    --texto:#1e3651;
-    --sombra:0 10px 30px rgba(30,54,81,.12);
-  }
-  body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:linear-gradient(180deg,var(--creme) 0%,var(--creme-2) 100%);
-    color:var(--texto); min-height:100vh; padding-bottom:60px;
-  }
-  h1,h2{ font-family:Georgia,'Times New Roman',serif; }
-
-  header.topbar{ display:flex; align-items:center; justify-content:space-between; padding:16px 24px; background:var(--azul); color:#fff; }
-  header.topbar a{ color:#fff; text-decoration:none; font-size:.9rem; opacity:.9; }
-  header.topbar a:hover{ opacity:1; text-decoration:underline; }
-  .brand{ font-family:Georgia,serif; font-size:1.05rem; }
-  .brand b{ color:var(--dourado-2); }
-
-  .wrap{ max-width:680px; margin:0 auto; padding:30px 18px; }
+  body{ padding-bottom:60px; }
+  .wrap{ max-width:680px; padding:30px 18px; }
   .intro{ text-align:center; margin-bottom:30px; }
   .intro h1{ color:var(--azul); font-size:1.7rem; margin-bottom:8px; }
   .intro p{ color:#5a6b7a; font-size:.95rem; line-height:1.5; }
@@ -46,13 +26,10 @@
   .selo{ font-size:.74rem; font-weight:bold; padding:4px 12px; border-radius:999px; background:#dff1e6; color:var(--verde-escuro); display:none; }
   .selo.on{ display:inline-block; }
 
-  audio{ width:100%; margin:12px 0; }
-  .audio-fallback{ font-size:.85rem; color:#a08a3f; margin:6px 0; display:none; }
+  audio{ max-width:none; margin:12px 0; display:inline; }
+  .audio-fallback{ margin:6px 0; }
 
-  .acoes{ display:flex; gap:10px; flex-wrap:wrap; }
-  button, .btn{ font-family:Arial,sans-serif; cursor:pointer; border:none; border-radius:999px; padding:9px 18px; font-size:.86rem; font-weight:bold; }
-  .btn-fantasma{ background:transparent; color:var(--azul); border:1.5px solid var(--azul); }
-
+  button, .btn{ padding:9px 18px; font-size:.86rem; }
   .texto-en{ display:none; margin-top:16px; background:var(--creme-2); border-radius:10px; padding:18px 20px; font-family:Georgia,serif; font-size:1.05rem; line-height:1.9; color:var(--azul); }
   .texto-en.on{ display:block; }
 
@@ -63,7 +40,7 @@
 
 <header class="topbar">
   <span class="brand">🌳 Kimberly | <b>Mentoria VIP</b></span>
-  <div style="display:flex;gap:16px;align-items:center;">
+  <div class="topbar-acoes">
     <a href="index.html">← Início</a>
     <a href="#" onclick="sair();return false;">Sair</a>
   </div>

@@ -10,38 +10,14 @@
   Fonte: Acervo, KIM-S01-CHK-C01 a C03. Campo "Meu progresso em uma frase" salvo em progress.checkup_frases.S01
   (ver complementos/Infra_Portal_Supabase.md §3.1).
 -->
+<link rel="stylesheet" href="styles.css">
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; }
-  :root{
-    --azul:#1e3651; --azul-2:#2c4e73;
-    --verde:#2f7d52; --verde-2:#4fa37a; --verde-escuro:#1f5a3a;
-    --dourado:#c9a84c; --dourado-2:#e3c878;
-    --creme:#f8f5ef; --creme-2:#edf4f4;
-    --texto:#1e3651;
-    --sombra:0 10px 30px rgba(30,54,81,.12);
-  }
-  body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:linear-gradient(180deg,var(--creme) 0%,var(--creme-2) 100%);
-    color:var(--texto); min-height:100vh; padding-bottom:60px;
-  }
-  h1,h2,.opcao .en{ font-family:Georgia,'Times New Roman',serif; }
+  body{ padding-bottom:60px; }
+  .wrap{ max-width:680px; }
 
-  header.topbar{ display:flex; align-items:center; justify-content:space-between; padding:16px 24px; background:var(--azul); color:#fff; }
-  header.topbar a{ color:#fff; text-decoration:none; font-size:.9rem; opacity:.9; }
-  header.topbar a:hover{ opacity:1; text-decoration:underline; }
-  .brand{ font-family:Georgia,serif; font-size:1.05rem; }
-  .brand b{ color:var(--dourado-2); }
-
-  .wrap{ max-width:680px; margin:0 auto; padding:28px 18px; }
   .titulo{ text-align:center; margin-bottom:18px; }
   .titulo h1{ font-size:1.8rem; color:var(--azul); }
   .titulo p{ color:var(--azul-2); font-size:.95rem; margin-top:4px; }
-
-  .instrucao{
-    background:#fff; border-left:4px solid var(--dourado); border-radius:10px;
-    padding:16px 20px; margin-bottom:26px; box-shadow:var(--sombra); font-size:.97rem; line-height:1.5;
-  }
 
   .questao{ background:#fff; border-radius:18px; box-shadow:var(--sombra); padding:26px 24px; margin-bottom:18px; }
   .questao .situacao{ font-size:.95rem; color:#3d4f60; line-height:1.55; margin-bottom:6px; }
@@ -51,7 +27,7 @@
     text-align:left; background:var(--creme-2); border:1.5px solid transparent; border-radius:12px;
     padding:12px 16px; cursor:pointer; font-size:1rem; transition:.2s; width:100%;
   }
-  .opcao .en{ font-size:1.05rem; color:var(--azul); }
+  .opcao .en{ font-family:Georgia,'Times New Roman',serif; font-size:1.05rem; color:var(--azul); }
   .opcao:hover{ border-color:var(--azul-2); }
   .opcao.escolhida-certa{ background:#dff1e6; border-color:var(--verde); }
   .opcao.escolhida-outra{ background:#f6f1e2; border-color:var(--dourado); }
@@ -73,19 +49,6 @@
   .salvo-aviso.on{ display:block; }
 
   .rodape{ text-align:center; margin-top:26px; }
-  button,.btn{ font-family:Arial,sans-serif; cursor:pointer; border:none; border-radius:999px; padding:11px 22px; font-size:.92rem; font-weight:bold; transition:.2s; }
-  .btn-dourado{ background:var(--dourado); color:var(--azul); }
-  .btn-dourado:hover{ background:var(--dourado-2); }
-  .btn-dourado:disabled{ background:#e7decb; color:#a89a6f; cursor:not-allowed; }
-  .btn-fantasma{ background:transparent; color:var(--azul); border:1.5px solid var(--azul); }
-
-  .overlay{ position:fixed; inset:0; background:rgba(30,54,81,.55); display:none; align-items:center; justify-content:center; z-index:50; padding:20px; }
-  .overlay.on{ display:flex; }
-  .modal{ background:#fff; border-radius:18px; padding:36px 30px; max-width:420px; text-align:center; box-shadow:0 20px 50px rgba(0,0,0,.3); }
-  .modal .arvore-emoji{ font-size:3rem; margin-bottom:10px; }
-  .modal h2{ color:var(--azul); margin-bottom:10px; }
-  .modal p{ color:#5a6b7a; margin-bottom:22px; line-height:1.5; }
-  .modal .acoes{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
 
   @media(max-width:480px){
     .questao{ padding:20px 16px; }
@@ -96,7 +59,7 @@
 
 <header class="topbar">
   <span class="brand">🌳 Kimberly | <b>Mentoria VIP</b></span>
-  <div style="display:flex;gap:16px;align-items:center;">
+  <div class="topbar-acoes">
     <a href="Passos_Diarios.html">← Passos Diários</a>
     <a href="#" onclick="sair();return false;">Sair</a>
   </div>
