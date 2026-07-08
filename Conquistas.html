@@ -139,27 +139,27 @@ const medalhasDef=[
   if(s.diasCompletos>=1 && s.textosOuvidos>=1) estagio=4;
   if(s.diasCompletos>=3) estagio=5;
 
-  // visual por estágio: broto nos estágios iniciais; árvore oficial revelando cor conforme avança
+  // visual por estágio: broto brilhando nos estágios iniciais/intermediários; árvore adulta só quando o progresso é consistente (3+ dias)
   const visual={
-    0:{src:'arvore_broto.webp',  op:.55, sat:.65},
-    1:{src:'arvore_broto.webp',  op:1,   sat:1},
-    2:{src:'arvore_adulta.webp', op:.6,  sat:.55},
-    3:{src:'arvore_adulta.webp', op:.8,  sat:.75},
-    4:{src:'arvore_adulta.webp', op:.92, sat:.88},
-    5:{src:'arvore_adulta.webp', op:1,   sat:1}
+    0:{src:'arvore_broto.webp',  op:.55, sat:.65, glow:false},
+    1:{src:'arvore_broto.webp',  op:.85, sat:.9,  glow:false},
+    2:{src:'arvore_broto.webp',  op:1,   sat:1,   glow:true},
+    3:{src:'arvore_broto.webp',  op:1,   sat:1.1, glow:true},
+    4:{src:'arvore_broto.webp',  op:1,   sat:1.15,glow:true},
+    5:{src:'arvore_adulta.webp', op:1,   sat:1,   glow:false}
   };
   const v=visual[estagio]||visual[0];
   const arvoreEl=document.getElementById('arvoreImg');
   arvoreEl.src=v.src;
   arvoreEl.style.opacity=v.op;
-  arvoreEl.style.filter='saturate('+v.sat+')';
+  arvoreEl.style.filter='saturate('+v.sat+')'+(v.glow?' drop-shadow(0 0 18px rgba(255,215,110,.65))':'');
 
   const legendas={
     0:'Sua árvore começa a crescer no Dia 1.',
     1:'Os primeiros brotos já apareceram. Continue!',
-    3:'Seu Dia 1 está completo — a árvore cresceu! 🌳',
+    3:'Seu Dia 1 está completo — o broto está brilhando! 🌱✨',
     4:'Primeiro fruto dourado conquistado. 🌟',
-    5:'Sua árvore está cada vez mais forte. 🌳✨'
+    5:'Sua árvore cresceu — parabéns pela primeira semana! 🌳✨'
   };
   document.getElementById('arvoreLegenda').textContent = legendas[estagio] || legendas[0];
 
