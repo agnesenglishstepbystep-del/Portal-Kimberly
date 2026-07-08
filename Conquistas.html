@@ -5,9 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Minhas Conquistas — Kimberly Mentoria VIP</title>
 <!--
-  REFORMA VIP 2.0 — bloco "Minhas Conquistas" (§6, §7). Nome do bloco é placeholder
-  (Agnes escolhe entre "Minhas Conquistas" e "Meu Progresso"). Árvore: raiz azul (sempre
-  presente, identidade) · tronco/galhos verdes (progresso) · frutos dourados (conquistas) — §5.
+  REFORMA VIP 2.0 — bloco "Minhas Conquistas". Árvore: raiz azul (identidade) ·
+  crescimento verde (progresso) · frutos dourados (conquistas) — §5.
+  08/07/2026 — versão de emergência pré-aula: árvore oficial ilustrada (arvore_adulta.webp)
+  com revelação progressiva por estágio + broto (arvore_broto.webp) nos estágios iniciais +
+  medalhas ilustradas. Lógica de progresso e chaves INALTERADAS. Versão definitiva
+  (transparência real, 6 estágios, frutos dinâmicos) virá do plano integrado da Rodada 1.
   Lê o progresso de forma genérica (varre chaves diaN_*) para funcionar sem alteração
   quando novos dias forem adicionados no futuro.
 -->
@@ -17,9 +20,9 @@
   .wrap{ max-width:680px; padding:30px 18px; }
   .wrap > h1{ text-align:center; color:var(--azul); font-size:1.7rem; margin-bottom:20px; }
 
-  .arvore-box{ background:#fff; border-radius:20px; box-shadow:var(--sombra); padding:20px; text-align:center; margin-bottom:22px; }
-  .arvore-box svg{ width:100%; max-width:280px; height:auto; }
-  .arvore-legenda{ font-size:.86rem; color:#5a6b7a; margin-top:6px; }
+  .arvore-box{ background:#fcf5eb; border-radius:20px; box-shadow:var(--sombra); padding:14px; text-align:center; margin-bottom:22px; }
+  .arvore-box img{ width:100%; max-width:340px; height:auto; border-radius:14px; transition:opacity .8s ease, filter .8s ease; }
+  .arvore-legenda{ font-size:.86rem; color:#5a6b7a; margin-top:8px; }
 
   .contadores{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:22px; }
   .contador-card{ background:#fff; border-radius:14px; box-shadow:var(--sombra); padding:16px 10px; text-align:center; }
@@ -32,9 +35,9 @@
   .barra > div{ background:linear-gradient(90deg,var(--dourado),var(--dourado-2)); transition:.4s; }
 
   .medalhas{ display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:14px; }
-  .medalha{ background:#fff; border-radius:14px; box-shadow:var(--sombra); padding:18px 12px; text-align:center; opacity:.4; filter:grayscale(1); transition:.3s; }
+  .medalha{ background:#fff; border-radius:14px; box-shadow:var(--sombra); padding:16px 12px 14px; text-align:center; opacity:.4; filter:grayscale(1); transition:.3s; }
   .medalha.desbloqueada{ opacity:1; filter:none; }
-  .medalha .icone{ font-size:1.8rem; margin-bottom:6px; }
+  .medalha img{ width:86px; height:86px; margin-bottom:6px; }
   .medalha .nome{ font-size:.78rem; font-weight:bold; color:var(--azul); }
 </style>
 </head>
@@ -52,32 +55,7 @@
   <h1>🌳 Minhas Conquistas</h1>
 
   <div class="arvore-box">
-    <svg viewBox="0 0 300 320" xmlns="http://www.w3.org/2000/svg">
-      <!-- raiz azul — sempre presente -->
-      <path d="M150 300 C 120 300 90 310 60 318 M150 300 C 180 300 210 310 240 318 M150 300 L150 270"
-            stroke="#1e3651" stroke-width="8" fill="none" stroke-linecap="round"/>
-      <!-- tronco -->
-      <rect id="tronco" x="138" y="190" width="24" height="110" rx="10" fill="#1f5a3a"/>
-      <!-- galhos/folhagem (verde) — escala via JS conforme progresso -->
-      <g id="folhaA" style="transform-origin:150px 190px; transition:transform .5s, opacity .5s;">
-        <circle cx="150" cy="175" r="55" fill="#2f7d52"/>
-      </g>
-      <g id="folhaB" style="transform-origin:110px 195px; transition:transform .5s, opacity .5s;">
-        <circle cx="100" cy="195" r="42" fill="#3f8d61"/>
-      </g>
-      <g id="folhaC" style="transform-origin:190px 195px; transition:transform .5s, opacity .5s;">
-        <circle cx="200" cy="195" r="42" fill="#4fa37a"/>
-      </g>
-      <!-- frutos dourados — conquistas -->
-      <g id="frutos">
-        <circle class="fruto" cx="125" cy="150" r="8" fill="#c9a84c"/>
-        <circle class="fruto" cx="175" cy="145" r="8" fill="#c9a84c"/>
-        <circle class="fruto" cx="100" cy="185" r="8" fill="#c9a84c"/>
-        <circle class="fruto" cx="200" cy="180" r="8" fill="#c9a84c"/>
-        <circle class="fruto" cx="150" cy="120" r="8" fill="#c9a84c"/>
-        <circle class="fruto" cx="160" cy="200" r="8" fill="#c9a84c"/>
-      </g>
-    </svg>
+    <img id="arvoreImg" src="arvore_broto.webp" alt="Árvore do meu progresso">
     <p class="arvore-legenda" id="arvoreLegenda">Sua árvore começa a crescer no Dia 1.</p>
   </div>
 
@@ -133,10 +111,10 @@ function varrer(progress){
 }
 
 const medalhasDef=[
-  { id:'m1', icone:'🌱', nome:'Primeiro dia completo', check:s=>s.diasCompletos>=1 },
-  { id:'m2', icone:'🗂️', nome:'10 cartões no Anki', check:s=>s.cartoesAnki>=10 },
-  { id:'m3', icone:'🎧', nome:'Primeira escuta da Lily', check:s=>s.textosOuvidos>=1 },
-  { id:'m4', icone:'📅', nome:'Semana 1 completa', check:s=>s.diasCompletos>=5 }
+  { id:'m1', img:'medalha_dia1.webp',    nome:'Primeiro dia completo',    check:s=>s.diasCompletos>=1 },
+  { id:'m2', img:'medalha_anki10.webp',  nome:'10 cartões no Anki',       check:s=>s.cartoesAnki>=10 },
+  { id:'m3', img:'medalha_lily1.webp',   nome:'Primeira escuta da Lily',  check:s=>s.textosOuvidos>=1 },
+  { id:'m4', img:'medalha_semana1.webp', nome:'Semana 1 completa',        check:s=>s.diasCompletos>=5 }
 ];
 
 (async function(){
@@ -161,18 +139,20 @@ const medalhasDef=[
   if(s.diasCompletos>=1 && s.textosOuvidos>=1) estagio=4;
   if(s.diasCompletos>=3) estagio=5;
 
-  const escalas={0:.5,1:.7,2:.85,3:1,4:1,5:1.08};
-  const escala=escalas[estagio]||.5;
-  ['folhaA','folhaB','folhaC'].forEach((id,i)=>{
-    const el=document.getElementById(id);
-    const visivel = estagio>=(i===0?1:i===1?2:3);
-    el.style.opacity = visivel?1:0;
-    el.style.transform = `scale(${visivel?escala:.3})`;
-  });
-
-  const frutos=document.querySelectorAll('.fruto');
-  const frutosVisiveis = Math.min(frutos.length, s.diasCompletos + (s.textosOuvidos>0?1:0));
-  frutos.forEach((f,i)=>{ f.style.transition='opacity .5s'; f.style.opacity = i<frutosVisiveis ? 1 : 0; });
+  // visual por estágio: broto nos estágios iniciais; árvore oficial revelando cor conforme avança
+  const visual={
+    0:{src:'arvore_broto.webp',  op:.55, sat:.65},
+    1:{src:'arvore_broto.webp',  op:1,   sat:1},
+    2:{src:'arvore_adulta.webp', op:.6,  sat:.55},
+    3:{src:'arvore_adulta.webp', op:.8,  sat:.75},
+    4:{src:'arvore_adulta.webp', op:.92, sat:.88},
+    5:{src:'arvore_adulta.webp', op:1,   sat:1}
+  };
+  const v=visual[estagio]||visual[0];
+  const arvoreEl=document.getElementById('arvoreImg');
+  arvoreEl.src=v.src;
+  arvoreEl.style.opacity=v.op;
+  arvoreEl.style.filter='saturate('+v.sat+')';
 
   const legendas={
     0:'Sua árvore começa a crescer no Dia 1.',
@@ -188,7 +168,7 @@ const medalhasDef=[
     const ok=m.check(s);
     const div=document.createElement('div');
     div.className='medalha'+(ok?' desbloqueada':'');
-    div.innerHTML=`<div class="icone">${m.icone}</div><div class="nome">${m.nome}</div>`;
+    div.innerHTML=`<img src="${m.img}" alt=""><div class="nome">${m.nome}</div>`;
     medEl.appendChild(div);
   });
 })();
