@@ -56,8 +56,9 @@ header.topbar{
 header.topbar a{ color:#fff; text-decoration:none; font-size:.9rem; opacity:.9; }
 header.topbar a:hover{ opacity:1; text-decoration:underline; }
 .topbar-acoes{ display:flex; gap:16px; align-items:center; }
-.brand{ font-family:'Nunito',Arial,sans-serif; font-weight:800; font-size:1.05rem; letter-spacing:.02em; }
+.brand{ font-family:'Nunito',Arial,sans-serif; font-weight:800; font-size:1.05rem; letter-spacing:.02em; display:inline-flex; align-items:center; gap:9px; }
 .brand b{ color:var(--dourado-2); }
+.brand img.logo{ width:30px; height:30px; object-fit:contain; border-radius:50%; }
 
 footer{ text-align:center; padding:24px; color:#9aa3ad; font-size:.8rem; }
 
