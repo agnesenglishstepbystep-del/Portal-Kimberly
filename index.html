@@ -8,46 +8,62 @@
   REFORMA VIP 2.0 — Nova home (§6 da especificação). A home deixa de ser a página de estudo.
   3 blocos: Passos Diários / Construindo o Meu Listening / Meu Progresso.
   Nomes definidos na Fase 0 (30/06/2026) — ver Estado Atual.
-  Versão enxuta (01/07/2026): sem status dinâmico nem rótulo "Entrar" — o cartão inteiro é o clique,
-  texto reduzido ao essencial.
-  Fase H (06/07/2026): página agora exige login (Supabase Auth) — quem não está logado é
+  Fase H (06/07/2026): página exige login (Supabase Auth) — quem não está logado é
   redirecionado para Login.html. Nenhum progresso é lido/gravado aqui, só a checagem de sessão.
+  11/07/2026 — refino visual: ícones ilustrados (aquarela) nos 3 cards + logo da marca no topo,
+  fonte Nunito, fundo creme suave, hover mais delicado. Coerente com a aba Meu Progresso.
+  Saudação original mantida por decisão de Agnes. Login/links/estrutura INALTERADOS.
 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <style>
-  header.topbar{ padding:18px 24px; }
-  .brand{ font-size:1.15rem; }
+  body{
+    font-family:'Nunito', sans-serif;
+    background:
+      radial-gradient(1200px 500px at 50% -10%, #fffdf9 0%, rgba(255,253,249,0) 60%),
+      linear-gradient(180deg,#faf7f1 0%, #f4efe6 100%);
+    min-height:100vh;
+  }
+  header.topbar{ padding:16px 26px; background:rgba(255,255,255,.82); backdrop-filter:blur(6px); box-shadow:0 1px 0 rgba(30,54,81,.06); }
+  .brand{ font-size:1.15rem; display:flex; align-items:center; gap:9px; font-weight:800; letter-spacing:.2px; }
+  .brand img{ width:30px; height:30px; object-fit:contain; }
 
-  .hero{ text-align:center; padding:26px 20px 6px; }
-  .hero h1{ color:var(--azul); font-size:1.7rem; margin:0; }
+  .hero{ text-align:center; padding:40px 20px 6px; }
+  .hero h1{ color:var(--azul); font-size:1.85rem; margin:0; font-weight:800; }
 
   .blocos{
-    max-width:1000px; margin:0 auto; padding:24px 20px 60px;
+    max-width:1000px; margin:0 auto; padding:30px 20px 56px;
     display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:26px;
   }
   .bloco{
-    background:#fff; border-radius:20px; box-shadow:var(--sombra);
-    padding:30px 26px; text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;
-    text-decoration:none; color:var(--texto); transition:.25s; border-top:5px solid var(--azul);
+    background:#fff; border-radius:22px; box-shadow:var(--sombra);
+    padding:34px 26px 30px; text-align:center; display:flex; flex-direction:column; align-items:center; gap:8px;
+    text-decoration:none; color:var(--texto); transition:transform .25s ease, box-shadow .25s ease; border-top:5px solid var(--azul);
     min-height:150px;
   }
-  .bloco:hover{ transform:translateY(-4px); box-shadow:0 16px 36px rgba(30,54,81,.18); }
+  .bloco:hover{ transform:translateY(-6px); box-shadow:0 18px 40px rgba(30,54,81,.16); }
   .bloco.listening{ border-top-color:var(--verde); }
   .bloco.conquistas{ border-top-color:var(--dourado); }
 
-  .bloco .icone{ font-size:2.6rem; }
-  .bloco h2{ font-size:1.3rem; color:var(--azul); }
-  .bloco p.desc{ font-size:.92rem; color:#5a6b7a; line-height:1.5; }
+  .bloco .icone{ width:104px; height:104px; object-fit:contain; display:block; margin-bottom:4px; transition:transform .25s ease; }
+  .bloco:hover .icone{ transform:scale(1.06); }
+  .bloco h2{ font-size:1.28rem; color:var(--azul); font-weight:700; margin:0; }
+  .bloco p.desc{ font-size:.92rem; color:#6a7b8a; line-height:1.5; margin:0; }
+
+  footer{ text-align:center; padding:24px 20px 34px; color:#a99e88; font-size:.82rem; }
 
   @media(max-width:480px){
-    .hero h1{ font-size:1.4rem; }
+    .hero h1{ font-size:1.5rem; }
+    .bloco .icone{ width:92px; height:92px; }
   }
 </style>
 </head>
 <body>
 
 <header class="topbar">
-  <span class="brand">🌳 Kimberly | <b>Mentoria VIP</b></span>
+  <span class="brand"><img src="logo_marca.webp" alt="">Kimberly | <b>Mentoria VIP</b></span>
   <a href="#" onclick="sair();return false;">Sair</a>
 </header>
 
@@ -57,19 +73,19 @@
 
 <div class="blocos">
   <a class="bloco passos" href="Passos_Diarios.html">
-    <div class="icone">👣</div>
+    <img class="icone" src="icone_passos.webp" alt="">
     <h2>Passos Diários</h2>
     <p class="desc">Um passo de cada vez.</p>
   </a>
 
   <a class="bloco listening" href="Listening_Lily.html">
-    <div class="icone">🎧</div>
+    <img class="icone" src="icone_listening.webp" alt="">
     <h2>Construindo o Meu Listening</h2>
     <p class="desc">A playlist da Lily — só você, o áudio e o inglês acontecendo.</p>
   </a>
 
   <a class="bloco conquistas" href="Conquistas.html">
-    <div class="icone">🌳</div>
+    <img class="icone" src="icone_progresso.webp" alt="">
     <h2>Meu Progresso</h2>
     <p class="desc">Veja sua árvore crescer.</p>
   </a>
