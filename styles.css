@@ -1,3 +1,8 @@
+/* Fonte de interface do portal (11/07/2026): Nunito para body/títulos/marca.
+   As frases de inglês (.frase) e os textos da Lily (.texto-lily) SEGUEM em Georgia
+   por identidade pedagógica (ar de livro no conteúdo em inglês). */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap');
+
 /* ============================================================
    styles.css — Kimberly | Mentoria VIP Step by Step
    Folha de estilo COMPARTILHADA do portal (criada 08/07/2026).
@@ -33,12 +38,12 @@
 
 /* ---------- 2. Base ---------- */
 body{
-  font-family:Arial,Helvetica,sans-serif;
+  font-family:'Nunito',Arial,Helvetica,sans-serif;
   background:linear-gradient(180deg,var(--creme) 0%,var(--creme-2) 100%);
   color:var(--texto);
   min-height:100vh;
 }
-h1,h2{ font-family:Georgia,'Times New Roman',serif; }
+h1,h2{ font-family:'Nunito',Arial,sans-serif; font-weight:800; }
 
 /* Largura padrão de conteúdo (Dia 1–5 e Passos). Outras páginas ajustam no próprio <style>. */
 .wrap{ max-width:760px; margin:0 auto; padding:28px 18px; }
@@ -51,7 +56,7 @@ header.topbar{
 header.topbar a{ color:#fff; text-decoration:none; font-size:.9rem; opacity:.9; }
 header.topbar a:hover{ opacity:1; text-decoration:underline; }
 .topbar-acoes{ display:flex; gap:16px; align-items:center; }
-.brand{ font-family:Georgia,serif; font-size:1.05rem; letter-spacing:.02em; }
+.brand{ font-family:'Nunito',Arial,sans-serif; font-weight:800; font-size:1.05rem; letter-spacing:.02em; }
 .brand b{ color:var(--dourado-2); }
 
 footer{ text-align:center; padding:24px; color:#9aa3ad; font-size:.8rem; }

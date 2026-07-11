@@ -27,7 +27,9 @@
     min-height:100vh;
   }
   header.topbar{ padding:16px 26px; background:rgba(255,255,255,.82); backdrop-filter:blur(6px); box-shadow:0 1px 0 rgba(30,54,81,.06); }
-  .brand{ font-size:1.15rem; display:flex; align-items:center; gap:9px; font-weight:800; letter-spacing:.2px; }
+  /* topbar clara: a marca precisa ser escura (no resto do portal a topbar é azul e a marca branca) */
+  header.topbar .brand{ color:var(--azul); font-size:1.15rem; display:flex; align-items:center; gap:9px; font-weight:800; letter-spacing:.2px; }
+  header.topbar .brand b{ color:var(--azul); }
   .brand img{ width:30px; height:30px; object-fit:contain; }
 
   .hero{ text-align:center; padding:40px 20px 6px; }
