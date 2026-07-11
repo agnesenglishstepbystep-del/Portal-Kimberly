@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Minhas Conquistas — Kimberly Mentoria VIP</title>
 <!--
-  REFORMA VIP 2.0 — bloco "Minhas Conquistas". Árvore: raiz azul (identidade) ·
-  crescimento verde (progresso) · frutos dourados (conquistas) — §5.
-  08/07/2026 — versão de emergência pré-aula: árvore oficial ilustrada (arvore_adulta.webp)
-  com revelação progressiva por estágio + broto (arvore_broto.webp) nos estágios iniciais +
-  medalhas ilustradas. Lógica de progresso e chaves INALTERADAS. Versão definitiva
-  (transparência real, 6 estágios, frutos dinâmicos) virá do plano integrado da Rodada 1.
+  Bloco "Minhas Conquistas". Árvore de 5 estágios em aquarela (raízes azuis =
+  identidade · folhas verdes = crescimento · fruto dourado = conquista final) — §5.
+  11/07/2026 — versão definitiva da árvore: 5 imagens ilustradas (arvore_estagio0–4.webp),
+  mapeadas por DIAS COMPLETOS da Semana 1: 0→broto · 1→muda · 2→jovem esguia ·
+  3→jovem cheia · 4+→adulta com fruto dourado. Check-up NÃO conta no estágio
+  (decisão de Agnes: "só os 5 dias por agora"). Lógica de progresso, chaves e as
+  4 medalhas INALTERADAS — só a camada visual da árvore mudou.
   Lê o progresso de forma genérica (varre chaves diaN_*) para funcionar sem alteração
   quando novos dias forem adicionados no futuro.
 -->
@@ -55,7 +56,7 @@
   <h1>🌳 Minhas Conquistas</h1>
 
   <div class="arvore-box">
-    <img id="arvoreImg" src="arvore_broto.webp" alt="Árvore do meu progresso">
+    <img id="arvoreImg" src="arvore_estagio0.webp" alt="Árvore do meu progresso">
     <p class="arvore-legenda" id="arvoreLegenda">Sua árvore começa a crescer no Dia 1.</p>
   </div>
 
@@ -132,34 +133,19 @@ const medalhasDef=[
   document.getElementById('certBarra').style.width = pct+'%';
   document.getElementById('certTexto').textContent = `${s.diasCompletos} / ${totalPassos} passos diários`;
 
-  // estágio da árvore: 0 nada · 1 iniciou · 2 escutou bastante · 3 dia completo · 4 +lily · 5 mais de 1 dia completo
-  let estagio=0;
-  if(s.diasIniciados>0 || s.diasCompletos>0) estagio=1;
-  if(s.diasCompletos>=1) estagio=3;
-  if(s.diasCompletos>=1 && s.textosOuvidos>=1) estagio=4;
-  if(s.diasCompletos>=3) estagio=5;
+  // Estágio da árvore por DIAS COMPLETOS da Semana 1 (0..4): 4 é o teto (adulta com fruto).
+  // Check-up NÃO conta — só os 5 dias (decisão de Agnes, 11/07/2026).
+  const estagio = Math.min(4, s.diasCompletos);
 
-  // visual por estágio: broto brilhando nos estágios iniciais/intermediários; árvore adulta só quando o progresso é consistente (3+ dias)
-  const visual={
-    0:{src:'arvore_broto.webp',  op:.55, sat:.65, glow:false},
-    1:{src:'arvore_broto.webp',  op:.85, sat:.9,  glow:false},
-    2:{src:'arvore_broto.webp',  op:1,   sat:1,   glow:true},
-    3:{src:'arvore_broto.webp',  op:1,   sat:1.1, glow:true},
-    4:{src:'arvore_broto.webp',  op:1,   sat:1.15,glow:true},
-    5:{src:'arvore_adulta.webp', op:1,   sat:1,   glow:false}
-  };
-  const v=visual[estagio]||visual[0];
   const arvoreEl=document.getElementById('arvoreImg');
-  arvoreEl.src=v.src;
-  arvoreEl.style.opacity=v.op;
-  arvoreEl.style.filter='saturate('+v.sat+')'+(v.glow?' drop-shadow(0 0 18px rgba(255,215,110,.65))':'');
+  arvoreEl.src='arvore_estagio'+estagio+'.webp';
 
   const legendas={
     0:'Sua árvore começa a crescer no Dia 1.',
-    1:'Os primeiros brotos já apareceram. Continue!',
-    3:'Seu Dia 1 está completo — o broto está brilhando! 🌱✨',
-    4:'Você já ouviu a Lily — seu broto está cada vez mais forte! 🌱✨',
-    5:'Sua árvore cresceu — parabéns pela primeira semana! 🌳✨'
+    1:'O primeiro broto já apareceu — continue! 🌱',
+    2:'Sua muda está ganhando força. 🌱',
+    3:'Sua arvorezinha está crescendo firme. 🌿',
+    4:'Sua árvore deu seu primeiro fruto dourado — parabéns! 🌳✨'
   };
   document.getElementById('arvoreLegenda').textContent = legendas[estagio] || legendas[0];
 
