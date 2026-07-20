@@ -3,49 +3,89 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Minhas Conquistas — Kimberly Mentoria VIP</title>
+<title>Meu Progresso — Kimberly Mentoria VIP</title>
 <!--
-  Bloco "Minhas Conquistas". Árvore de 5 estágios em aquarela (raízes azuis =
-  identidade · folhas verdes = crescimento · fruto dourado = conquista final) — §5.
-  11/07/2026 — versão definitiva da árvore: 5 imagens ilustradas (arvore_estagio0–4.webp),
-  mapeadas por DIAS COMPLETOS da Semana 1: 0→broto · 1→muda · 2→jovem esguia ·
-  3→jovem cheia · 4+→adulta com fruto dourado. Check-up NÃO conta no estágio
-  (decisão de Agnes: "só os 5 dias por agora"). Lógica de progresso, chaves e as
-  4 medalhas INALTERADAS — só a camada visual da árvore mudou.
-  Lê o progresso de forma genérica (varre chaves diaN_*) para funcionar sem alteração
-  quando novos dias forem adicionados no futuro.
+  "Meu Progresso" — sistema visual da VIDEIRA (Safra 1), emergência da aula de retomada (20/07/2026).
+  Substitui a árvore antiga pela videira de 5 estágios (espaldeira azul = método/apoio ·
+  folhas verdes = crescimento · cacho dourado = colheita) — mapeada por DIAS COMPLETOS da
+  semana atual: 0→broto na espaldeira · 1→primeiro ramo · 2→folhas · 3→cacho verde ·
+  4+→cacho dourado. Check-up NÃO conta no estágio.
+  Selos novos (4) substituem as 4 medalhas antigas; estado bloqueado por CSS (uma arte só).
+  Contadores reorganizados + coleção de 12 colheitas em CSS (nenhum cacho antes de 5 dias).
+  LÓGICA DE PROGRESSO, CHAVES E SUPABASE INALTERADAS — só a camada visual mudou.
+  Lê o progresso de forma genérica (varre chaves diaN_*) para seguir funcionando quando
+  novos dias forem adicionados no futuro.
 -->
 <link rel="stylesheet" href="styles.css">
 <style>
   body{ padding-bottom:60px; }
-  .wrap{ max-width:680px; padding:30px 18px; }
-  .wrap > h1{ text-align:center; color:var(--azul); font-size:1.7rem; margin-bottom:20px; }
+  .wrap{ max-width:720px; padding:30px 18px; }
+  .wrap > h1{ text-align:center; color:var(--azul); font-size:1.7rem; margin-bottom:6px; }
+  .wrap > .sub-topo{ text-align:center; color:#5a6b7a; font-size:.95rem; margin-bottom:22px; }
 
-  .arvore-box{ background:#fcf5eb; border-radius:20px; box-shadow:var(--sombra); padding:14px; text-align:center; margin-bottom:22px; }
-  .arvore-box img{ width:100%; max-width:340px; height:auto; border-radius:14px; transition:opacity .8s ease, filter .8s ease; }
-  .arvore-legenda{ font-size:.86rem; color:#5a6b7a; margin-top:8px; }
+  /* ---- Videira da semana ---- */
+  .videira-box{ background:#fcf5eb; border-radius:20px; box-shadow:var(--sombra); padding:22px 20px 18px; margin-bottom:22px; }
+  .videira-eyebrow{ font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:var(--dourado); font-weight:800; }
+  .videira-titulo{ font-size:1.28rem; color:var(--azul); font-weight:800; margin:6px 0 2px; }
+  .videira-sub{ font-size:.86rem; color:#5a6b7a; margin-bottom:12px; }
+  .videira-dots{ display:flex; gap:10px; align-items:center; margin-bottom:6px; }
+  .videira-dots .dot{ width:14px; height:14px; border-radius:50%; background:#d9e0dd; transition:.4s; }
+  .videira-dots .dot.on{ background:var(--verde); }
+  .videira-dots .rot{ font-size:.72rem; color:#8a97a0; margin-left:4px; }
+  .videira-art{ text-align:center; margin-top:10px; }
+  .videira-art img{ width:100%; max-width:500px; height:auto; display:block; margin:0 auto; transition:opacity .8s ease; }
 
-  .contadores{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:22px; }
-  .contador-card{ background:#fff; border-radius:14px; box-shadow:var(--sombra); padding:16px 10px; text-align:center; }
-  .contador-card .num{ font-size:1.5rem; font-weight:bold; color:var(--azul); }
-  .contador-card .lbl{ font-size:.74rem; color:#5a6b7a; margin-top:2px; }
+  /* ---- Contadores ---- */
+  .contadores{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:22px; }
+  .contador-card{ background:#fffdf9; border-radius:14px; box-shadow:var(--sombra); padding:0 0 14px; text-align:center; overflow:hidden; }
+  .contador-card .faixa{ height:5px; }
+  .contador-card .num{ font-size:1.5rem; font-weight:800; color:var(--azul); margin-top:14px; }
+  .contador-card .lbl{ font-size:.72rem; color:#5a6b7a; margin-top:2px; padding:0 6px; }
 
-  .certificado{ background:#fff; border-radius:16px; box-shadow:var(--sombra); padding:20px 24px; margin-bottom:22px; }
-  .certificado .topo{ display:flex; justify-content:space-between; font-size:.86rem; color:var(--azul-2); margin-bottom:8px; font-weight:bold; }
-  .barra{ height:12px; max-width:none; margin:0; }
-  .barra > div{ background:linear-gradient(90deg,var(--dourado),var(--dourado-2)); transition:.4s; }
+  /* ---- Barra do certificado ---- */
+  .certificado{ background:#fffdf9; border-radius:16px; box-shadow:var(--sombra); padding:18px 22px; margin-bottom:26px; }
+  .certificado .topo{ display:flex; justify-content:space-between; font-size:.86rem; color:var(--azul-2); margin-bottom:8px; font-weight:800; }
+  .certificado .barra{ height:12px; max-width:none; margin:0; background:#eae3d4; border-radius:999px; overflow:hidden; }
+  .certificado .barra > div{ height:100%; width:0%; background:linear-gradient(90deg,var(--dourado),var(--dourado-2)); transition:.5s; }
 
-  .medalhas{ display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:14px; }
-  .medalha{ background:#fff; border-radius:14px; box-shadow:var(--sombra); padding:16px 12px 14px; text-align:center; opacity:.4; filter:grayscale(1); transition:.3s; }
-  .medalha.desbloqueada{ opacity:1; filter:none; }
-  .medalha img{ width:86px; height:86px; margin-bottom:6px; }
-  .medalha .nome{ font-size:.78rem; font-weight:bold; color:var(--azul); }
+  /* ---- Coleção de colheitas ---- */
+  .secao-titulo{ font-size:1.15rem; color:var(--azul); font-weight:800; margin:0 0 3px; }
+  .secao-sub{ font-size:.84rem; color:#5a6b7a; margin-bottom:14px; }
+  .colheita-grid{ display:grid; grid-template-columns:repeat(6,1fr); gap:12px 10px; margin-bottom:28px; }
+  .colheita-slot{ text-align:center; }
+  .colheita-slot .bola{
+    width:100%; max-width:56px; aspect-ratio:1/1; margin:0 auto; border-radius:50%;
+    background:#fbf7ef; border:1.5px dashed #d7cfbc; display:flex; align-items:center; justify-content:center;
+    color:#c9a84c; font-size:1.1rem; transition:.3s;
+  }
+  .colheita-slot.andamento .bola{ border:2px solid var(--dourado); box-shadow:0 0 0 3px rgba(201,168,76,.14) inset; }
+  .colheita-slot.colhido .bola{
+    border:2px solid var(--dourado); background:radial-gradient(circle at 38% 34%, #f3dd97, #c9a84c 78%); color:#fff;
+  }
+  .colheita-slot .n{ font-size:.68rem; color:#9aa3ad; margin-top:5px; }
+  .colheita-slot.colhido .n{ color:var(--dourado); font-weight:700; }
+
+  /* ---- Selos ---- */
+  .selos{ display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:14px; }
+  .selo{ background:#fffdf9; border-radius:16px; border:1px solid rgba(201,168,76,.30); box-shadow:var(--sombra); padding:18px 12px 14px; text-align:center; }
+  .selo img{ width:96px; height:96px; object-fit:contain; margin-bottom:8px; transition:.4s; }
+  .selo:not(.desbloqueado) img{ opacity:.16; filter:grayscale(1) saturate(.25); }
+  .selo .nome{ font-size:.82rem; font-weight:800; color:var(--azul); }
+  .selo:not(.desbloqueado) .nome{ color:#7f8c94; }
+  .selo .estado{ font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; font-weight:800; margin-top:4px; color:var(--verde); }
+  .selo:not(.desbloqueado) .estado{ color:#a7b0b6; }
+
+  @media(max-width:520px){
+    .contadores{ grid-template-columns:repeat(2,1fr); }
+    .colheita-grid{ grid-template-columns:repeat(4,1fr); }
+    .videira-titulo{ font-size:1.14rem; }
+  }
 </style>
 </head>
 <body>
 
 <header class="topbar">
-  <span class="brand"><img class="logo" src="logo_marca.webp" alt="">Kimberly | <b>Mentoria VIP</b></span>
+  <span class="brand">Kimberly | <b>Mentoria VIP</b></span>
   <div class="topbar-acoes">
     <a href="index.html">← Início</a>
     <a href="#" onclick="sair();return false;">Sair</a>
@@ -53,25 +93,43 @@
 </header>
 
 <div class="wrap">
-  <h1>🌳 Minhas Conquistas</h1>
+  <h1>Meu Progresso</h1>
+  <p class="sub-topo">A videira mostra o momento atual. Os contadores, a colheita e os selos contam a jornada inteira.</p>
 
-  <div class="arvore-box">
-    <img id="arvoreImg" src="arvore_estagio0.webp" alt="Árvore do meu progresso">
-    <p class="arvore-legenda" id="arvoreLegenda">Sua árvore começa a crescer no Dia 1.</p>
+  <!-- 1. Videira da semana -->
+  <div class="videira-box">
+    <div class="videira-eyebrow">Safra 1 · Semana em curso</div>
+    <div class="videira-titulo" id="videiraTitulo">Tudo pronto para o primeiro broto.</div>
+    <div class="videira-sub" id="videiraSub">Comece pelo Dia 1.</div>
+    <div class="videira-dots" id="videiraDots" aria-hidden="true"></div>
+    <div class="videira-art">
+      <img id="videiraImg" src="videira_safra1_estagio0.webp" alt="Videira do meu progresso — Safra 1">
+    </div>
   </div>
 
+  <!-- 2. Contadores -->
   <div class="contadores">
-    <div class="contador-card"><div class="num" id="numAnki">0</div><div class="lbl">cartões no Anki</div></div>
-    <div class="contador-card"><div class="num" id="numDias">0</div><div class="lbl">dias completos</div></div>
-    <div class="contador-card"><div class="num" id="numLily">0</div><div class="lbl">textos da Lily ouvidos</div></div>
+    <div class="contador-card"><div class="faixa" style="background:var(--verde)"></div><div class="num" id="numDias">0</div><div class="lbl">dias de estudo</div></div>
+    <div class="contador-card"><div class="faixa" style="background:var(--azul)"></div><div class="num" id="numLily">0</div><div class="lbl">histórias da Lily</div></div>
+    <div class="contador-card"><div class="faixa" style="background:var(--dourado)"></div><div class="num" id="numAnki">0</div><div class="lbl">cartões no Anki</div></div>
+    <div class="contador-card"><div class="faixa" style="background:var(--verde-2)"></div><div class="num" id="numColheitas">0 / 12</div><div class="lbl">colheitas</div></div>
   </div>
 
+  <!-- 3. Barra do certificado -->
   <div class="certificado">
     <div class="topo"><span>Rumo ao certificado</span><span id="certTexto">0 / 60 passos diários</span></div>
     <div class="barra"><div id="certBarra"></div></div>
   </div>
 
-  <div class="medalhas" id="medalhas"></div>
+  <!-- 4. Coleção de colheitas -->
+  <h2 class="secao-titulo">Sua colheita</h2>
+  <p class="secao-sub">Cada semana completa acrescenta um cacho. São 12 ao longo da jornada.</p>
+  <div class="colheita-grid" id="colheitaGrid"></div>
+
+  <!-- 5. Selos da jornada -->
+  <h2 class="secao-titulo">Selos da jornada</h2>
+  <p class="secao-sub">Cada selo marca uma conquista real do seu caminho.</p>
+  <div class="selos" id="selos"></div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -111,12 +169,22 @@ function varrer(progress){
   return {diasCompletos, diasIniciados, cartoesAnki, textosOuvidos};
 }
 
-const medalhasDef=[
-  { id:'m1', img:'medalha_dia1.webp',    nome:'Primeiro dia completo',    check:s=>s.diasCompletos>=1 },
-  { id:'m2', img:'medalha_anki10.webp',  nome:'10 cartões no Anki',       check:s=>s.cartoesAnki>=10 },
-  { id:'m3', img:'medalha_lily1.webp',   nome:'Primeira escuta da Lily',  check:s=>s.textosOuvidos>=1 },
-  { id:'m4', img:'medalha_semana1.webp', nome:'Semana 1 completa',        check:s=>s.diasCompletos>=5 }
+/* Selos — ordem e gatilhos do handoff de emergência (20/07/2026). Uma arte por selo;
+   estado bloqueado é só CSS (classe .desbloqueado). Nenhuma medalha antiga no DOM. */
+const selosDef=[
+  { img:'selo_01_primeiro_passo.webp',        nome:'Primeiro passo',          check:s=>s.diasCompletos>=1 },
+  { img:'selo_02_primeira_escuta_lily.webp',  nome:'Primeira escuta da Lily', check:s=>s.textosOuvidos>=1 },
+  { img:'selo_03_anki_10.webp',               nome:'10 cartões no Anki',      check:s=>s.cartoesAnki>=10 },
+  { img:'selo_04_primeira_colheita.webp',     nome:'Primeira colheita',       check:s=>s.diasCompletos>=5 }
 ];
+
+const videiraTextos={
+  0:{t:'Tudo pronto para o primeiro broto.',      s:'Comece pelo Dia 1.'},
+  1:{t:'O primeiro ramo encontrou apoio.',        s:'1 dia de estudo concluído.'},
+  2:{t:'As folhas já cobrem a espaldeira.',       s:'2 dias de estudo concluídos.'},
+  3:{t:'O cacho começou a se formar.',            s:'3 dias de estudo concluídos.'},
+  4:{t:'O primeiro cacho amadureceu — dourado.',  s:'A semana da videira está completa. ✨'}
+};
 
 (async function(){
   const session = await requireLogin();
@@ -124,38 +192,54 @@ const medalhasDef=[
   const progress = await Progress.load();
   const s = varrer(progress);
 
-  document.getElementById('numAnki').textContent = s.cartoesAnki;
+  // Contadores
   document.getElementById('numDias').textContent = s.diasCompletos;
   document.getElementById('numLily').textContent = s.textosOuvidos;
+  document.getElementById('numAnki').textContent = s.cartoesAnki;
+  const colheitas = Math.min(12, Math.floor(s.diasCompletos/5));
+  document.getElementById('numColheitas').textContent = colheitas + ' / 12';
 
-  const totalPassos = 60; // 12 semanas x 5 passos diários (estimativa para a barra do certificado)
+  // Barra do certificado (60 passos diários)
+  const totalPassos = 60;
   const pct = Math.min(100, (s.diasCompletos/totalPassos)*100);
   document.getElementById('certBarra').style.width = pct+'%';
   document.getElementById('certTexto').textContent = `${s.diasCompletos} / ${totalPassos} passos diários`;
 
-  // Estágio da árvore por DIAS COMPLETOS da Semana 1 (0..4): 4 é o teto (adulta com fruto).
-  // Check-up NÃO conta — só os 5 dias (decisão de Agnes, 11/07/2026).
-  const estagio = Math.min(4, s.diasCompletos);
+  // Videira — estágio por DIAS COMPLETOS da semana (0..4). Check-up NÃO conta.
+  const estagio = Math.max(0, Math.min(4, s.diasCompletos));
+  document.getElementById('videiraImg').src = 'videira_safra1_estagio'+estagio+'.webp';
+  document.getElementById('videiraTitulo').textContent = videiraTextos[estagio].t;
+  document.getElementById('videiraSub').textContent = videiraTextos[estagio].s;
 
-  const arvoreEl=document.getElementById('arvoreImg');
-  arvoreEl.src='arvore_estagio'+estagio+'.webp';
+  // Dots do estágio (0..4)
+  const dotsEl=document.getElementById('videiraDots');
+  for(let i=0;i<5;i++){
+    const d=document.createElement('span');
+    d.className='dot'+(i<=estagio?' on':'');
+    dotsEl.appendChild(d);
+  }
+  const rot=document.createElement('span'); rot.className='rot'; rot.textContent='0 · 1 · 2 · 3 · 4 dias';
+  dotsEl.appendChild(rot);
 
-  const legendas={
-    0:'Sua árvore começa a crescer no Dia 1.',
-    1:'O primeiro broto já apareceu — continue! 🌱',
-    2:'Sua muda está ganhando força. 🌱',
-    3:'Sua arvorezinha está crescendo firme. 🌿',
-    4:'Sua árvore deu seu primeiro fruto dourado — parabéns! 🌳✨'
-  };
-  document.getElementById('arvoreLegenda').textContent = legendas[estagio] || legendas[0];
+  // Coleção de 12 colheitas (CSS puro; nenhum cacho antes de 5 dias)
+  const grid=document.getElementById('colheitaGrid');
+  for(let i=0;i<12;i++){
+    const colhido = i < colheitas;
+    const andamento = i === colheitas; // próxima em formação
+    const slot=document.createElement('div');
+    slot.className='colheita-slot'+(colhido?' colhido':(andamento?' andamento':''));
+    slot.innerHTML=`<div class="bola">${colhido?'✓':''}</div><div class="n">${i+1}</div>`;
+    grid.appendChild(slot);
+  }
 
-  const medEl=document.getElementById('medalhas');
-  medalhasDef.forEach(m=>{
+  // Selos
+  const selosEl=document.getElementById('selos');
+  selosDef.forEach(m=>{
     const ok=m.check(s);
     const div=document.createElement('div');
-    div.className='medalha'+(ok?' desbloqueada':'');
-    div.innerHTML=`<img src="${m.img}" alt=""><div class="nome">${m.nome}</div>`;
-    medEl.appendChild(div);
+    div.className='selo'+(ok?' desbloqueado':'');
+    div.innerHTML=`<img src="${m.img}" alt=""><div class="nome">${m.nome}</div><div class="estado">${ok?'Conquistado':'Em andamento'}</div>`;
+    selosEl.appendChild(div);
   });
 })();
 </script>
