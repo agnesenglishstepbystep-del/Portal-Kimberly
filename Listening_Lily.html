@@ -6,34 +6,42 @@
 <title>Construindo o Meu Listening — Kimberly Mentoria VIP</title>
 <!--
   Bloco "Construindo o Meu Listening" / playlist da Lily — acumulativa.
-  Semana 1 completa (Fase E da Reforma Pedagógica, aprovada 04/07/2026): Textos #1–#5 — Acervo, KIM-S01-LILY-T01 a T05.
-  Texto #3 é o piloto multi-voz (falas da mãe); #5 tem 1 fala da Anna. Falas de outras vozes levam prefixo em inglês (Mom:/Anna:).
-  Sem português nos textos — só o áudio e, como opção, o texto em inglês.
-  Áudios audio/Lily_S01_Texto01–05.mp3 — geração na Fase G; até lá o player mostra "Esse áudio chega em breve."
+  Reforma de 20/07/2026 (decisões de Agnes):
+  · A página mostra SÓ os textos dos dias que a aluna já estudou (o texto novo entra
+    quando o dia dele é concluído) — a playlist cresce sozinha, sem spoiler.
+  · Botão único "Ouvir a playlist de hoje": toca as faixas liberadas em sequência,
+    com avanço automático. Tocar numa faixa começa a playlist a partir dela.
+  · O "Mostrar texto" foi removido — os textos escritos moram no Caderno de Práticas.
+  · Registro da ESCUTA DO DIA (dado do "dia exemplar" da videira): cada faixa ouvida
+    até o fim conta pro dia; todas as liberadas ouvidas hoje → escutas_do_dia[data]=true.
+    Nada trava — é só prêmio.
+  Áudios audio/Lily_SXX_TextoNN.mp3 — geração na fase de áudio; até lá cada faixa
+  mostra "chega em breve" e é pulada na sequência.
 -->
 <link rel="stylesheet" href="styles.css">
 <style>
   body{ padding-bottom:60px; }
   .wrap{ max-width:680px; padding:30px 18px; }
-  .intro{ text-align:center; margin-bottom:30px; }
+  .intro{ text-align:center; margin-bottom:24px; }
   .intro h1{ color:var(--azul); font-size:1.7rem; margin-bottom:8px; }
   .intro p{ color:#5a6b7a; font-size:.95rem; line-height:1.5; }
 
-  .playlist{ display:flex; flex-direction:column; gap:16px; }
-  .faixa{ background:#fff; border-radius:18px; box-shadow:var(--sombra); padding:24px; }
-  .faixa-cabecalho{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
-  .faixa-cabecalho h2{ font-size:1.15rem; color:var(--azul); }
-  .selo{ font-size:.74rem; font-weight:bold; padding:4px 12px; border-radius:999px; background:#dff1e6; color:var(--verde-escuro); display:none; }
-  .selo.on{ display:inline-block; }
+  .painel{ background:#fff; border-radius:18px; box-shadow:var(--sombra); padding:24px; text-align:center; margin-bottom:20px; }
+  .painel .btn-dourado{ font-size:1rem; padding:14px 28px; }
+  .painel audio{ width:100%; margin-top:16px; }
+  .status-escuta{ margin-top:12px; font-size:.9rem; color:#5a6b7a; }
+  .status-escuta.feita{ color:var(--verde-escuro); font-weight:bold; }
 
-  audio{ max-width:none; margin:12px 0; display:inline; }
-  .audio-fallback{ margin:6px 0; }
+  .faixas{ display:flex; flex-direction:column; gap:10px; }
+  .faixa{ background:#fff; border-radius:14px; box-shadow:var(--sombra); padding:14px 18px; display:flex; justify-content:space-between; align-items:center; gap:12px; cursor:pointer; transition:.2s; }
+  .faixa:hover{ transform:translateY(-1px); }
+  .faixa.tocando{ outline:2px solid var(--dourado); }
+  .faixa .titulo{ color:var(--azul); font-weight:bold; font-size:.95rem; }
+  .faixa .estado{ font-size:.8rem; color:#9aa3ad; white-space:nowrap; }
+  .faixa .estado.ouvida{ color:var(--verde-escuro); font-weight:bold; }
+  .faixa .estado.breve{ color:#c77; }
 
-  button, .btn{ padding:9px 18px; font-size:.86rem; }
-  .texto-en{ display:none; margin-top:16px; background:var(--creme-2); border-radius:10px; padding:18px 20px; font-family:Georgia,serif; font-size:1.05rem; line-height:1.9; color:var(--azul); }
-  .texto-en.on{ display:block; }
-
-  .em-breve{ text-align:center; color:#9aa3ad; font-size:.88rem; padding:20px; background:#fff; border-radius:18px; box-shadow:var(--sombra); }
+  .em-breve{ text-align:center; color:#9aa3ad; font-size:.88rem; padding:20px; background:#fff; border-radius:18px; box-shadow:var(--sombra); margin-top:16px; }
 </style>
 </head>
 <body>
@@ -52,7 +60,14 @@
     <p>A playlist da Lily. Aperte o play, deixe rolar — não precisa entender cada palavra.</p>
   </div>
 
-  <div class="playlist" id="playlist"></div>
+  <div class="painel" id="painel">
+    <button class="btn-dourado" id="btnPlaylist">▶ Ouvir a playlist de hoje</button>
+    <audio id="player" controls style="display:none"></audio>
+    <p class="status-escuta" id="statusEscuta"></p>
+  </div>
+
+  <div class="faixas" id="faixas"></div>
+  <div class="em-breve" id="rodape">Novos textos da Lily chegam a cada novo Dia.</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -86,108 +101,141 @@ const Progress={
   }
 };
 
-/* Playlist acumulativa — Semana 1 completa (Textos #1–#5, Acervo KIM-S01-LILY-T01 a T05). Frases sem alteração. */
+/* Catálogo da playlist — Semana 1 (Textos #1–#5, Acervo KIM-S01-LILY-T01 a T05).
+   O texto N pertence ao Dia N: entra na playlist quando o dia dele é concluído. */
 const textos=[
-  { id:'texto01', titulo:'Texto #1 — Who I Am', audio:'audio/Lily_S01_Texto01.mp3',
-    frases:[
-      "Hi! I'm Lily.",
-      "I'm your new neighbor.",
-      "I'm from a small town, but I'm here now.",
-      "I'm really happy to meet you.",
-      "I'm a little tired today — these boxes are heavy!",
-      "But I'm ready for a fresh start.",
-      "I'm practicing my English, so let's talk soon!"
-    ]},
-  { id:'texto02', titulo:'Texto #2 — Como estou agora', audio:'audio/Lily_S01_Texto02.mp3',
-    frases:[
-      "Good morning! I'm still in bed.",
-      "I'm sleepy... but I'm okay!",
-      "Juice first — I'm thirsty.",
-      "And I'm hungry too. Breakfast time!",
-      "Mmm... now I'm full.",
-      "Today I'm busy — so many boxes! But I'm calm.",
-      "One box, one step. I'm proud of myself!"
-    ]},
-  { id:'texto03', titulo:'Texto #3 — Onde estou', audio:'audio/Lily_S01_Texto03.mp3',
-    frases:[
-      "Mom: \"Hi, Lily! Where are you?\"",
-      "I'm at home, Mom — my new home!",
-      "Mom: \"Are you okay? Are you happy there?\"",
-      "I'm okay. I'm really happy here.",
-      "Mom: \"Are you busy now?\"",
-      "I'm busy with the boxes... but I'm not busy for you!",
-      "I'm fine, Mom. Talk soon!"
-    ]},
-  { id:'texto04', titulo:'Texto #4 — Quem eu sou', audio:'audio/Lily_S01_Texto04.mp3',
-    frases:[
-      "Hello again! Today I'm not alone.",
-      "This is my brother, Tom.",
-      "He's here for the weekend.",
-      "He is strong — and these boxes are heavy!",
-      "Tom is a student. I'm so proud of him.",
-      "Me? I'm still learning... but I'm practicing every day!",
-      "Okay — back to the boxes. Bye!"
-    ]},
-  { id:'texto05', titulo:"Texto #5 — I'm not...", audio:'audio/Lily_S01_Texto05.mp3',
-    frases:[
-      "What a week! Boxes, juice, English... but I'm not tired!",
-      "Okay, okay... maybe I'm a little tired.",
-      "My neighbor Anna is here — she's my first friend in town.",
-      "She is fun, and she is a business owner.",
-      "Anna: \"Are you hungry, Lily?\"",
-      "I'm not hungry, but I'm thirsty. So — lemonade for two!",
-      "I'm really happy here. A fresh start, step by step!"
-    ]}
+  { id:'texto01', dia:1, titulo:'Texto #1 — Who I Am',        audio:'audio/Lily_S01_Texto01.mp3' },
+  { id:'texto02', dia:2, titulo:'Texto #2 — Como estou agora', audio:'audio/Lily_S01_Texto02.mp3' },
+  { id:'texto03', dia:3, titulo:'Texto #3 — Onde estou',       audio:'audio/Lily_S01_Texto03.mp3' },
+  { id:'texto04', dia:4, titulo:'Texto #4 — Quem eu sou',      audio:'audio/Lily_S01_Texto04.mp3' },
+  { id:'texto05', dia:5, titulo:"Texto #5 — I'm not...",       audio:'audio/Lily_S01_Texto05.mp3' }
 ];
 
-const playlistEl=document.getElementById('playlist');
+function $(s){return document.querySelector(s);}
+const hoje=new Date().toLocaleDateString('sv-SE'); // AAAA-MM-DD no fuso da aluna
+
+let liberados=[];       // textos já destravados (dias estudados)
+let filaIdx=-1;         // posição atual na playlist (índice em `liberados`)
+const player=document.getElementById('player');
+
+function liberado(t){
+  return !!(Progress.get('dia'+t.dia+'_completedAt',null) || Progress.get('lily_textos_ouvidos',{})[t.id]);
+}
+function escutasDeHoje(){
+  const reg=Progress.get('escuta_diaria',{});
+  return reg[hoje]||{};
+}
+function estadoFaixa(t,i){
+  if(i===filaIdx && !player.paused) return {txt:'♪ tocando', cls:''};
+  if(t.semAudio) return {txt:'chega em breve', cls:'breve'};
+  if(escutasDeHoje()[t.id]) return {txt:'ouvida hoje ✓', cls:'ouvida'};
+  return {txt:'', cls:''};
+}
+
+function renderFaixas(){
+  const box=$('#faixas'); box.innerHTML='';
+  liberados.forEach((t,i)=>{
+    const e=estadoFaixa(t,i);
+    const div=document.createElement('div');
+    div.className='faixa'+(i===filaIdx?' tocando':'');
+    div.innerHTML=`<span class="titulo">${t.titulo}</span><span class="estado ${e.cls}">${e.txt}</span>`;
+    div.addEventListener('click',()=>tocar(i));
+    box.appendChild(div);
+  });
+  atualizarStatus();
+}
+
+function atualizarStatus(){
+  const el=$('#statusEscuta');
+  if(!liberados.length){ el.textContent=''; return; }
+  const comAudio=liberados.filter(t=>!t.semAudio);
+  if(!comAudio.length){
+    el.textContent='Os áudios da Lily chegam em breve.';
+    el.classList.remove('feita');
+    return;
+  }
+  if(Progress.get('escutas_do_dia',{})[hoje]){
+    el.textContent='✓ Escuta de hoje completa — até amanhã!';
+    el.classList.add('feita');
+  }else{
+    const deHoje=escutasDeHoje();
+    const n=comAudio.filter(t=>deHoje[t.id]).length;
+    el.textContent=`Escuta de hoje: ${n} de ${comAudio.length} faixas.`;
+    el.classList.remove('feita');
+  }
+}
+
+async function marcarOuvidaHoje(t){
+  const reg=Progress.get('escuta_diaria',{});
+  const doDia=reg[hoje]||{};
+  if(!doDia[t.id]){
+    doDia[t.id]=true; reg[hoje]=doDia;
+    await Progress.set('escuta_diaria',reg);
+  }
+  const comAudio=liberados.filter(x=>!x.semAudio);
+  if(comAudio.length && comAudio.every(x=>doDia[x.id])){
+    const dias=Progress.get('escutas_do_dia',{});
+    if(!dias[hoje]){ dias[hoje]=true; await Progress.set('escutas_do_dia',dias); }
+  }
+  renderFaixas();
+}
+
+async function marcarConhecida(t){ // métrica histórica (selos 30/60 histórias)
+  const o=Progress.get('lily_textos_ouvidos',{});
+  if(!o[t.id]){ o[t.id]=true; await Progress.set('lily_textos_ouvidos',o); }
+}
+
+function proxima(){
+  for(let i=filaIdx+1;i<liberados.length;i++){
+    if(!liberados[i].semAudio){ tocar(i); return; }
+  }
+  filaIdx=-1;
+  player.pause();
+  renderFaixas();
+}
+
+function tocar(i){
+  const t=liberados[i];
+  if(!t || t.semAudio){ filaIdx=i; proxima(); return; }
+  filaIdx=i;
+  player.style.display='block';
+  player.src=t.audio;
+  player.play().then(()=>{ marcarConhecida(t); renderFaixas(); }).catch(()=>{});
+}
+
+player.addEventListener('ended', ()=>{ const t=liberados[filaIdx]; if(t) marcarOuvidaHoje(t); proxima(); });
+player.addEventListener('error', ()=>{ const t=liberados[filaIdx]; if(t){ t.semAudio=true; } proxima(); });
+player.addEventListener('pause', ()=>renderFaixas());
+player.addEventListener('play', ()=>renderFaixas());
+
+document.getElementById('btnPlaylist').addEventListener('click',()=>{
+  const inicio=liberados.findIndex(t=>!t.semAudio);
+  if(inicio>=0) tocar(inicio);
+});
 
 (async function(){
   const session = await requireLogin();
   if(!session) return;
   await Progress.load();
-  const ouvidos=Progress.get('lily_textos_ouvidos',{});
 
-  textos.forEach(t=>{
-    const div=document.createElement('div');
-    div.className='faixa';
-    div.innerHTML=`
-      <div class="faixa-cabecalho">
-        <h2>${t.titulo}</h2>
-        <span class="selo ${ouvidos[t.id]?'on':''}" id="selo-${t.id}">já ouvido</span>
-      </div>
-      <audio id="audio-${t.id}" controls src="${t.audio}"></audio>
-      <p class="audio-fallback" id="fallback-${t.id}">Esse áudio chega em breve.</p>
-      <div class="acoes">
-        <button class="btn-fantasma" id="toggle-${t.id}">Mostrar texto</button>
-      </div>
-      <div class="texto-en" id="texto-${t.id}">${t.frases.join('<br>')}</div>
-    `;
-    playlistEl.appendChild(div);
+  liberados = textos.filter(liberado);
 
-    const audioEl=document.getElementById(`audio-${t.id}`);
-    audioEl.addEventListener('error', ()=>{ document.getElementById(`fallback-${t.id}`).style.display='block'; });
-    fetch(t.audio,{method:'HEAD'}).then(r=>{ if(!r.ok) document.getElementById(`fallback-${t.id}`).style.display='block'; }).catch(()=>{});
-    audioEl.addEventListener('play', async ()=>{
-      const o=Progress.get('lily_textos_ouvidos',{});
-      if(!o[t.id]){
-        o[t.id]=true;
-        await Progress.set('lily_textos_ouvidos',o);
-        document.getElementById(`selo-${t.id}`).classList.add('on');
-      }
-    });
+  if(!liberados.length){
+    document.getElementById('btnPlaylist').style.display='none';
+    $('#statusEscuta').textContent='Seu primeiro texto da Lily chega quando você concluir o Dia 1. 🎧';
+    document.getElementById('rodape').style.display='none';
+    return;
+  }
 
-    document.getElementById(`toggle-${t.id}`).addEventListener('click', ()=>{
-      const el=document.getElementById(`texto-${t.id}`);
-      const on=el.classList.toggle('on');
-      document.getElementById(`toggle-${t.id}`).textContent = on ? 'Esconder texto' : 'Mostrar texto';
-    });
-  });
+  // Marca as faixas cujo áudio ainda não existe (fase de áudio futura)
+  await Promise.all(liberados.map(async t=>{
+    try{const r=await fetch(t.audio,{method:'HEAD'}); if(!r.ok) t.semAudio=true;}catch(e){ t.semAudio=true; }
+  }));
+  if(liberados.every(t=>t.semAudio)){
+    document.getElementById('btnPlaylist').style.display='none';
+  }
 
-  const breve=document.createElement('div');
-  breve.className='em-breve';
-  breve.textContent='Novos textos da Lily chegam a cada novo Dia.';
-  playlistEl.appendChild(breve);
+  renderFaixas();
 })();
 </script>
 </body>
