@@ -9,11 +9,15 @@
   Conteúdo reformado na Fase C da Reforma Pedagógica (aprovado 03/07/2026) — fonte: Acervo de Conteúdo, KIM-S01-D02-C01 a C10.
   Áudios S01_Dia02_CardXX (formato Q+A quando há pergunta) + audio/Lily_S01_Texto02.mp3.
   Enquanto os mp3 não existem em /audio, os players mostram "Esse áudio chega em breve." em vez de quebrar.
+  Navegação destravada (20/07/2026): a trava vale só no primeiro contato — ao reabrir,
+  a página cai na etapa mais avançada já destravada (e no primeiro cartão não decifrado);
+  o stepper vira navegação clicável nas etapas liberadas; nada regride.
 -->
 <link rel="stylesheet" href="styles.css">
 <style>
   /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
   body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
 </style>
 </head>
 <body>
@@ -167,7 +171,7 @@ const cards=[
  {id:'c05',cenario:"Caminhada no sol forte. Vocês passam por um quiosque de água de coco e você aponta pra ele:",frase:"I'm thirsty.",traducao:"Estou com sede.",sensacao:"Sol na cabeça, garganta seca — e o quiosque apareceu na hora certa.",audio:"audio/S01_Dia02_Card05_Im_thirsty.mp3"},
  {id:'c06',cenario:"Sala de espera da consulta. Sua irmã te olha de lado, esperando te ver ansiosa — e você sorri:",frase:"I'm calm.",traducao:"Estou calma.",sensacao:"Respiração no lugar, nada tremendo por dentro. Uma tranquilidade quase surpreendente.",audio:"audio/S01_Dia02_Card06_Im_calm.mp3"},
  {id:'c07',cenario:"Véspera de viagem, mala aberta na cama. Sua amiga manda mensagem: \"Are you excited?\" Você responde:",frase:"I'm excited.",traducao:"Estou animada.",sensacao:"Frio bom na barriga, contagem regressiva rodando: amanhã!",audio:"audio/S01_Dia02_Card07_Im_excited.mp3"},
- {id:'c08',cenario:"Primeira vez falando inglês fora da aula. Antes de começar, você confessa baixinho pra Agnes:",frase:"I'm nervous.",traducao:"Estou nervosa.",sensacao:"Coração acelerado antes do novo. Dizer isso em voz alta já alivia metade.",audio:"audio/S01_Dia02_Card08_Im_nervous.mp3"},
+ {id:'c08',cenario:"Primeira vez falando inglês fora da aula. Antes de começar, você confessa baixinho pra sua professora:",frase:"I'm nervous.",traducao:"Estou nervosa.",sensacao:"Coração acelerado antes do novo. Dizer isso em voz alta já alivia metade.",audio:"audio/S01_Dia02_Card08_Im_nervous.mp3"},
  {id:'c09',cenario:"Você tropeça na calçada e alguém segura seu braço: \"Are you okay?\" Você se ajeita e responde:",frase:"I'm okay.",traducao:"Estou bem.",sensacao:"Susto passado, poeira sacudida: tudo certo, pode seguir.",audio:"audio/S01_Dia02_Card09_Im_okay.mp3"},
  {id:'c10',cenario:"Fim da semana. Você olha os cartões, todos revisados, e diz baixinho, só pra você:",frase:"I'm proud of myself.",traducao:"Estou orgulhosa de mim mesma.",sensacao:"O reconhecimento que ninguém precisa dar por você — você mesma dá. E cabe inteiro numa frase.",audio:"audio/S01_Dia02_Card10_Im_proud_of_myself.mp3"}
 ];
@@ -182,6 +186,33 @@ const instrucoes={
 let etapaAtual=1;
 let idxDecifrar=0;
 let dOuviu=false;
+let etapaMax=1;
+
+/* Navegação destravada (20/07/2026): a trava vale só no primeiro contato.
+   etapaMaxSalva() lê do progresso salvo até onde a aluna já chegou; o stepper
+   vira navegação clicável nas etapas liberadas; nada regride. */
+function etapaMaxSalva(){
+  if(Progress.get(DIA+'_completedAt',null) || Progress.get(DIA+'_terminei',false)) return 4;
+  const esc=Progress.get(DIA+'_escutar',{});
+  if(cards.every(c=>(esc[c.id]||0)>=10)) return 3;
+  const dec=Progress.get(DIA+'_decifrar',{});
+  if(cards.every(c=>dec[c.id])) return 2;
+  return 1;
+}
+function retomarDecifrar(){
+  const dec=Progress.get(DIA+'_decifrar',{});
+  const i=cards.findIndex(c=>!dec[c.id]);
+  idxDecifrar=(i<0)?0:i;
+  renderDecifrar();
+}
+function irParaEtapa(n){
+  if(n>etapaMax) return;
+  if(n===1) retomarDecifrar();
+  else if(n===2) iniciarEscutar();
+  else if(n===3) iniciarBaixar();
+  mostrarEtapa(n);
+}
+
 
 function $(s){return document.querySelector(s);}
 function $all(s){return document.querySelectorAll(s);}
@@ -193,6 +224,7 @@ function mostrarEtapa(n){
     const e=+s.dataset.etapa;
     s.classList.toggle('ativo', e===n);
     s.classList.toggle('feito', e<n);
+    s.classList.toggle('liberado', e<=etapaMax);
   });
   $('#instrucao').textContent=instrucoes[n];
   window.scrollTo({top:0,behavior:'smooth'});
@@ -217,7 +249,7 @@ function renderDecifrar(){
   $('#dVersoArea').style.display='none';
   $('#dTraducao').textContent=c.traducao;
   $('#dSensacao').innerHTML=c.sensacao;
-  $('#dBtnVerVerso').disabled=true;
+  $('#dBtnVerVerso').disabled=!Progress.get(DIA+'_decifrar',{})[c.id];
   $('#dBtnVerVerso').style.display='inline-block';
   $('#dBtnProximo').style.display='none';
   dOuviu=false;
@@ -238,7 +270,7 @@ $('#dBtnVerVerso').addEventListener('click',()=>{
 });
 $('#dBtnProximo').addEventListener('click',()=>{
   if(idxDecifrar<cards.length-1){ idxDecifrar++; renderDecifrar(); }
-  else{ iniciarEscutar(); mostrarEtapa(2); }
+  else{ etapaMax=Math.max(etapaMax,2); iniciarEscutar(); mostrarEtapa(2); }
 });
 
 /* ===== Etapa 2: Escutar muito ===== */
@@ -272,6 +304,8 @@ function iniciarEscutar(){
     grade.appendChild(div);
   });
   atualizarTotalEscutas();
+  if(grade.dataset.wired) return;
+  grade.dataset.wired='1';
   grade.addEventListener('click',ev=>{
     const el=ev.target.closest('[data-acao]');
     if(!el) return;
@@ -300,7 +334,7 @@ function atualizarTotalEscutas(){
   $('#barraEscutas').style.width=Math.min(100,(total/100)*100)+'%';
   $('#btnAvancarEscutar').disabled=!todosCompletos;
 }
-$('#btnAvancarEscutar').addEventListener('click',()=>{ iniciarBaixar(); mostrarEtapa(3); });
+$('#btnAvancarEscutar').addEventListener('click',()=>{ etapaMax=Math.max(etapaMax,3); iniciarBaixar(); mostrarEtapa(3); });
 
 /* ===== Etapa 3: Anki (ver cartão completo + baixar) ===== */
 function iniciarBaixar(){
@@ -332,6 +366,8 @@ function iniciarBaixar(){
     grade.appendChild(div);
   });
   atualizarTotalBaixados();
+  if(grade.dataset.wired) return;
+  grade.dataset.wired='1';
   grade.addEventListener('click',async ev=>{
     const el=ev.target.closest('[data-acao]');
     if(!el) return;
@@ -358,6 +394,7 @@ function atualizarTotalBaixados(){
 }
 $('#btnTerminei').addEventListener('click',()=>{
   Progress.set(DIA+'_terminei',true);
+  etapaMax=4;
   mostrarEtapa(4);
 });
 
@@ -371,7 +408,7 @@ $('#btnConcluirDia').addEventListener('click', async ()=>{
   const lily=Progress.get('lily_textos_ouvidos',{});
   lily['texto02']=true;
   await Progress.set('lily_textos_ouvidos',lily);
-  await Progress.set(DIA+'_completedAt', new Date().toISOString());
+  if(!Progress.get(DIA+'_completedAt',null)) await Progress.set(DIA+'_completedAt', new Date().toISOString());
   $('#overlayFim').classList.add('on');
 });
 
@@ -381,8 +418,9 @@ $('#btnConcluirDia').addEventListener('click', async ()=>{
   if(!session) return;
   await Progress.load();
   await marcarAudiosPendentes();
-  renderDecifrar();
-  mostrarEtapa(1);
+  etapaMax=etapaMaxSalva();
+  $all('.step').forEach(s=>{ s.addEventListener('click',()=>{ irParaEtapa(+s.dataset.etapa); }); });
+  irParaEtapa(etapaMax);
 })();
 </script>
 </body>
