@@ -9,11 +9,15 @@
   Conteúdo reformado na Fase C da Reforma Pedagógica (aprovado 03/07/2026) — fonte: Acervo de Conteúdo, KIM-S01-D03-C01 a C10.
   Áudios S01_Dia03_CardXX (formato Q+A quando há pergunta) + audio/Lily_S01_Texto03.mp3.
   Enquanto os mp3 não existem em /audio, os players mostram "Esse áudio chega em breve." em vez de quebrar.
+  Navegação destravada (20/07/2026): a trava vale só no primeiro contato — ao reabrir,
+  a página cai na etapa mais avançada já destravada (e no primeiro cartão não decifrado);
+  o stepper vira navegação clicável nas etapas liberadas; nada regride.
 -->
 <link rel="stylesheet" href="styles.css">
 <style>
   /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
   body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
 </style>
 </head>
 <body>
@@ -168,7 +172,7 @@ const cards=[
  {id:'c06',cenario:"A organizadora do evento que te espera na cidade liga, achando que o voo atrasou: \"Are you still at the airport?\" Você tranquiliza:",frase:"I'm at the hotel.",traducao:"Estou no hotel.",sensacao:"Missão cumprida: mala no quarto, você já no destino. Pode ficar tranquila.",audio:"audio/S01_Dia03_Card06_Im_at_the_hotel.mp3"},
  {id:'c07',cenario:"Quem vai te buscar manda mensagem assim que o avião pousa: \"Did you land?\" Você responde:",frase:"I'm at the airport.",traducao:"Estou no aeroporto.",sensacao:"Pé em terra firme, esteira girando: a viagem entrando na última etapa.",audio:"audio/S01_Dia03_Card07_Im_at_the_airport.mp3"},
  {id:'c08',cenario:"Você atende a ligação no viva-voz e já avisa, antes de a conversa começar:",frase:"I'm in the car.",traducao:"Estou no carro.",sensacao:"O aviso rápido de quem está no trânsito: se o som falhar, já se sabe o porquê.",audio:"audio/S01_Dia03_Card08_Im_in_the_car.mp3"},
- {id:'c09',cenario:"O celular vibra sem parar durante o encontro com Agnes. Você responde rapidinho, pra avisar que depois retorna:",frase:"I'm in class.",traducao:"Estou em aula.",sensacao:"O mundo espera um pouquinho — agora a hora é da aula.",audio:"audio/S01_Dia03_Card09_Im_in_class.mp3"},
+ {id:'c09',cenario:"O celular vibra sem parar durante o encontro com sua professora. Você responde rapidinho, pra avisar que depois retorna:",frase:"I'm in class.",traducao:"Estou em aula.",sensacao:"O mundo espera um pouquinho — agora a hora é da aula.",audio:"audio/S01_Dia03_Card09_Im_in_class.mp3"},
  {id:'c10',cenario:"Aeroporto cheio, vocês se perderam de vista. Sua companheira de viagem manda mensagem: \"Where are you?\" Você responde:",frase:"I'm near the gate.",traducao:"Estou perto do portão.",sensacao:"Ponto de referência dado: estou no lugar certo, é só me achar. <i>Near the gate</i>, o bloco de aeroporto: perto do portão.",audio:"audio/S01_Dia03_Card10_Im_near_the_gate.mp3"}
 ];
 
@@ -182,6 +186,33 @@ const instrucoes={
 let etapaAtual=1;
 let idxDecifrar=0;
 let dOuviu=false;
+let etapaMax=1;
+
+/* Navegação destravada (20/07/2026): a trava vale só no primeiro contato.
+   etapaMaxSalva() lê do progresso salvo até onde a aluna já chegou; o stepper
+   vira navegação clicável nas etapas liberadas; nada regride. */
+function etapaMaxSalva(){
+  if(Progress.get(DIA+'_completedAt',null) || Progress.get(DIA+'_terminei',false)) return 4;
+  const esc=Progress.get(DIA+'_escutar',{});
+  if(cards.every(c=>(esc[c.id]||0)>=10)) return 3;
+  const dec=Progress.get(DIA+'_decifrar',{});
+  if(cards.every(c=>dec[c.id])) return 2;
+  return 1;
+}
+function retomarDecifrar(){
+  const dec=Progress.get(DIA+'_decifrar',{});
+  const i=cards.findIndex(c=>!dec[c.id]);
+  idxDecifrar=(i<0)?0:i;
+  renderDecifrar();
+}
+function irParaEtapa(n){
+  if(n>etapaMax) return;
+  if(n===1) retomarDecifrar();
+  else if(n===2) iniciarEscutar();
+  else if(n===3) iniciarBaixar();
+  mostrarEtapa(n);
+}
+
 
 function $(s){return document.querySelector(s);}
 function $all(s){return document.querySelectorAll(s);}
@@ -193,6 +224,7 @@ function mostrarEtapa(n){
     const e=+s.dataset.etapa;
     s.classList.toggle('ativo', e===n);
     s.classList.toggle('feito', e<n);
+    s.classList.toggle('liberado', e<=etapaMax);
   });
   $('#instrucao').textContent=instrucoes[n];
   window.scrollTo({top:0,behavior:'smooth'});
@@ -217,7 +249,7 @@ function renderDecifrar(){
   $('#dVersoArea').style.display='none';
   $('#dTraducao').textContent=c.traducao;
   $('#dSensacao').innerHTML=c.sensacao;
-  $('#dBtnVerVerso').disabled=true;
+  $('#dBtnVerVerso').disabled=!Progress.get(DIA+'_decifrar',{})[c.id];
   $('#dBtnVerVerso').style.display='inline-block';
   $('#dBtnProximo').style.display='none';
   dOuviu=false;
@@ -238,7 +270,7 @@ $('#dBtnVerVerso').addEventListener('click',()=>{
 });
 $('#dBtnProximo').addEventListener('click',()=>{
   if(idxDecifrar<cards.length-1){ idxDecifrar++; renderDecifrar(); }
-  else{ iniciarEscutar(); mostrarEtapa(2); }
+  else{ etapaMax=Math.max(etapaMax,2); iniciarEscutar(); mostrarEtapa(2); }
 });
 
 /* ===== Etapa 2: Escutar muito ===== */
@@ -272,6 +304,8 @@ function iniciarEscutar(){
     grade.appendChild(div);
   });
   atualizarTotalEscutas();
+  if(grade.dataset.wired) return;
+  grade.dataset.wired='1';
   grade.addEventListener('click',ev=>{
     const el=ev.target.closest('[data-acao]');
     if(!el) return;
@@ -300,7 +334,7 @@ function atualizarTotalEscutas(){
   $('#barraEscutas').style.width=Math.min(100,(total/100)*100)+'%';
   $('#btnAvancarEscutar').disabled=!todosCompletos;
 }
-$('#btnAvancarEscutar').addEventListener('click',()=>{ iniciarBaixar(); mostrarEtapa(3); });
+$('#btnAvancarEscutar').addEventListener('click',()=>{ etapaMax=Math.max(etapaMax,3); iniciarBaixar(); mostrarEtapa(3); });
 
 /* ===== Etapa 3: Anki (ver cartão completo + baixar) ===== */
 function iniciarBaixar(){
@@ -332,6 +366,8 @@ function iniciarBaixar(){
     grade.appendChild(div);
   });
   atualizarTotalBaixados();
+  if(grade.dataset.wired) return;
+  grade.dataset.wired='1';
   grade.addEventListener('click',async ev=>{
     const el=ev.target.closest('[data-acao]');
     if(!el) return;
@@ -358,6 +394,7 @@ function atualizarTotalBaixados(){
 }
 $('#btnTerminei').addEventListener('click',()=>{
   Progress.set(DIA+'_terminei',true);
+  etapaMax=4;
   mostrarEtapa(4);
 });
 
@@ -371,7 +408,7 @@ $('#btnConcluirDia').addEventListener('click', async ()=>{
   const lily=Progress.get('lily_textos_ouvidos',{});
   lily['texto03']=true;
   await Progress.set('lily_textos_ouvidos',lily);
-  await Progress.set(DIA+'_completedAt', new Date().toISOString());
+  if(!Progress.get(DIA+'_completedAt',null)) await Progress.set(DIA+'_completedAt', new Date().toISOString());
   $('#overlayFim').classList.add('on');
 });
 
@@ -381,8 +418,9 @@ $('#btnConcluirDia').addEventListener('click', async ()=>{
   if(!session) return;
   await Progress.load();
   await marcarAudiosPendentes();
-  renderDecifrar();
-  mostrarEtapa(1);
+  etapaMax=etapaMaxSalva();
+  $all('.step').forEach(s=>{ s.addEventListener('click',()=>{ irParaEtapa(+s.dataset.etapa); }); });
+  irParaEtapa(etapaMax);
 })();
 </script>
 </body>
