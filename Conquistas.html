@@ -15,6 +15,10 @@
   LÓGICA DE PROGRESSO, CHAVES E SUPABASE INALTERADAS — só a camada visual mudou.
   Lê o progresso de forma genérica (varre chaves diaN_*) para seguir funcionando quando
   novos dias forem adicionados no futuro.
+  Kit 2 da videira (21/07/2026): cacho_p real nos slots colhidos da Safra 1 (semanas 1–4;
+  M/G entram quando as artes existirem) · folha dourada sobreposta em semana exemplar ·
+  lógica do DIA EXEMPLAR (diaN_completedAt no próprio dia + escutas_do_dia na mesma data,
+  sempre no fuso local da aluna) · selo 11 "Semana de ouro". Check-up segue fora de tudo.
 -->
 <link rel="stylesheet" href="styles.css">
 <style>
@@ -61,6 +65,18 @@
   .colheita-slot.andamento .bola{ border:2px solid var(--dourado); box-shadow:0 0 0 3px rgba(201,168,76,.14) inset; }
   .colheita-slot.colhido .bola{
     border:2px solid var(--dourado); background:radial-gradient(circle at 38% 34%, #f3dd97, #c9a84c 78%); color:#fff;
+  }
+  /* Slot colhido com arte real (kit 2): cacho no lugar do ✓; a folha dourada é um
+     overlay independente e só aparece em semana exemplar. Ausência da folha NÃO é falha. */
+  .colheita-slot.colhido .bola.bola-cacho{
+    position:relative; overflow:visible; background:#fbf7ef; color:transparent;
+  }
+  .bola-cacho .cacho{
+    position:absolute; height:112%; width:auto; left:50%; top:50%;
+    transform:translate(-50%,-53%); pointer-events:none;
+  }
+  .bola-cacho .folha-exemplar{
+    position:absolute; width:44%; height:auto; right:-7%; top:-9%; pointer-events:none;
   }
   .colheita-slot .n{ font-size:.68rem; color:#9aa3ad; margin-top:5px; }
   .colheita-slot.colhido .n{ color:var(--dourado); font-weight:700; }
@@ -169,13 +185,40 @@ function varrer(progress){
   return {diasCompletos, diasIniciados, cartoesAnki, textosOuvidos};
 }
 
+/* ---- Estado semanal (kit 2, 21/07/2026) ----
+   Dia exemplar = diaN_completedAt caiu num dia em que escutas_do_dia[mesma data] é true.
+   Datas SEMPRE no fuso local do navegador (mesmo formato AAAA-MM-DD que o Listening grava).
+   Semana w (1..12) = dias (w-1)*5+1 .. w*5. Semana colhida = 5 dias completos;
+   semana exemplar = 5 dias exemplares. Check-up não conta. Nada aqui usa
+   diasCompletos/5 como regra — o estado é calculado dia a dia. */
+function diaExemplar(progress, n){
+  const iso = progress['dia'+n+'_completedAt'];
+  if(!iso) return false;
+  const dataLocal = new Date(iso).toLocaleDateString('sv-SE');
+  return !!((progress['escutas_do_dia']||{})[dataLocal]);
+}
+function estadoSemanas(progress){
+  const completas=[], exemplares=[];
+  for(let w=0; w<12; w++){
+    let comp=true, ex=true;
+    for(let d=w*5+1; d<=w*5+5; d++){
+      if(!progress['dia'+d+'_completedAt']){ comp=false; ex=false; break; }
+      if(ex && !diaExemplar(progress,d)) ex=false;
+    }
+    completas.push(comp); exemplares.push(comp&&ex);
+  }
+  return {completas, exemplares, colhidas: completas.filter(Boolean).length,
+          exemplaresTotal: exemplares.filter(Boolean).length};
+}
+
 /* Selos — ordem e gatilhos do handoff de emergência (20/07/2026). Uma arte por selo;
    estado bloqueado é só CSS (classe .desbloqueado). Nenhuma medalha antiga no DOM. */
 const selosDef=[
   { img:'selo_01_primeiro_passo.webp',        nome:'Primeiro passo',          check:s=>s.diasCompletos>=1 },
   { img:'selo_02_primeira_escuta_lily.webp',  nome:'Primeira escuta da Lily', check:s=>s.textosOuvidos>=1 },
   { img:'selo_03_anki_10.webp',               nome:'10 cartões no Anki',      check:s=>s.cartoesAnki>=10 },
-  { img:'selo_04_primeira_colheita.webp',     nome:'Primeira colheita',       check:s=>s.diasCompletos>=5 }
+  { img:'selo_04_primeira_colheita.webp',     nome:'Primeira colheita',       check:s=>s.diasCompletos>=5 },
+  { img:'selo_11_semana_de_ouro.webp',        nome:'Semana de ouro',          check:s=>s.semanasExemplares>=1 }
 ];
 
 const videiraTextos={
@@ -191,12 +234,14 @@ const videiraTextos={
   if(!session) return;
   const progress = await Progress.load();
   const s = varrer(progress);
+  const sem = estadoSemanas(progress);
+  s.semanasExemplares = sem.exemplaresTotal;
 
   // Contadores
   document.getElementById('numDias').textContent = s.diasCompletos;
   document.getElementById('numLily').textContent = s.textosOuvidos;
   document.getElementById('numAnki').textContent = s.cartoesAnki;
-  const colheitas = Math.min(12, Math.floor(s.diasCompletos/5));
+  const colheitas = sem.colhidas;
   document.getElementById('numColheitas').textContent = colheitas + ' / 12';
 
   // Barra do certificado (60 passos diários)
@@ -221,14 +266,29 @@ const videiraTextos={
   const rot=document.createElement('span'); rot.className='rot'; rot.textContent='0 · 1 · 2 · 3 · 4 dias';
   dotsEl.appendChild(rot);
 
-  // Coleção de 12 colheitas (CSS puro; nenhum cacho antes de 5 dias)
+  // Coleção de 12 colheitas — estado semanal real (kit 2). Nenhum cacho antes de
+  // 5 dias completos. Semanas 1–4 (Safra 1) usam a arte cacho_p; M/G entram quando
+  // as artes das Safras 2 e 3 existirem — até lá esses slots mantêm o ✓ em CSS.
   const grid=document.getElementById('colheitaGrid');
+  const proxima = sem.completas.indexOf(false); // primeira semana ainda não colhida
   for(let i=0;i<12;i++){
-    const colhido = i < colheitas;
-    const andamento = i === colheitas; // próxima em formação
+    const colhido = sem.completas[i];
+    const andamento = i === proxima;
+    const exemplar = sem.exemplares[i];
+    const temArte = colhido && i < 4; // Safra 1 = cacho P
     const slot=document.createElement('div');
     slot.className='colheita-slot'+(colhido?' colhido':(andamento?' andamento':''));
-    slot.innerHTML=`<div class="bola">${colhido?'✓':''}</div><div class="n">${i+1}</div>`;
+    if(colhido){
+      slot.setAttribute('role','img');
+      slot.setAttribute('aria-label','Semana '+(i+1)+' — colheita completa'+(exemplar?', semana de ouro':''));
+    }
+    if(temArte){
+      slot.innerHTML=`<div class="bola bola-cacho"><img class="cacho" src="cacho_p.webp" alt="">`+
+        (exemplar?`<img class="folha-exemplar" src="ornamento_folha_dourada.webp" alt="" aria-hidden="true">`:'')+
+        `</div><div class="n">${i+1}</div>`;
+    }else{
+      slot.innerHTML=`<div class="bola">${colhido?'✓':''}</div><div class="n">${i+1}</div>`;
+    }
     grid.appendChild(slot);
   }
 
