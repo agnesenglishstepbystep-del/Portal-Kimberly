@@ -19,6 +19,11 @@
   M/G entram quando as artes existirem) · folha dourada sobreposta em semana exemplar ·
   lógica do DIA EXEMPLAR (diaN_completedAt no próprio dia + escutas_do_dia na mesma data,
   sempre no fuso local da aluna) · selo 11 "Semana de ouro". Check-up segue fora de tudo.
+  CORREÇÃO 25/07/2026 (urgente, véspera do dia 6 da aluna): o estágio da videira passou
+  a usar os DIAS DA SEMANA CORRENTE, não o total da jornada. Antes, `min(4, diasCompletos)`
+  travava a planta no cacho dourado a partir do 5º dia e o ciclo semanal nunca recomeçava.
+  Ver cicloDaSemana()/textoDaVideira(). Rótulo da tarja e alt da imagem agora acompanham
+  safra e semana reais. Check-up segue fora da conta (grava 'checkup_SNN_completedAt').
   Auditoria do kit (25/07/2026): os 12 selos estão completos — artes 05, 06, 07, 08, 09,
   10 e 12 aprovadas e integradas, com os gatilhos da §2 do PREPARACAO. Cachos M/G e as
   videiras das Safras 2 e 3 seguem PENDENTES no designer (correção de acabamento e de
@@ -119,7 +124,7 @@
 
   <!-- 1. Videira da semana -->
   <div class="videira-box">
-    <div class="videira-eyebrow">Safra 1 · Semana em curso</div>
+    <div class="videira-eyebrow" id="videiraEyebrow">Safra 1 · Semana 1</div>
     <div class="videira-titulo" id="videiraTitulo">Tudo pronto para o primeiro broto.</div>
     <div class="videira-sub" id="videiraSub">Comece pelo Dia 1.</div>
     <div class="videira-dots" id="videiraDots" aria-hidden="true"></div>
@@ -235,13 +240,53 @@ const selosDef=[
   { img:'selo_12_colheita_completa.webp',     nome:'A Colheita Completa',     check:s=>s.diasCompletos>=60 }
 ];
 
-const videiraTextos={
-  0:{t:'Tudo pronto para o primeiro broto.',      s:'Comece pelo Dia 1.'},
-  1:{t:'O primeiro ramo encontrou apoio.',        s:'1 dia de estudo concluído.'},
-  2:{t:'As folhas já cobrem a espaldeira.',       s:'2 dias de estudo concluídos.'},
-  3:{t:'O cacho começou a se formar.',            s:'3 dias de estudo concluídos.'},
-  4:{t:'O primeiro cacho amadureceu — dourado.',  s:'A semana da videira está completa. ✨'}
-};
+/* ---- Ciclo semanal da videira — CORRIGIDO em 25/07/2026 ----
+   O estágio vem dos dias completos DA SEMANA CORRENTE (0..4), não do total da jornada.
+   A versão anterior usava s.diasCompletos: a partir do 5º dia a videira travava no
+   cacho dourado e o ciclo nunca recomeçava. Semana corrente = primeira semana ainda
+   não colhida (mesma conta de estadoSemanas(), então as duas nunca divergem).
+   Check-up continua fora de tudo: ele grava 'checkup_SNN_completedAt', que não casa
+   com /^dia\d+_completedAt$/. Nada trava, nada é cobrado.
+   SAFRAS_COM_ARTE: as artes das Safras 2 e 3 ainda não existem. Enquanto este número
+   for 1, a videira usa a série da Safra 1 na jornada inteira e o rótulo acompanha a
+   arte (não anuncia uma safra que a imagem não mostra). Quando as artes chegarem,
+   basta subir o número — nenhuma outra linha muda. */
+const SAFRAS_COM_ARTE = 1;
+
+function cicloDaSemana(progress, sem){
+  const idx = sem.completas.indexOf(false);        // 0..11 · -1 = as 12 já colhidas
+  const semanaIdx = idx === -1 ? 11 : idx;
+  let dias = 0;
+  for(let d = semanaIdx*5+1; d <= semanaIdx*5+5; d++){
+    if(progress['dia'+d+'_completedAt']) dias++;
+  }
+  const safraReal = Math.floor(semanaIdx/4) + 1;   // 1..3
+  return {
+    semana:    semanaIdx + 1,                      // 1..12
+    estagio:   Math.max(0, Math.min(4, dias)),
+    safraArte: Math.min(safraReal, SAFRAS_COM_ARTE)
+  };
+}
+
+function textoDaVideira(c){
+  const primeira = c.semana === 1;
+  if(c.estagio === 0) return primeira
+    ? {t:'Tudo pronto para o primeiro broto.', s:'Comece pelo Dia 1.'}
+    : {t:'A videira recomeça o ciclo.',        s:'Semana nova — o primeiro broto vem com o próximo passo.'};
+  if(c.estagio === 4) return {
+    t: primeira ? 'O primeiro cacho amadureceu — dourado.' : 'O cacho desta semana amadureceu — dourado.',
+    s: 'A semana da videira está completa. ✨'
+  };
+  const titulos={
+    1:'O primeiro ramo encontrou apoio.',
+    2:'As folhas já cobrem a espaldeira.',
+    3:'O cacho começou a se formar.'
+  };
+  return {
+    t: titulos[c.estagio],
+    s: c.estagio===1 ? '1 dia concluído nesta semana.' : c.estagio+' dias concluídos nesta semana.'
+  };
+}
 
 (async function(){
   const session = await requireLogin();
@@ -264,11 +309,16 @@ const videiraTextos={
   document.getElementById('certBarra').style.width = pct+'%';
   document.getElementById('certTexto').textContent = `${s.diasCompletos} / ${totalPassos} passos diários`;
 
-  // Videira — estágio por DIAS COMPLETOS da semana (0..4). Check-up NÃO conta.
-  const estagio = Math.max(0, Math.min(4, s.diasCompletos));
-  document.getElementById('videiraImg').src = 'videira_safra1_estagio'+estagio+'.webp';
-  document.getElementById('videiraTitulo').textContent = videiraTextos[estagio].t;
-  document.getElementById('videiraSub').textContent = videiraTextos[estagio].s;
+  // Videira — estágio por DIAS COMPLETOS DA SEMANA CORRENTE (0..4). Check-up NÃO conta.
+  const ciclo = cicloDaSemana(progress, sem);
+  const estagio = ciclo.estagio;
+  const txt = textoDaVideira(ciclo);
+  const img = document.getElementById('videiraImg');
+  img.src = 'videira_safra'+ciclo.safraArte+'_estagio'+estagio+'.webp';
+  img.alt = 'Videira do meu progresso — Safra '+ciclo.safraArte;
+  document.getElementById('videiraEyebrow').textContent = 'Safra '+ciclo.safraArte+' · Semana '+ciclo.semana;
+  document.getElementById('videiraTitulo').textContent = txt.t;
+  document.getElementById('videiraSub').textContent = txt.s;
 
   // Dots do estágio (0..4)
   const dotsEl=document.getElementById('videiraDots');
