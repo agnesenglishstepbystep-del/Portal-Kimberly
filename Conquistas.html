@@ -253,12 +253,26 @@ const selosDef=[
    basta subir o número — nenhuma outra linha muda. */
 const SAFRAS_COM_ARTE = 1;
 
-function cicloDaSemana(progress, sem){
-  const idx = sem.completas.indexOf(false);        // 0..11 · -1 = as 12 já colhidas
-  const semanaIdx = idx === -1 ? 11 : idx;
+function contarDiasDaSemana(progress, semanaIdx){
   let dias = 0;
   for(let d = semanaIdx*5+1; d <= semanaIdx*5+5; d++){
     if(progress['dia'+d+'_completedAt']) dias++;
+  }
+  return dias;
+}
+
+function cicloDaSemana(progress, sem){
+  const idx = sem.completas.indexOf(false);        // 0..11 · -1 = as 12 já colhidas
+  let semanaIdx = idx === -1 ? 11 : idx;
+  let dias = contarDiasDaSemana(progress, semanaIdx);
+  /* Decisão de Agnes (25/07/2026): a videira só reinicia quando a aluna ABRE a semana
+     nova. Enquanto a semana corrente ainda estiver em zero dias e a anterior já tiver
+     sido colhida, a tela segura o CACHO DOURADO da conquista — a colheita é celebrada
+     no dia em que ela a completa, não substituída na hora por um broto. O ciclo
+     recomeça no primeiro passo da semana seguinte. */
+  if(dias === 0 && semanaIdx > 0 && sem.completas[semanaIdx-1]){
+    semanaIdx -= 1;
+    dias = 5;
   }
   const safraReal = Math.floor(semanaIdx/4) + 1;   // 1..3
   return {
