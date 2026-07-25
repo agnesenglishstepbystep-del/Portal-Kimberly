@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 4 · There is... — Kimberly Mentoria VIP</title>
+<!--
+  Dia 4 — fluxo de 4 etapas (Reforma VIP 2.0), igual ao Dia 1 (padronização de 06/07/2026).
+  Conteúdo 100% sob o Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo de Conteúdo, KIM-S02-D04-C01 a C10.
+  Áudios S02_Dia04_CardXX (formato Q+A quando há pergunta) + audio/Lily_S02_Texto09.mp3.
+  Enquanto os mp3 não existem em /audio, os players mostram "Esse áudio chega em breve." em vez de quebrar.
+  Nota técnica (progresso/videira): chave interna de progresso em numeração GLOBAL de dias
+  (Semana 2 = dia6..dia10) — não aparece pra aluna, que só vê "Dia 4" na tela.
+  Navegação destravada: a trava vale só no primeiro contato; nada regride.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <span class="brand">Kimberly | <b>Mentoria VIP</b></span>
+  <div class="topbar-acoes">
+    <a href="Passos_Diarios.html">← Passos Diários</a>
+    <a href="#" onclick="sair();return false;">Sair</a>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="titulo-dia">
+    <h1>Dia 4 — There is...</h1>
+    <p>Semana 2 — My World · He/She is... · It's... · There is/are...</p>
+  </div>
+
+  <div class="stepper" id="stepper">
+    <div class="step" data-etapa="1"><span class="dot">1</span> Decifrar</div>
+    <div class="step" data-etapa="2"><span class="dot">2</span> Escutar</div>
+    <div class="step" data-etapa="3"><span class="dot">3</span> Anki</div>
+    <div class="step" data-etapa="4"><span class="dot">4</span> Com a Lily</div>
+  </div>
+
+  <div class="instrucao" id="instrucao"></div>
+
+  <!-- ETAPA 1 — DECIFRAR -->
+  <section class="etapa" data-etapa="1" id="etapa1">
+    <div class="progresso-decifrar" id="decifrarProgresso">Cartão 1 de 10</div>
+    <div class="card-unico" id="cardUnico">
+      <div class="cenario" id="dCenario"></div>
+      <div class="frase" id="dFrase"></div>
+      <div class="acoes-card">
+        <button class="btn-ouvir" id="dBtnOuvir">🔊 Ouvir</button>
+      </div>
+      <p class="audio-fallback" id="dAudioFallback">Esse áudio chega em breve.</p>
+      <div id="dVersoArea" style="display:none">
+        <div class="traducao" id="dTraducao"></div>
+        <div class="sensacao" id="dSensacao"></div>
+      </div>
+      <div class="acoes-card">
+        <button class="btn-principal" id="dBtnVerVerso" disabled>Ver tradução →</button>
+        <button class="btn-principal" id="dBtnProximo" style="display:none">Próximo cartão →</button>
+      </div>
+    </div>
+    <audio id="dAudio"></audio>
+  </section>
+
+  <!-- ETAPA 2 — ESCUTAR MUITO -->
+  <section class="etapa" data-etapa="2" id="etapa2">
+    <div class="total-escutas">
+      <strong id="totalEscutas">Total: 0/100 escutas</strong>
+      <div class="barra"><div id="barraEscutas"></div></div>
+    </div>
+    <div class="grade" id="gradeEscutar"></div>
+    <div class="rodape-etapa">
+      <button class="btn-principal" id="btnAvancarEscutar" disabled>Avançar para o Anki →</button>
+    </div>
+  </section>
+
+  <!-- ETAPA 3 — ANKI -->
+  <section class="etapa" data-etapa="3" id="etapa3">
+    <div class="total-escutas">
+      <strong id="totalBaixados">0/10 baixados</strong>
+      <div class="barra"><div id="barraBaixados"></div></div>
+    </div>
+    <div class="grade" id="gradeBaixar"></div>
+    <div class="rodape-etapa">
+      <button class="btn-dourado" id="btnTerminei" disabled>✅ Terminei</button>
+    </div>
+  </section>
+
+  <!-- ETAPA 4 — COM A LILY -->
+  <section class="etapa" data-etapa="4" id="etapa4">
+    <div class="lily-box">
+      <h2>Com a Lily</h2>
+      <p class="legenda">Aperte o play e deixe o áudio te levar. Se pegar metade, já valeu.</p>
+      <audio id="audioLily" controls src="audio/Lily_S02_Texto09.mp3"></audio>
+      <p class="audio-fallback" id="lilyFallback">Esse áudio chega em breve.</p>
+      <button class="btn-fantasma" id="btnMostrarTexto">Mostrar texto</button>
+      <div class="texto-lily" id="textoLily">
+        Mom, this is my street!<br>
+        There's a bakery on the corner.<br>
+        I go there every morning.<br>
+        There's a little park, too.<br>
+        And there are flowers everywhere!<br>
+        Mom: "It's perfect for you, Lily."<br>
+        I know, Mom. I'm home.
+      </div>
+      <div class="acoes-card" style="margin-top:24px">
+        <button class="btn-dourado" id="btnConcluirDia">🍇 Concluir o Dia 4</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="overlay" id="overlayFim">
+  <div class="modal">
+    <div class="arvore-emoji">🍇🎉</div>
+    <h2>Dia 4 completo!</h2>
+    <p>Sua videira acabou de crescer um pouquinho. Continue assim — cada dia conta.</p>
+    <div class="acoes">
+      <a class="btn btn-dourado" href="Conquistas.html" style="text-decoration:none;display:inline-block">Ver meu progresso →</a>
+      <a class="btn btn-fantasma" href="Passos_Diarios.html" style="text-decoration:none;display:inline-block">Passos Diários</a>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* ---------- Persistência (local-first + sync Supabase) — §8 da especificação ---------- */
+const SB_URL="https://yhsntdsdifpcozfpdfcu.supabase.co";
+const SB_KEY="sb_publishable_aHINXeQ9NT_vXMamxc8GFw_iLZvOZKE";
+const sb=supabase.createClient(SB_URL,SB_KEY);
+let STUDENT=null;
+
+async function requireLogin(){
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session){ location.href="Login.html"; return null; }
+  STUDENT=session.user.id;
+  return session;
+}
+async function sair(){ await sb.auth.signOut(); location.href="Login.html"; }
+
+const Progress={
+  cache:{},
+  async load(){
+    try{this.cache=JSON.parse(localStorage.getItem("kim_progress_"+STUDENT)||"{}");}catch(e){this.cache={};}
+    try{const {data}=await sb.from("student_progress").select("progress").eq("student_id",STUDENT).single();
+        if(data&&data.progress){this.cache=data.progress;localStorage.setItem("kim_progress_"+STUDENT,JSON.stringify(this.cache));}}catch(e){}
+    return this.cache;
+  },
+  get(k,def){return (k in this.cache)?this.cache[k]:def;},
+  async set(k,v){
+    this.cache[k]=v; localStorage.setItem("kim_progress_"+STUDENT,JSON.stringify(this.cache));
+    try{await sb.from("student_progress").upsert({student_id:STUDENT,progress:this.cache,updated_at:new Date().toISOString()});}catch(e){}
+  }
+};
+
+const DIA="dia9";
+
+/* ---------- Dados dos 10 cards do Dia 4 da Semana 2 (Acervo — KIM-S02-D04-C01 a C10) ---------- */
+const cards=[
+ {id:'c01',cenario:"Agora é em Natal: um turista te para na rua com a pergunta que uma vez te pegou de surpresa: \"Excuse me, is there a pharmacy near here?\" Dessa vez, você aponta:",frase:"There's a pharmacy right there.",traducao:"Tem uma farmácia bem ali.",sensacao:"Da outra vez, você é que era a visita — hoje a resposta é sua, com dedo apontado e tudo. <i>Right there</i> = bem ali.",audio:"audio/S02_Dia04_Card01_Theres_a_pharmacy_right_there.mp3"},
+ {id:'c02',cenario:"O chuveiro do quarto não liga de jeito nenhum. Você desce à recepção e abre a conversa:",frase:"There's a problem.",traducao:"Tem um problema.",sensacao:"Sem drama e sem discurso: o aviso que começa a resolver.",audio:"audio/S02_Dia04_Card02_Theres_a_problem.mp3"},
+ {id:'c03',cenario:"Entrada do restaurante, e a recepcionista já vem com um cardápio só: \"Table for one?\" Sua irmã está estacionando o carro:",frase:"There are two of us.",traducao:"Somos duas.",sensacao:"Cardápio único devolvido com um sorriso: hoje a mesa é pra duas. <i>Two of us</i> = nós duas.",audio:"audio/S02_Dia04_Card03_There_are_two_of_us.mp3"},
+ {id:'c04',cenario:"Depois das fotos de Natal, o casal do hotel quer saber o que fazer lá um dia. Você continua a propaganda:",frase:"There are beautiful beaches here.",traducao:"Tem praias lindas aqui.",sensacao:"Guia turística do próprio endereço: praia é o primeiro capítulo — com orgulho e com razão.",audio:"audio/S02_Dia04_Card04_There_are_beautiful_beaches_here.mp3"},
+ {id:'c05',cenario:"Na beira da piscina, outra hóspede comenta que ainda não sabe onde jantar. Você acabou de voltar de um jantar ótimo:",frase:"There's a good restaurant near the hotel.",traducao:"Tem um restaurante bom perto do hotel.",sensacao:"Dica quentinha, testada em primeira mão. Recomendação com selo próprio.",audio:"audio/S02_Dia04_Card05_Theres_a_good_restaurant_near_the_hotel.mp3"},
+ {id:'c06',cenario:"Três dias de viagem e você já conhece os cantos do bairro. No caminho da praia, você mostra a descoberta pra sua amiga:",frase:"There's a bakery on this street.",traducao:"Tem uma padaria nessa rua.",sensacao:"Viagem boa é quando você já tem \"a sua\" padaria. Descoberta dividida vale dobrado.",audio:"audio/S02_Dia04_Card06_Theres_a_bakery_on_this_street.mp3"},
+ {id:'c07',cenario:"Videochamada rápida com a cliente durante a feira de negócios: \"How is the event?\" Você vira a câmera pro salão:",frase:"There are many people here!",traducao:"Tem muita gente aqui!",sensacao:"O evento deu certo — e a lotação conta a história sozinha. <i>Many</i> = muitos.",audio:"audio/S02_Dia04_Card07_There_are_many_people_here.mp3"},
+ {id:'c08',cenario:"No restaurante do passeio, você reconhece o sotaque da mesa ao lado e comenta com o guia, animada:",frase:"There are people from Brazil here!",traducao:"Tem gente do Brasil aqui!",sensacao:"O mundo é menor do que parece — e o português achou você primeiro.",audio:"audio/S02_Dia04_Card08_There_are_people_from_Brazil_here.mp3"},
+ {id:'c09',cenario:"Sua amiga vai dividir o quarto com você na viagem e pergunta pela mensagem: \"One bed or two?\" Você tranquiliza:",frase:"There are two beds in the room.",traducao:"Tem duas camas no quarto.",sensacao:"Logística resolvida antes de a mala abrir: cada uma no seu canto.",audio:"audio/S02_Dia04_Card09_There_are_two_beds_in_the_room.mp3"},
+ {id:'c10',cenario:"Sua companheira de viagem chega correndo no saguão, aflita com o horário do passeio: \"Are we late?\" Você mostra o relógio, tranquila:",frase:"There's still time.",traducao:"Ainda dá tempo.",sensacao:"Relógio do seu lado, pressa dispensada. Respira: dá tempo. <i>Still</i> = ainda — o mesmo de <i>still learning</i>.",audio:"audio/S02_Dia04_Card10_Theres_still_time.mp3"}
+];
+
+const instrucoes={
+  1:"Vamos decifrar, um cartão de cada vez. Ouça a frase pelo menos uma vez, depois veja o que ela significa. Sem pressa.",
+  2:"Agora é escutar bastante. Clique em Ouvir em cada cartão até cada contador chegar a 10. Se esquecer o significado, vire o cartão pra dar uma olhada rápida no verso.",
+  3:"Hora do Anki. Veja a frente e o verso de cada cartão pra copiar pro seu Anki, e baixe o áudio de cada um dos 10. Quando terminar todos, confirme abaixo.",
+  4:"Para fechar o dia, um tempo com a Lily."
+};
+
+let etapaAtual=1;
+let idxDecifrar=0;
+let dOuviu=false;
+let etapaMax=1;
+
+function etapaMaxSalva(){
+  if(Progress.get(DIA+'_completedAt',null) || Progress.get(DIA+'_terminei',false)) return 4;
+  const esc=Progress.get(DIA+'_escutar',{});
+  if(cards.every(c=>(esc[c.id]||0)>=10)) return 3;
+  const dec=Progress.get(DIA+'_decifrar',{});
+  if(cards.every(c=>dec[c.id])) return 2;
+  return 1;
+}
+function retomarDecifrar(){
+  const dec=Progress.get(DIA+'_decifrar',{});
+  const i=cards.findIndex(c=>!dec[c.id]);
+  idxDecifrar=(i<0)?0:i;
+  renderDecifrar();
+}
+function irParaEtapa(n){
+  if(n>etapaMax) return;
+  if(n===1) retomarDecifrar();
+  else if(n===2) iniciarEscutar();
+  else if(n===3) iniciarBaixar();
+  mostrarEtapa(n);
+}
+
+
+function $(s){return document.querySelector(s);}
+function $all(s){return document.querySelectorAll(s);}
+
+function mostrarEtapa(n){
+  etapaAtual=n;
+  $all('.etapa').forEach(e=>e.classList.toggle('ativa', +e.dataset.etapa===n));
+  $all('.step').forEach(s=>{
+    const e=+s.dataset.etapa;
+    s.classList.toggle('ativo', e===n);
+    s.classList.toggle('feito', e<n);
+    s.classList.toggle('liberado', e<=etapaMax);
+  });
+  $('#instrucao').textContent=instrucoes[n];
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ===== Etapa 1: Decifrar ===== */
+async function marcarAudiosPendentes(){
+  await Promise.all(cards.map(async c=>{
+    try{const r=await fetch(c.audio,{method:'HEAD'}); if(!r.ok) c.semAudio=true;}catch(e){}
+  }));
+  try{const r=await fetch('audio/Lily_S02_Texto09.mp3',{method:'HEAD'}); if(!r.ok) $('#lilyFallback').style.display='block';}catch(e){}
+}
+
+function renderDecifrar(){
+  const c=cards[idxDecifrar];
+  $('#decifrarProgresso').textContent=`Cartão ${idxDecifrar+1} de ${cards.length}`;
+  $('#dCenario').textContent=c.cenario;
+  $('#dFrase').textContent=c.frase;
+  $('#dAudioFallback').style.display=c.semAudio?'block':'none';
+  $('#dAudio').src=c.audio;
+  $('#dVersoArea').style.display='none';
+  $('#dTraducao').textContent=c.traducao;
+  $('#dSensacao').innerHTML=c.sensacao;
+  $('#dBtnVerVerso').disabled=!Progress.get(DIA+'_decifrar',{})[c.id];
+  $('#dBtnVerVerso').style.display='inline-block';
+  $('#dBtnProximo').style.display='none';
+  dOuviu=false;
+}
+$('#dAudio').addEventListener('error',()=>{ $('#dAudioFallback').style.display='block'; });
+$('#dBtnOuvir').addEventListener('click',()=>{
+  const a=$('#dAudio'); a.currentTime=0; a.play().catch(()=>{});
+  dOuviu=true;
+  $('#dBtnVerVerso').disabled=false;
+});
+$('#dBtnVerVerso').addEventListener('click',()=>{
+  $('#dVersoArea').style.display='block';
+  $('#dBtnVerVerso').style.display='none';
+  $('#dBtnProximo').style.display='inline-block';
+  const decifrar=Progress.get(DIA+'_decifrar',{});
+  decifrar[cards[idxDecifrar].id]=true;
+  Progress.set(DIA+'_decifrar',decifrar);
+});
+$('#dBtnProximo').addEventListener('click',()=>{
+  if(idxDecifrar<cards.length-1){ idxDecifrar++; renderDecifrar(); }
+  else{ etapaMax=Math.max(etapaMax,2); iniciarEscutar(); mostrarEtapa(2); }
+});
+
+/* ===== Etapa 2: Escutar muito ===== */
+function iniciarEscutar(){
+  const grade=$('#gradeEscutar'); grade.innerHTML='';
+  const escutas=Progress.get(DIA+'_escutar',{});
+  cards.forEach(c=>{
+    const n=escutas[c.id]||0;
+    const div=document.createElement('div');
+    div.className='mini-card';
+    div.id='ecard-'+c.id;
+    div.innerHTML=`
+      <div class="frente">
+        <div class="cenario">${c.cenario}</div>
+        <div class="frase">${c.frase}</div>
+        <div class="acoes-card">
+          <button class="btn-ouvir" data-acao="ouvir" data-id="${c.id}">🔊 Ouvir</button>
+          <button class="btn-fantasma" data-acao="verso" data-id="${c.id}">Verso ↻</button>
+        </div>
+        <div class="contador" id="cont-${c.id}">${n}/10</div>
+        ${c.semAudio?'<div class="audio-fallback" style="display:block">Esse áudio chega em breve.</div>':''}
+      </div>
+      <div class="verso">
+        <div class="traducao">${c.traducao}</div>
+        <div class="sensacao">${c.sensacao}</div>
+        <div class="acoes-card">
+          <button class="btn-fantasma" data-acao="frente" data-id="${c.id}">← Frente</button>
+        </div>
+      </div>
+      <audio id="audio-${c.id}" src="${c.audio}"></audio>`;
+    grade.appendChild(div);
+  });
+  atualizarTotalEscutas();
+  if(grade.dataset.wired) return;
+  grade.dataset.wired='1';
+  grade.addEventListener('click',ev=>{
+    const el=ev.target.closest('[data-acao]');
+    if(!el) return;
+    const id=el.dataset.id, acao=el.dataset.acao;
+    if(acao==='ouvir'){
+      const a=document.getElementById('audio-'+id); a.currentTime=0; a.play().catch(()=>{});
+      const escutas=Progress.get(DIA+'_escutar',{});
+      escutas[id]=(escutas[id]||0)+1;
+      Progress.set(DIA+'_escutar',escutas);
+      const elc=document.getElementById('cont-'+id);
+      elc.textContent=`${escutas[id]}/10`;
+      elc.classList.toggle('completo',escutas[id]>=10);
+      atualizarTotalEscutas();
+    }else if(acao==='verso'){
+      document.getElementById('ecard-'+id).classList.add('virado');
+    }else if(acao==='frente'){
+      document.getElementById('ecard-'+id).classList.remove('virado');
+    }
+  });
+}
+function atualizarTotalEscutas(){
+  const escutas=Progress.get(DIA+'_escutar',{});
+  let total=0, todosCompletos=true;
+  cards.forEach(c=>{ const n=escutas[c.id]||0; total+=n; if(n<10) todosCompletos=false; });
+  $('#totalEscutas').textContent=`Total: ${total}/100 escutas`;
+  $('#barraEscutas').style.width=Math.min(100,(total/100)*100)+'%';
+  $('#btnAvancarEscutar').disabled=!todosCompletos;
+}
+$('#btnAvancarEscutar').addEventListener('click',()=>{ etapaMax=Math.max(etapaMax,3); iniciarBaixar(); mostrarEtapa(3); });
+
+/* ===== Etapa 3: Anki (ver cartão completo + baixar) ===== */
+function iniciarBaixar(){
+  const grade=$('#gradeBaixar'); grade.innerHTML='';
+  const baixados=Progress.get(DIA+'_baixar',{});
+  cards.forEach(c=>{
+    const ok=!!baixados[c.id];
+    const div=document.createElement('div');
+    div.className='mini-card';
+    div.id='acard-'+c.id;
+    div.innerHTML=`
+      <div class="frente">
+        <div class="cenario">${c.cenario}</div>
+        <div class="frase">${c.frase}</div>
+        <div class="acoes-card">
+          <a class="btn btn-ouvir" style="text-decoration:none;display:inline-block" href="${c.audio}" download data-acao="baixar" data-id="${c.id}">⬇ Baixar</a>
+          <button class="btn-fantasma" data-acao="verso" data-id="${c.id}">Verso ↻</button>
+        </div>
+        ${c.semAudio?'<div class="audio-fallback" style="display:block">Esse áudio chega em breve.</div>':''}
+        <div class="check-baixado ${ok?'on':''}" id="chk-${c.id}">✓ baixado</div>
+      </div>
+      <div class="verso">
+        <div class="traducao">${c.traducao}</div>
+        <div class="sensacao">${c.sensacao}</div>
+        <div class="acoes-card">
+          <button class="btn-fantasma" data-acao="frente" data-id="${c.id}">← Frente</button>
+        </div>
+      </div>`;
+    grade.appendChild(div);
+  });
+  atualizarTotalBaixados();
+  if(grade.dataset.wired) return;
+  grade.dataset.wired='1';
+  grade.addEventListener('click',async ev=>{
+    const el=ev.target.closest('[data-acao]');
+    if(!el) return;
+    const id=el.dataset.id, acao=el.dataset.acao;
+    if(acao==='baixar'){
+      const baixados=Progress.get(DIA+'_baixar',{});
+      baixados[id]=true;
+      await Progress.set(DIA+'_baixar',baixados);
+      document.getElementById('chk-'+id).classList.add('on');
+      atualizarTotalBaixados();
+    }else if(acao==='verso'){
+      document.getElementById('acard-'+id).classList.add('virado');
+    }else if(acao==='frente'){
+      document.getElementById('acard-'+id).classList.remove('virado');
+    }
+  });
+}
+function atualizarTotalBaixados(){
+  const baixados=Progress.get(DIA+'_baixar',{});
+  const n=cards.filter(c=>baixados[c.id]).length;
+  $('#totalBaixados').textContent=`${n}/10 baixados`;
+  $('#barraBaixados').style.width=(n/10*100)+'%';
+  $('#btnTerminei').disabled = n<10;
+}
+$('#btnTerminei').addEventListener('click',()=>{
+  Progress.set(DIA+'_terminei',true);
+  etapaMax=4;
+  mostrarEtapa(4);
+});
+
+/* ===== Etapa 4: Com a Lily ===== */
+$('#audioLily').addEventListener('error',()=>{ $('#lilyFallback').style.display='block'; });
+$('#btnMostrarTexto').addEventListener('click',()=>{
+  const t=$('#textoLily'); const on=t.classList.toggle('on');
+  $('#btnMostrarTexto').textContent = on ? 'Esconder texto' : 'Mostrar texto';
+});
+$('#btnConcluirDia').addEventListener('click', async ()=>{
+  const lily=Progress.get('lily_textos_ouvidos',{});
+  lily['texto09']=true;
+  await Progress.set('lily_textos_ouvidos',lily);
+  if(!Progress.get(DIA+'_completedAt',null)) await Progress.set(DIA+'_completedAt', new Date().toISOString());
+  $('#overlayFim').classList.add('on');
+});
+
+/* ===== Início ===== */
+(async function start(){
+  const session = await requireLogin();
+  if(!session) return;
+  await Progress.load();
+  await marcarAudiosPendentes();
+  etapaMax=etapaMaxSalva();
+  $all('.step').forEach(s=>{ s.addEventListener('click',()=>{ irParaEtapa(+s.dataset.etapa); }); });
+  irParaEtapa(etapaMax);
+})();
+</script>
+</body>
+</html>

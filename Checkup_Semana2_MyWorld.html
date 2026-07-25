@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Check-up · Semana 2 — Kimberly Mentoria VIP</title>
+<!--
+  Check-up da Semana 2 — formato novo (Reforma Pedagógica, ponto 5 — aprovado 04/07/2026).
+  3 questões: situação + 3 frases CORRETAS (sem input errado), posição da correta embaralhada (B, A, C).
+  Fonte: Acervo, KIM-S02-CHK-C01 a C03. Ainda não cumulativa (cumulatividade só a partir da Semana 5).
+  Campo "Meu progresso em uma frase" salvo em progress.checkup_frases.S02
+  (ver complementos/Infra_Portal_Supabase.md §3.1).
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  body{ padding-bottom:60px; }
+  .wrap{ max-width:680px; }
+
+  .titulo{ text-align:center; margin-bottom:18px; }
+  .titulo h1{ font-size:1.8rem; color:var(--azul); }
+  .titulo p{ color:var(--azul-2); font-size:.95rem; margin-top:4px; }
+
+  .questao{ background:#fff; border-radius:18px; box-shadow:var(--sombra); padding:26px 24px; margin-bottom:18px; }
+  .questao .situacao{ font-size:.95rem; color:#3d4f60; line-height:1.55; margin-bottom:6px; }
+  .questao .pergunta-suave{ font-size:.82rem; color:var(--azul-2); margin-bottom:14px; }
+  .opcoes{ display:flex; flex-direction:column; gap:10px; }
+  .opcao{
+    text-align:left; background:var(--creme-2); border:1.5px solid transparent; border-radius:12px;
+    padding:12px 16px; cursor:pointer; font-size:1rem; transition:.2s; width:100%;
+  }
+  .opcao .en{ font-family:Georgia,'Times New Roman',serif; font-size:1.05rem; color:var(--azul); }
+  .opcao:hover{ border-color:var(--azul-2); }
+  .opcao.escolhida-certa{ background:#dff1e6; border-color:var(--verde); }
+  .opcao.escolhida-outra{ background:#f6f1e2; border-color:var(--dourado); }
+  .eco{ font-size:.85rem; margin-top:12px; display:none; line-height:1.5; }
+  .eco.on{ display:block; }
+  .eco.certa{ color:var(--verde-escuro); }
+  .eco.outra{ color:#8b7f63; }
+
+  .progresso-frase{ background:#fff; border-radius:18px; box-shadow:var(--sombra); padding:26px 24px; margin-top:26px; }
+  .progresso-frase h2{ color:var(--azul); font-size:1.2rem; margin-bottom:6px; }
+  .progresso-frase p.legenda{ color:#5a6b7a; font-size:.9rem; margin-bottom:14px; }
+  .progresso-frase .prefixo{ font-size:.95rem; color:var(--azul-2); font-weight:bold; margin-bottom:8px; }
+  textarea{
+    width:100%; min-height:90px; border:1.5px solid #e3ddd0; border-radius:12px; padding:12px 14px;
+    font-family:Georgia,serif; font-size:1rem; color:var(--azul); resize:vertical; background:var(--creme);
+  }
+  textarea:focus{ outline:none; border-color:var(--azul-2); }
+  .salvo-aviso{ font-size:.82rem; color:var(--verde-escuro); font-weight:bold; margin-top:8px; display:none; }
+  .salvo-aviso.on{ display:block; }
+
+  .rodape{ text-align:center; margin-top:26px; }
+
+  @media(max-width:480px){
+    .questao{ padding:20px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <span class="brand">Kimberly | <b>Mentoria VIP</b></span>
+  <div class="topbar-acoes">
+    <a href="Passos_Diarios.html">← Passos Diários</a>
+    <a href="#" onclick="sair();return false;">Sair</a>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="titulo">
+    <h1>Check-up — Semana 2</h1>
+    <p>My World · He/She is... · It's... · There is/are...</p>
+  </div>
+
+  <div class="instrucao">
+    Leia com calma. Não pense em regra. Pense na situação e sinta qual frase você usaria.
+  </div>
+
+  <div id="questoes"></div>
+
+  <div class="progresso-frase">
+    <h2>Meu progresso em uma frase</h2>
+    <p class="legenda">Pra fechar a semana, uma frase só — do seu jeito.</p>
+    <div class="prefixo">Hoje eu percebo que:</div>
+    <textarea id="fraseProgresso" placeholder="escreva aqui..."></textarea>
+    <div class="salvo-aviso" id="salvoAviso">✓ guardada</div>
+  </div>
+
+  <div class="rodape">
+    <button class="btn-dourado" id="btnFechar" disabled>🍇 Fechar a Semana 2</button>
+  </div>
+
+</div>
+
+<div class="overlay" id="overlayFim">
+  <div class="modal">
+    <div class="arvore-emoji">🍇🎉</div>
+    <h2>Semana 2 completa!</h2>
+    <p>Mais uma semana inteira de inglês acontecendo. Sua frase ficou guardada — e sua videira sentiu.</p>
+    <div class="acoes">
+      <a class="btn btn-dourado" href="Conquistas.html" style="text-decoration:none;display:inline-block">Ver meu progresso →</a>
+      <a class="btn btn-fantasma" href="index.html" style="text-decoration:none;display:inline-block">Início</a>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* ---------- Persistência (local-first + sync Supabase) — complementos/Infra_Portal_Supabase.md ---------- */
+const SB_URL="https://yhsntdsdifpcozfpdfcu.supabase.co";
+const SB_KEY="sb_publishable_aHINXeQ9NT_vXMamxc8GFw_iLZvOZKE";
+const sb=supabase.createClient(SB_URL,SB_KEY);
+let STUDENT=null;
+
+async function requireLogin(){
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session){ location.href="Login.html"; return null; }
+  STUDENT=session.user.id;
+  return session;
+}
+async function sair(){ await sb.auth.signOut(); location.href="Login.html"; }
+
+const Progress={
+  cache:{},
+  async load(){
+    try{this.cache=JSON.parse(localStorage.getItem("kim_progress_"+STUDENT)||"{}");}catch(e){this.cache={};}
+    try{const {data}=await sb.from("student_progress").select("progress").eq("student_id",STUDENT).single();
+        if(data&&data.progress){this.cache=data.progress;localStorage.setItem("kim_progress_"+STUDENT,JSON.stringify(this.cache));}}catch(e){}
+    return this.cache;
+  },
+  get(k,def){return (k in this.cache)?this.cache[k]:def;},
+  async set(k,v){
+    this.cache[k]=v; localStorage.setItem("kim_progress_"+STUDENT,JSON.stringify(this.cache));
+    try{await sb.from("student_progress").upsert({student_id:STUDENT,progress:this.cache,updated_at:new Date().toISOString()});}catch(e){}
+  }
+};
+
+/* ---------- 3 questões (Acervo — KIM-S02-CHK-C01 a C03) — as três frases são corretas; só uma encaixa ---------- */
+const questoes=[
+ { id:'q1',
+   situacao:"No evento, alguém aponta discretamente a mulher ao seu lado e pergunta: \"Who's she?\" Você responde:",
+   opcoes:["She's in the room.","She's my business partner.","She's very kind."], certa:1 },
+ { id:'q2',
+   situacao:"Jantar na pousada. A dona fez o prato da casa e vem conferir: \"How is it?\" Você responde:",
+   opcoes:["It's delicious.","It's not far.","It's my first time here."], certa:0 },
+ { id:'q3',
+   situacao:"Na entrada do restaurante, a recepcionista pega um cardápio só: \"Table for one?\" Você responde:",
+   opcoes:["There's still time.","It's near the hotel.","There are two of us."], certa:2 }
+];
+
+const acertos={};
+const questoesEl=document.getElementById('questoes');
+
+function render(){
+  questoes.forEach(q=>{
+    const div=document.createElement('div');
+    div.className='questao';
+    div.innerHTML=`
+      <div class="situacao">${q.situacao}</div>
+      <div class="pergunta-suave">Qual você usaria aqui?</div>
+      <div class="opcoes">
+        ${q.opcoes.map((o,i)=>`<button class="opcao" data-q="${q.id}" data-i="${i}"><span class="en">${o}</span></button>`).join('')}
+      </div>
+      <div class="eco" id="eco-${q.id}"></div>`;
+    questoesEl.appendChild(div);
+  });
+}
+
+questoesEl.addEventListener('click',ev=>{
+  const btn=ev.target.closest('.opcao');
+  if(!btn) return;
+  const q=questoes.find(x=>x.id===btn.dataset.q);
+  const i=+btn.dataset.i;
+  const eco=document.getElementById('eco-'+q.id);
+  btn.parentElement.querySelectorAll('.opcao').forEach(b=>b.classList.remove('escolhida-certa','escolhida-outra'));
+  if(i===q.certa){
+    btn.classList.add('escolhida-certa');
+    eco.className='eco on certa';
+    eco.textContent='É essa. Sentiu como ela encaixa na situação?';
+    acertos[q.id]=true;
+  }else{
+    btn.classList.add('escolhida-outra');
+    eco.className='eco on outra';
+    eco.textContent='Essa frase é boa — mas pra outra situação. Leia de novo com calma e sinta.';
+    acertos[q.id]=false;
+  }
+  atualizarFechar();
+});
+
+const fraseEl=document.getElementById('fraseProgresso');
+fraseEl.addEventListener('input',atualizarFechar);
+
+function atualizarFechar(){
+  const tresOk=questoes.every(q=>acertos[q.id]);
+  const temFrase=fraseEl.value.trim().length>0;
+  document.getElementById('btnFechar').disabled=!(tresOk&&temFrase);
+}
+
+document.getElementById('btnFechar').addEventListener('click',async ()=>{
+  const frases=Progress.get('checkup_frases',{});
+  frases['S02']=fraseEl.value.trim();
+  await Progress.set('checkup_frases',frases);
+  await Progress.set('checkup_S02_completedAt', new Date().toISOString());
+  document.getElementById('salvoAviso').classList.add('on');
+  document.getElementById('overlayFim').classList.add('on');
+});
+
+(async function start(){
+  const session = await requireLogin();
+  if(!session) return;
+  await Progress.load();
+  render();
+  const frases=Progress.get('checkup_frases',{});
+  if(frases['S02']){ fraseEl.value=frases['S02']; document.getElementById('salvoAviso').classList.add('on'); }
+})();
+</script>
+</body>
+</html>
