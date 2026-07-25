@@ -19,6 +19,11 @@
   M/G entram quando as artes existirem) · folha dourada sobreposta em semana exemplar ·
   lógica do DIA EXEMPLAR (diaN_completedAt no próprio dia + escutas_do_dia na mesma data,
   sempre no fuso local da aluna) · selo 11 "Semana de ouro". Check-up segue fora de tudo.
+  Auditoria do kit (25/07/2026): os 12 selos estão completos — artes 05, 06, 07, 08, 09,
+  10 e 12 aprovadas e integradas, com os gatilhos da §2 do PREPARACAO. Cachos M/G e as
+  videiras das Safras 2 e 3 seguem PENDENTES no designer (correção de acabamento e de
+  conceito da poda) — por isso a coleção continua usando só cacho_p nas semanas 1–4 e a
+  videira continua na série da Safra 1. LÓGICA DE PROGRESSO SEGUE INALTERADA.
 -->
 <link rel="stylesheet" href="styles.css">
 <style>
@@ -211,14 +216,23 @@ function estadoSemanas(progress){
           exemplaresTotal: exemplares.filter(Boolean).length};
 }
 
-/* Selos — ordem e gatilhos do handoff de emergência (20/07/2026). Uma arte por selo;
-   estado bloqueado é só CSS (classe .desbloqueado). Nenhuma medalha antiga no DOM. */
+/* Selos — os 12 da jornada. Nomes e gatilhos aprovados por Agnes em 21/07/2026
+   (PREPARACAO_INTEGRACAO_KIT2_VIDEIRA.md §2); artes 05–10 e 12 aprovadas na auditoria
+   de 25/07 e integradas aqui. Uma arte por selo; estado bloqueado é só CSS
+   (classe .desbloqueado). Nenhuma medalha antiga no DOM. */
 const selosDef=[
   { img:'selo_01_primeiro_passo.webp',        nome:'Primeiro passo',          check:s=>s.diasCompletos>=1 },
   { img:'selo_02_primeira_escuta_lily.webp',  nome:'Primeira escuta da Lily', check:s=>s.textosOuvidos>=1 },
   { img:'selo_03_anki_10.webp',               nome:'10 cartões no Anki',      check:s=>s.cartoesAnki>=10 },
   { img:'selo_04_primeira_colheita.webp',     nome:'Primeira colheita',       check:s=>s.diasCompletos>=5 },
-  { img:'selo_11_semana_de_ouro.webp',        nome:'Semana de ouro',          check:s=>s.semanasExemplares>=1 }
+  { img:'selo_05_primeira_safra.webp',        nome:'Primeira safra',          check:s=>s.diasCompletos>=20 },
+  { img:'selo_06_segunda_safra.webp',         nome:'Segunda safra',           check:s=>s.diasCompletos>=40 },
+  { img:'selo_07_terceira_safra.webp',        nome:'Terceira safra',          check:s=>s.diasCompletos>=60 },
+  { img:'selo_08_lily_30.webp',               nome:'30 histórias da Lily',    check:s=>s.textosOuvidos>=30 },
+  { img:'selo_09_lily_60.webp',               nome:'60 histórias da Lily',    check:s=>s.textosOuvidos>=60 },
+  { img:'selo_10_anki_100.webp',              nome:'100 cartões no Anki',     check:s=>s.cartoesAnki>=100 },
+  { img:'selo_11_semana_de_ouro.webp',        nome:'Semana de ouro',          check:s=>s.semanasExemplares>=1 },
+  { img:'selo_12_colheita_completa.webp',     nome:'A Colheita Completa',     check:s=>s.diasCompletos>=60 }
 ];
 
 const videiraTextos={
