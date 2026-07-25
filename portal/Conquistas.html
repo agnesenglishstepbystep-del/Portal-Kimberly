@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meu Progresso — Kimberly Mentoria VIP</title>
+<!--
+  "Meu Progresso" — sistema visual da VIDEIRA (Safra 1), emergência da aula de retomada (20/07/2026).
+  Substitui a árvore antiga pela videira de 5 estágios (espaldeira azul = método/apoio ·
+  folhas verdes = crescimento · cacho dourado = colheita) — mapeada por DIAS COMPLETOS da
+  semana atual: 0→broto na espaldeira · 1→primeiro ramo · 2→folhas · 3→cacho verde ·
+  4+→cacho dourado. Check-up NÃO conta no estágio.
+  Selos novos (4) substituem as 4 medalhas antigas; estado bloqueado por CSS (uma arte só).
+  Contadores reorganizados + coleção de 12 colheitas em CSS (nenhum cacho antes de 5 dias).
+  LÓGICA DE PROGRESSO, CHAVES E SUPABASE INALTERADAS — só a camada visual mudou.
+  Lê o progresso de forma genérica (varre chaves diaN_*) para seguir funcionando quando
+  novos dias forem adicionados no futuro.
+  Kit 2 da videira (21/07/2026): cacho_p real nos slots colhidos da Safra 1 (semanas 1–4;
+  M/G entram quando as artes existirem) · folha dourada sobreposta em semana exemplar ·
+  lógica do DIA EXEMPLAR (diaN_completedAt no próprio dia + escutas_do_dia na mesma data,
+  sempre no fuso local da aluna) · selo 11 "Semana de ouro". Check-up segue fora de tudo.
+  Auditoria do kit (25/07/2026): os 12 selos estão completos — artes 05, 06, 07, 08, 09,
+  10 e 12 aprovadas e integradas, com os gatilhos da §2 do PREPARACAO. Cachos M/G e as
+  videiras das Safras 2 e 3 seguem PENDENTES no designer (correção de acabamento e de
+  conceito da poda) — por isso a coleção continua usando só cacho_p nas semanas 1–4 e a
+  videira continua na série da Safra 1. LÓGICA DE PROGRESSO SEGUE INALTERADA.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  body{ padding-bottom:60px; }
+  .wrap{ max-width:720px; padding:30px 18px; }
+  .wrap > h1{ text-align:center; color:var(--azul); font-size:1.7rem; margin-bottom:6px; }
+  .wrap > .sub-topo{ text-align:center; color:#5a6b7a; font-size:.95rem; margin-bottom:22px; }
+
+  /* ---- Videira da semana ---- */
+  .videira-box{ background:#fcf5eb; border-radius:20px; box-shadow:var(--sombra); padding:22px 20px 18px; margin-bottom:22px; }
+  .videira-eyebrow{ font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:var(--dourado); font-weight:800; }
+  .videira-titulo{ font-size:1.28rem; color:var(--azul); font-weight:800; margin:6px 0 2px; }
+  .videira-sub{ font-size:.86rem; color:#5a6b7a; margin-bottom:12px; }
+  .videira-dots{ display:flex; gap:10px; align-items:center; margin-bottom:6px; }
+  .videira-dots .dot{ width:14px; height:14px; border-radius:50%; background:#d9e0dd; transition:.4s; }
+  .videira-dots .dot.on{ background:var(--verde); }
+  .videira-dots .rot{ font-size:.72rem; color:#8a97a0; margin-left:4px; }
+  .videira-art{ text-align:center; margin-top:10px; }
+  .videira-art img{ width:100%; max-width:500px; height:auto; display:block; margin:0 auto; transition:opacity .8s ease; }
+
+  /* ---- Contadores ---- */
+  .contadores{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:22px; }
+  .contador-card{ background:#fffdf9; border-radius:14px; box-shadow:var(--sombra); padding:0 0 14px; text-align:center; overflow:hidden; }
+  .contador-card .faixa{ height:5px; }
+  .contador-card .num{ font-size:1.5rem; font-weight:800; color:var(--azul); margin-top:14px; }
+  .contador-card .lbl{ font-size:.72rem; color:#5a6b7a; margin-top:2px; padding:0 6px; }
+
+  /* ---- Barra do certificado ---- */
+  .certificado{ background:#fffdf9; border-radius:16px; box-shadow:var(--sombra); padding:18px 22px; margin-bottom:26px; }
+  .certificado .topo{ display:flex; justify-content:space-between; font-size:.86rem; color:var(--azul-2); margin-bottom:8px; font-weight:800; }
+  .certificado .barra{ height:12px; max-width:none; margin:0; background:#eae3d4; border-radius:999px; overflow:hidden; }
+  .certificado .barra > div{ height:100%; width:0%; background:linear-gradient(90deg,var(--dourado),var(--dourado-2)); transition:.5s; }
+
+  /* ---- Coleção de colheitas ---- */
+  .secao-titulo{ font-size:1.15rem; color:var(--azul); font-weight:800; margin:0 0 3px; }
+  .secao-sub{ font-size:.84rem; color:#5a6b7a; margin-bottom:14px; }
+  .colheita-grid{ display:grid; grid-template-columns:repeat(6,1fr); gap:12px 10px; margin-bottom:28px; }
+  .colheita-slot{ text-align:center; }
+  .colheita-slot .bola{
+    width:100%; max-width:56px; aspect-ratio:1/1; margin:0 auto; border-radius:50%;
+    background:#fbf7ef; border:1.5px dashed #d7cfbc; display:flex; align-items:center; justify-content:center;
+    color:#c9a84c; font-size:1.1rem; transition:.3s;
+  }
+  .colheita-slot.andamento .bola{ border:2px solid var(--dourado); box-shadow:0 0 0 3px rgba(201,168,76,.14) inset; }
+  .colheita-slot.colhido .bola{
+    border:2px solid var(--dourado); background:radial-gradient(circle at 38% 34%, #f3dd97, #c9a84c 78%); color:#fff;
+  }
+  /* Slot colhido com arte real (kit 2): cacho no lugar do ✓; a folha dourada é um
+     overlay independente e só aparece em semana exemplar. Ausência da folha NÃO é falha. */
+  .colheita-slot.colhido .bola.bola-cacho{
+    position:relative; overflow:visible; background:#fbf7ef; color:transparent;
+  }
+  .bola-cacho .cacho{
+    position:absolute; height:112%; width:auto; left:50%; top:50%;
+    transform:translate(-50%,-53%); pointer-events:none;
+  }
+  .bola-cacho .folha-exemplar{
+    position:absolute; width:44%; height:auto; right:-7%; top:-9%; pointer-events:none;
+  }
+  .colheita-slot .n{ font-size:.68rem; color:#9aa3ad; margin-top:5px; }
+  .colheita-slot.colhido .n{ color:var(--dourado); font-weight:700; }
+
+  /* ---- Selos ---- */
+  .selos{ display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:14px; }
+  .selo{ background:#fffdf9; border-radius:16px; border:1px solid rgba(201,168,76,.30); box-shadow:var(--sombra); padding:18px 12px 14px; text-align:center; }
+  .selo img{ width:96px; height:96px; object-fit:contain; margin-bottom:8px; transition:.4s; }
+  .selo:not(.desbloqueado) img{ opacity:.16; filter:grayscale(1) saturate(.25); }
+  .selo .nome{ font-size:.82rem; font-weight:800; color:var(--azul); }
+  .selo:not(.desbloqueado) .nome{ color:#7f8c94; }
+  .selo .estado{ font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; font-weight:800; margin-top:4px; color:var(--verde); }
+  .selo:not(.desbloqueado) .estado{ color:#a7b0b6; }
+
+  @media(max-width:520px){
+    .contadores{ grid-template-columns:repeat(2,1fr); }
+    .colheita-grid{ grid-template-columns:repeat(4,1fr); }
+    .videira-titulo{ font-size:1.14rem; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <span class="brand">Kimberly | <b>Mentoria VIP</b></span>
+  <div class="topbar-acoes">
+    <a href="index.html">← Início</a>
+    <a href="#" onclick="sair();return false;">Sair</a>
+  </div>
+</header>
+
+<div class="wrap">
+  <h1>Meu Progresso</h1>
+  <p class="sub-topo">A videira mostra o momento atual. Os contadores, a colheita e os selos contam a jornada inteira.</p>
+
+  <!-- 1. Videira da semana -->
+  <div class="videira-box">
+    <div class="videira-eyebrow">Safra 1 · Semana em curso</div>
+    <div class="videira-titulo" id="videiraTitulo">Tudo pronto para o primeiro broto.</div>
+    <div class="videira-sub" id="videiraSub">Comece pelo Dia 1.</div>
+    <div class="videira-dots" id="videiraDots" aria-hidden="true"></div>
+    <div class="videira-art">
+      <img id="videiraImg" src="videira_safra1_estagio0.webp" alt="Videira do meu progresso — Safra 1">
+    </div>
+  </div>
+
+  <!-- 2. Contadores -->
+  <div class="contadores">
+    <div class="contador-card"><div class="faixa" style="background:var(--verde)"></div><div class="num" id="numDias">0</div><div class="lbl">dias de estudo</div></div>
+    <div class="contador-card"><div class="faixa" style="background:var(--azul)"></div><div class="num" id="numLily">0</div><div class="lbl">histórias da Lily</div></div>
+    <div class="contador-card"><div class="faixa" style="background:var(--dourado)"></div><div class="num" id="numAnki">0</div><div class="lbl">cartões no Anki</div></div>
+    <div class="contador-card"><div class="faixa" style="background:var(--verde-2)"></div><div class="num" id="numColheitas">0 / 12</div><div class="lbl">colheitas</div></div>
+  </div>
+
+  <!-- 3. Barra do certificado -->
+  <div class="certificado">
+    <div class="topo"><span>Jornada até a colheita completa</span><span id="certTexto">0 / 60 passos diários</span></div>
+    <div class="barra"><div id="certBarra"></div></div>
+  </div>
+
+  <!-- 4. Coleção de colheitas -->
+  <h2 class="secao-titulo">Sua colheita</h2>
+  <p class="secao-sub">Cada semana completa acrescenta um cacho. São 12 ao longo da jornada.</p>
+  <div class="colheita-grid" id="colheitaGrid"></div>
+
+  <!-- 5. Selos da jornada -->
+  <h2 class="secao-titulo">Selos da jornada</h2>
+  <p class="secao-sub">Cada selo marca uma conquista real do seu caminho.</p>
+  <div class="selos" id="selos"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* ---------- Persistência (local-first + sync Supabase) — §8 da especificação ---------- */
+const SB_URL="https://yhsntdsdifpcozfpdfcu.supabase.co";
+const SB_KEY="sb_publishable_aHINXeQ9NT_vXMamxc8GFw_iLZvOZKE";
+const sb=supabase.createClient(SB_URL,SB_KEY);
+let STUDENT=null;
+
+async function requireLogin(){
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session){ location.href="Login.html"; return null; }
+  STUDENT=session.user.id;
+  return session;
+}
+async function sair(){ await sb.auth.signOut(); location.href="Login.html"; }
+
+const Progress={
+  cache:{},
+  async load(){
+    try{this.cache=JSON.parse(localStorage.getItem("kim_progress_"+STUDENT)||"{}");}catch(e){this.cache={};}
+    try{const {data}=await sb.from("student_progress").select("progress").eq("student_id",STUDENT).single();
+        if(data&&data.progress){this.cache=data.progress;localStorage.setItem("kim_progress_"+STUDENT,JSON.stringify(this.cache));}}catch(e){}
+    return this.cache;
+  }
+};
+
+function varrer(progress){
+  let diasCompletos=0, diasIniciados=0, cartoesAnki=0;
+  Object.keys(progress).forEach(k=>{
+    if(/^dia\d+_completedAt$/.test(k) && progress[k]) diasCompletos++;
+    if(/^dia\d+_decifrar$/.test(k) && Object.values(progress[k]||{}).some(Boolean)) diasIniciados++;
+    if(/^dia\d+_baixar$/.test(k)) cartoesAnki += Object.values(progress[k]||{}).filter(Boolean).length;
+  });
+  const textosOuvidos = Object.values(progress['lily_textos_ouvidos']||{}).filter(Boolean).length;
+  return {diasCompletos, diasIniciados, cartoesAnki, textosOuvidos};
+}
+
+/* ---- Estado semanal (kit 2, 21/07/2026) ----
+   Dia exemplar = diaN_completedAt caiu num dia em que escutas_do_dia[mesma data] é true.
+   Datas SEMPRE no fuso local do navegador (mesmo formato AAAA-MM-DD que o Listening grava).
+   Semana w (1..12) = dias (w-1)*5+1 .. w*5. Semana colhida = 5 dias completos;
+   semana exemplar = 5 dias exemplares. Check-up não conta. Nada aqui usa
+   diasCompletos/5 como regra — o estado é calculado dia a dia. */
+function diaExemplar(progress, n){
+  const iso = progress['dia'+n+'_completedAt'];
+  if(!iso) return false;
+  const dataLocal = new Date(iso).toLocaleDateString('sv-SE');
+  return !!((progress['escutas_do_dia']||{})[dataLocal]);
+}
+function estadoSemanas(progress){
+  const completas=[], exemplares=[];
+  for(let w=0; w<12; w++){
+    let comp=true, ex=true;
+    for(let d=w*5+1; d<=w*5+5; d++){
+      if(!progress['dia'+d+'_completedAt']){ comp=false; ex=false; break; }
+      if(ex && !diaExemplar(progress,d)) ex=false;
+    }
+    completas.push(comp); exemplares.push(comp&&ex);
+  }
+  return {completas, exemplares, colhidas: completas.filter(Boolean).length,
+          exemplaresTotal: exemplares.filter(Boolean).length};
+}
+
+/* Selos — os 12 da jornada. Nomes e gatilhos aprovados por Agnes em 21/07/2026
+   (PREPARACAO_INTEGRACAO_KIT2_VIDEIRA.md §2); artes 05–10 e 12 aprovadas na auditoria
+   de 25/07 e integradas aqui. Uma arte por selo; estado bloqueado é só CSS
+   (classe .desbloqueado). Nenhuma medalha antiga no DOM. */
+const selosDef=[
+  { img:'selo_01_primeiro_passo.webp',        nome:'Primeiro passo',          check:s=>s.diasCompletos>=1 },
+  { img:'selo_02_primeira_escuta_lily.webp',  nome:'Primeira escuta da Lily', check:s=>s.textosOuvidos>=1 },
+  { img:'selo_03_anki_10.webp',               nome:'10 cartões no Anki',      check:s=>s.cartoesAnki>=10 },
+  { img:'selo_04_primeira_colheita.webp',     nome:'Primeira colheita',       check:s=>s.diasCompletos>=5 },
+  { img:'selo_05_primeira_safra.webp',        nome:'Primeira safra',          check:s=>s.diasCompletos>=20 },
+  { img:'selo_06_segunda_safra.webp',         nome:'Segunda safra',           check:s=>s.diasCompletos>=40 },
+  { img:'selo_07_terceira_safra.webp',        nome:'Terceira safra',          check:s=>s.diasCompletos>=60 },
+  { img:'selo_08_lily_30.webp',               nome:'30 histórias da Lily',    check:s=>s.textosOuvidos>=30 },
+  { img:'selo_09_lily_60.webp',               nome:'60 histórias da Lily',    check:s=>s.textosOuvidos>=60 },
+  { img:'selo_10_anki_100.webp',              nome:'100 cartões no Anki',     check:s=>s.cartoesAnki>=100 },
+  { img:'selo_11_semana_de_ouro.webp',        nome:'Semana de ouro',          check:s=>s.semanasExemplares>=1 },
+  { img:'selo_12_colheita_completa.webp',     nome:'A Colheita Completa',     check:s=>s.diasCompletos>=60 }
+];
+
+const videiraTextos={
+  0:{t:'Tudo pronto para o primeiro broto.',      s:'Comece pelo Dia 1.'},
+  1:{t:'O primeiro ramo encontrou apoio.',        s:'1 dia de estudo concluído.'},
+  2:{t:'As folhas já cobrem a espaldeira.',       s:'2 dias de estudo concluídos.'},
+  3:{t:'O cacho começou a se formar.',            s:'3 dias de estudo concluídos.'},
+  4:{t:'O primeiro cacho amadureceu — dourado.',  s:'A semana da videira está completa. ✨'}
+};
+
+(async function(){
+  const session = await requireLogin();
+  if(!session) return;
+  const progress = await Progress.load();
+  const s = varrer(progress);
+  const sem = estadoSemanas(progress);
+  s.semanasExemplares = sem.exemplaresTotal;
+
+  // Contadores
+  document.getElementById('numDias').textContent = s.diasCompletos;
+  document.getElementById('numLily').textContent = s.textosOuvidos;
+  document.getElementById('numAnki').textContent = s.cartoesAnki;
+  const colheitas = sem.colhidas;
+  document.getElementById('numColheitas').textContent = colheitas + ' / 12';
+
+  // Barra do certificado (60 passos diários)
+  const totalPassos = 60;
+  const pct = Math.min(100, (s.diasCompletos/totalPassos)*100);
+  document.getElementById('certBarra').style.width = pct+'%';
+  document.getElementById('certTexto').textContent = `${s.diasCompletos} / ${totalPassos} passos diários`;
+
+  // Videira — estágio por DIAS COMPLETOS da semana (0..4). Check-up NÃO conta.
+  const estagio = Math.max(0, Math.min(4, s.diasCompletos));
+  document.getElementById('videiraImg').src = 'videira_safra1_estagio'+estagio+'.webp';
+  document.getElementById('videiraTitulo').textContent = videiraTextos[estagio].t;
+  document.getElementById('videiraSub').textContent = videiraTextos[estagio].s;
+
+  // Dots do estágio (0..4)
+  const dotsEl=document.getElementById('videiraDots');
+  for(let i=0;i<5;i++){
+    const d=document.createElement('span');
+    d.className='dot'+(i<=estagio?' on':'');
+    dotsEl.appendChild(d);
+  }
+  const rot=document.createElement('span'); rot.className='rot'; rot.textContent='0 · 1 · 2 · 3 · 4 dias';
+  dotsEl.appendChild(rot);
+
+  // Coleção de 12 colheitas — estado semanal real (kit 2). Nenhum cacho antes de
+  // 5 dias completos. Semanas 1–4 (Safra 1) usam a arte cacho_p; M/G entram quando
+  // as artes das Safras 2 e 3 existirem — até lá esses slots mantêm o ✓ em CSS.
+  const grid=document.getElementById('colheitaGrid');
+  const proxima = sem.completas.indexOf(false); // primeira semana ainda não colhida
+  for(let i=0;i<12;i++){
+    const colhido = sem.completas[i];
+    const andamento = i === proxima;
+    const exemplar = sem.exemplares[i];
+    const temArte = colhido && i < 4; // Safra 1 = cacho P
+    const slot=document.createElement('div');
+    slot.className='colheita-slot'+(colhido?' colhido':(andamento?' andamento':''));
+    if(colhido){
+      slot.setAttribute('role','img');
+      slot.setAttribute('aria-label','Semana '+(i+1)+' — colheita completa'+(exemplar?', semana de ouro':''));
+    }
+    if(temArte){
+      slot.innerHTML=`<div class="bola bola-cacho"><img class="cacho" src="cacho_p.webp" alt="">`+
+        (exemplar?`<img class="folha-exemplar" src="ornamento_folha_dourada.webp" alt="" aria-hidden="true">`:'')+
+        `</div><div class="n">${i+1}</div>`;
+    }else{
+      slot.innerHTML=`<div class="bola">${colhido?'✓':''}</div><div class="n">${i+1}</div>`;
+    }
+    grid.appendChild(slot);
+  }
+
+  // Selos
+  const selosEl=document.getElementById('selos');
+  selosDef.forEach(m=>{
+    const ok=m.check(s);
+    const div=document.createElement('div');
+    div.className='selo'+(ok?' desbloqueado':'');
+    div.innerHTML=`<img src="${m.img}" alt=""><div class="nome">${m.nome}</div><div class="estado">${ok?'Conquistado':'Em andamento'}</div>`;
+    selosEl.appendChild(div);
+  });
+})();
+</script>
+</body>
+</html>
