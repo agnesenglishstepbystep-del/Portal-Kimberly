@@ -17,6 +17,9 @@
     Nada trava — é só prêmio.
   Áudios audio/Lily_SXX_TextoNN.mp3 — geração na fase de áudio; até lá cada faixa
   mostra "chega em breve" e é pulada na sequência.
+  27/07/2026 — Semana 2 ligada à playlist (Textos #6–#10). A subida da S2 em 25/07
+  não alcançou esta página: as telas já gravavam texto06–texto10, mas o catálogo
+  daqui parava no #5 e a playlist não crescia. Só o array `textos` mudou.
 -->
 <link rel="stylesheet" href="styles.css">
 <style>
@@ -101,14 +104,24 @@ const Progress={
   }
 };
 
-/* Catálogo da playlist — Semana 1 (Textos #1–#5, Acervo KIM-S01-LILY-T01 a T05).
-   O texto N pertence ao Dia N: entra na playlist quando o dia dele é concluído. */
+/* Catálogo da playlist — Semanas 1 e 2 (Textos #1–#10; Acervo KIM-S01-LILY-T01 a T05
+   e KIM-S02-LILY-T06 a T10).
+   ATENÇÃO ao campo `dia`: numeração GLOBAL, a mesma das telas de estudo
+   (Semana 1 = dia1..dia5, Semana 2 = dia6..dia10, Semana 3 = dia11..dia15...) —
+   é ela que casa com a chave `diaN_completedAt` do progresso. O texto entra na
+   playlist quando o dia dele é concluído. Ao publicar uma semana nova, ESTE array
+   também tem que crescer — senão a playlist para de acompanhar as telas. */
 const textos=[
-  { id:'texto01', dia:1, titulo:'Texto #1 — Who I Am',        audio:'audio/Lily_S01_Texto01.mp3' },
-  { id:'texto02', dia:2, titulo:'Texto #2 — Como estou agora', audio:'audio/Lily_S01_Texto02.mp3' },
-  { id:'texto03', dia:3, titulo:'Texto #3 — Onde estou',       audio:'audio/Lily_S01_Texto03.mp3' },
-  { id:'texto04', dia:4, titulo:'Texto #4 — Quem eu sou',      audio:'audio/Lily_S01_Texto04.mp3' },
-  { id:'texto05', dia:5, titulo:"Texto #5 — I'm not...",       audio:'audio/Lily_S01_Texto05.mp3' }
+  { id:'texto01', dia:1,  titulo:'Texto #1 — Who I Am',        audio:'audio/Lily_S01_Texto01.mp3' },
+  { id:'texto02', dia:2,  titulo:'Texto #2 — Como estou agora', audio:'audio/Lily_S01_Texto02.mp3' },
+  { id:'texto03', dia:3,  titulo:'Texto #3 — Onde estou',       audio:'audio/Lily_S01_Texto03.mp3' },
+  { id:'texto04', dia:4,  titulo:'Texto #4 — Quem eu sou',      audio:'audio/Lily_S01_Texto04.mp3' },
+  { id:'texto05', dia:5,  titulo:"Texto #5 — I'm not...",       audio:'audio/Lily_S01_Texto05.mp3' },
+  { id:'texto06', dia:6,  titulo:'Texto #6 — My People',        audio:'audio/Lily_S02_Texto06.mp3' },
+  { id:'texto07', dia:7,  titulo:'Texto #7 — Como eles estão',  audio:'audio/Lily_S02_Texto07.mp3' },
+  { id:'texto08', dia:8,  titulo:"Texto #8 — It's...",          audio:'audio/Lily_S02_Texto08.mp3' },
+  { id:'texto09', dia:9,  titulo:'Texto #9 — There is...',      audio:'audio/Lily_S02_Texto09.mp3' },
+  { id:'texto10', dia:10, titulo:"Texto #10 — It's not...",     audio:'audio/Lily_S02_Texto10.mp3' }
 ];
 
 function $(s){return document.querySelector(s);}
