@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 5 · I don't... — Kimberly Mentoria VIP</title>
+<!--
+  Dia 5 — fluxo de 4 etapas, no MOTOR NOVO (Camada 2 — motor_aula.js).
+  Estreia da Semana 3 no motor (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo de Conteúdo, KIM-S03-D05-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 15,
+  "rotulo": "Dia 5",
+  "titulo": "Dia 5 — I don't...",
+  "sub": "Semana 3 — My Routine · I go... · I have... · I work...",
+  "lily": {
+    "audio": "audio/Lily_S03_Texto15.mp3",
+    "chave": "texto15",
+    "texto": [
+      "Sunday! I don't work today.",
+      "I don't open the shop, and I don't go to bed early.",
+      "Today: the park, lemonade, and my flowers at home.",
+      "Anna: \"Lily, dinner at my house tonight?\"",
+      "Yes! I don't have plans tonight!",
+      "My mom calls every Sunday — she's happy for me.",
+      "A new job, good friends, my little town... I have everything I need."
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "I don't work on Sundays.",
+      "cenario": "Apertado com o prazo, o cliente tenta o impossível: \"Can we meet on Sunday?\" Você responde, firme e gentil:",
+      "traducao": "Eu não trabalho aos domingos.",
+      "sensacao": "O limite dito sem peso — domingo é sagrado, e a semana inteira agradece. <i>I don't work</i> = eu não trabalho.",
+      "audio": "audio/S03_Dia05_Card01_I_dont_work_on_Sundays.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "I don't have time today.",
+      "cenario": "Uma amiga de outra cidade apareceu de surpresa: \"Lunch today?\" Você, espremida entre dois compromissos:",
+      "traducao": "Eu não tenho tempo hoje.",
+      "sensacao": "Hoje a agenda venceu. Amanhã ela devolve.",
+      "audio": "audio/S03_Dia05_Card02_I_dont_have_time_today.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "I don't have a car here.",
+      "cenario": "Combinando o ponto de encontro do passeio, o guia pergunta: \"By car?\" Você explica:",
+      "traducao": "Eu não tenho carro aqui.",
+      "sensacao": "Sem carro na viagem — e sem drama: a cidade se resolve a pé e de aplicativo.",
+      "audio": "audio/S03_Dia05_Card03_I_dont_have_a_car_here.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "I don't go every day.",
+      "cenario": "O instrutor da academia do hotel elogia sua frequência na semana: \"Do you go every day?\" Você ri, sincera:",
+      "traducao": "Eu não vou todos os dias.",
+      "sensacao": "Sinceridade com sorriso: tem dia que o sofá vence. E está tudo bem.",
+      "audio": "audio/S03_Dia05_Card04_I_dont_go_every_day.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "I don't work at night.",
+      "cenario": "O cliente de outro fuso sugere calls às dez da noite: \"Is night okay for you?\" Você corrige a rota:",
+      "traducao": "Eu não trabalho à noite.",
+      "sensacao": "Fuso é problema da agenda, não seu: à noite o expediente já foi dormir.",
+      "audio": "audio/S03_Dia05_Card05_I_dont_work_at_night.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "I don't go alone.",
+      "cenario": "Você pergunta do bairro pra caminhar à noite, e a recepcionista, cuidadosa, devolve: \"Alone?\" Você tranquiliza:",
+      "traducao": "Eu não vou sozinha.",
+      "sensacao": "Cuidado combinado: passeio sim, sozinha não. A irmã vai junto — sempre vai.",
+      "audio": "audio/S03_Dia05_Card06_I_dont_go_alone.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "Sometimes I don't have time for lunch.",
+      "cenario": "Sua professora pergunta do almoço em casa que você contou uma vez. Você confessa a exceção:",
+      "traducao": "Às vezes eu não tenho tempo pro almoço.",
+      "sensacao": "Contar a verdade, sem floreio: tem dia que o relógio engole o almoço.",
+      "audio": "audio/S03_Dia05_Card07_Sometimes_I_dont_have_time_for_lunch.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "I don't have plans tonight!",
+      "cenario": "O casal convida de última hora: \"Dinner tonight?\" Dessa vez, a agenda sorri:",
+      "traducao": "Eu não tenho planos hoje à noite!",
+      "sensacao": "A melhor negativa da semana: livre! O \"não tenho nada\" que significa \"sim, vamos!\".",
+      "audio": "audio/S03_Dia05_Card08_I_dont_have_plans_tonight.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "Sometimes I don't want to study.",
+      "cenario": "Num dia mais cansado, você escreve no caderno de estudos a verdade do dia — em inglês, claro:",
+      "traducao": "Às vezes eu não quero estudar.",
+      "sensacao": "Até quem ama o caminho tem dia de ladeira. Dizer isso em inglês — olha a ironia — já é estudo.",
+      "audio": "audio/S03_Dia05_Card09_Sometimes_I_dont_want_to_study.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "I don't give up.",
+      "cenario": "No fechamento da semana, sua professora pergunta o que você diria pra você mesma do primeiro dia. Você pensa e responde:",
+      "traducao": "Eu não desisto.",
+      "sensacao": "Três palavras que explicam tudo que veio até aqui — e tudo que ainda vem. <i>Give up</i> = desistir. Você, não.",
+      "audio": "audio/S03_Dia05_Card10_I_dont_give_up.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

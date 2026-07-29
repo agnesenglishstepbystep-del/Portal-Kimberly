@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 3 · Vire aqui — Kimberly Mentoria VIP</title>
+<!--
+  Dia 3 — fluxo de 4 etapas, no MOTOR NOVO (Camada 2 — motor_aula.js).
+  Semana 4 — fecha o Mês 1 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo de Conteúdo, KIM-S04-D03-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 18,
+  "rotulo": "Dia 3",
+  "titulo": "Dia 3 — Vire aqui",
+  "sub": "Semana 4 — Where I Am · Is there...? · Where is...? · Turn left/right",
+  "lily": {
+    "audio": "audio/Lily_S04_Texto18.mp3",
+    "chave": "texto18",
+    "texto": [
+      "Off the bus. Now... where is the hotel?",
+      "I ask a kind lady on the street.",
+      "She says: \"Turn left at the bank, and go straight.\"",
+      "Left at the bank... straight... and...",
+      "Wow — the sea, the garden, the hotel!",
+      "I'm here! And the flowers are perfect.",
+      "Ten minutes early. I'm SO proud of myself!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "Turn left at the bakery.",
+      "cenario": "Em Natal, um turista pergunta da feira: \"Excuse me — where is the market?\" E você, natalense, resolve:",
+      "traducao": "Vire à esquerda na padaria.",
+      "sensacao": "Você dando direção na sua cidade — com padaria de ponto de referência, como toda boa direção brasileira.",
+      "audio": "audio/S04_Dia03_Card01_Turn_left_at_the_bakery.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "Go straight!",
+      "cenario": "No calçadão, ainda longe da areia, um mochileiro pergunta: \"Where is the beach?\" Você aponta a reta:",
+      "traducao": "Siga reto!",
+      "sensacao": "A direção mais generosa que existe: é só não virar. <i>Straight</i> = reto.",
+      "audio": "audio/S04_Dia03_Card02_Go_straight.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "It's on the right.",
+      "cenario": "A visita no seu prédio comercial procura o elevador. Você localiza:",
+      "traducao": "Fica à direita.",
+      "sensacao": "<i>On the right</i> = à direita. Pequena, precisa, resolve.",
+      "audio": "audio/S04_Dia03_Card03_Its_on_the_right.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "It's next to the bank.",
+      "cenario": "Uma mochileira pergunta do ponto de ônibus na sua rua: \"Where is the bus stop?\" Você situa:",
+      "traducao": "Fica ao lado do banco.",
+      "sensacao": "<i>Next to</i> = ao lado de — o bloco que cola dois lugares.",
+      "audio": "audio/S04_Dia03_Card04_Its_next_to_the_bank.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "It's in front of the hotel.",
+      "cenario": "Saindo do restaurante, sua companheira de viagem procura os táxis: \"Where is the taxi stop?\" Você lembra do caminho da ida:",
+      "traducao": "Fica na frente do hotel.",
+      "sensacao": "<i>In front of</i> = na frente de. O hotel de marco zero.",
+      "audio": "audio/S04_Dia03_Card05_Its_in_front_of_the_hotel.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "It's behind the church.",
+      "cenario": "O casal do hotel veio mesmo conhecer Natal! A esposa quer achar o parquinho da foto: \"Where is the little park?\" Você orienta:",
+      "traducao": "Fica atrás da igreja.",
+      "sensacao": "<i>Behind</i> = atrás de. A igreja na frente, o parque escondidinho atrás.",
+      "audio": "audio/S04_Dia03_Card06_Its_behind_the_church.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "It's ten minutes on foot.",
+      "cenario": "O marido pergunta da praia do pôr do sol: \"Is it far?\" Você mede do jeito mais honesto:",
+      "traducao": "São dez minutos a pé.",
+      "sensacao": "Distância medida em minutos de caminhada — a régua dos viajantes.",
+      "audio": "audio/S04_Dia03_Card07_Its_ten_minutes_on_foot.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "Turn right at the corner.",
+      "cenario": "Uma turista procura a lojinha de artesanato que você recomendou: \"Where is the shop?\" Você guia:",
+      "traducao": "Vire à direita na esquina.",
+      "sensacao": "<i>Corner</i> = esquina — a palavra da Lily, agora sua. Direção dada, venda garantida.",
+      "audio": "audio/S04_Dia03_Card08_Turn_right_at_the_corner.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "Come with me!",
+      "cenario": "A turista com o mapa de cabeça pra baixo já desistiu de entender. Você simplifica, sorrindo:",
+      "traducao": "Vem comigo!",
+      "sensacao": "Quando explicar é mais difícil que acompanhar: a gentileza que anda junto.",
+      "audio": "audio/S04_Dia03_Card09_Come_with_me.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "You are here.",
+      "cenario": "O casal abre o mapa da cidade, perdido: \"Where are we?\" Você aponta o pontinho:",
+      "traducao": "Vocês estão aqui.",
+      "sensacao": "O dedo no mapa dizendo o essencial. De perdida a guia: olha onde você está.",
+      "audio": "audio/S04_Dia03_Card10_You_are_here.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

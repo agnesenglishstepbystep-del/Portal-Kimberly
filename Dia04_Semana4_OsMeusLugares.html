@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 4 · Os meus lugares — Kimberly Mentoria VIP</title>
+<!--
+  Dia 4 — fluxo de 4 etapas, no MOTOR NOVO (Camada 2 — motor_aula.js).
+  Semana 4 — fecha o Mês 1 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo de Conteúdo, KIM-S04-D04-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 19,
+  "rotulo": "Dia 4",
+  "titulo": "Dia 4 — Os meus lugares",
+  "sub": "Semana 4 — Where I Am · Is there...? · Where is...? · Turn left/right",
+  "lily": {
+    "audio": "audio/Lily_S04_Texto19.mp3",
+    "chave": "texto19",
+    "texto": [
+      "Inside the hotel — wow, it's big!",
+      "Where is the party? I ask at the desk.",
+      "The garden! It's behind the hotel, near the pool.",
+      "I go there, step by step, flowers first.",
+      "The party people are SO happy!",
+      "My first delivery: done!",
+      "I call Anna: \"Mission complete, boss!\""
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "My office is downtown.",
+      "cenario": "O cliente vem a Natal e quer conhecer a empresa: \"Where is your office?\" Você situa:",
+      "traducao": "Meu escritório fica no centro.",
+      "sensacao": "<i>Downtown</i> = o centro. Seu endereço profissional cabendo numa frase.",
+      "audio": "audio/S04_Dia04_Card01_My_office_is_downtown.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "I live near the beach.",
+      "cenario": "Uma mochileira, encantada com a cidade, quer saber do seu canto: \"Do you live downtown?\" Você responde:",
+      "traducao": "Eu moro perto da praia.",
+      "sensacao": "<i>I live</i> = eu moro. E morar perto do mar é meio quilômetro de orgulho.",
+      "audio": "audio/S04_Dia04_Card02_I_live_near_the_beach.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "It's on the second floor.",
+      "cenario": "O cliente chegou na portaria do prédio e liga: \"I'm here! Which floor?\" Você orienta:",
+      "traducao": "É no segundo andar.",
+      "sensacao": "<i>Second floor</i> = segundo andar. A subida é curta e a porta está aberta.",
+      "audio": "audio/S04_Dia04_Card03_Its_on_the_second_floor.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "It's the first door on the left.",
+      "cenario": "A visita na sua empresa procura o banheiro — a pergunta que era sua no início da semana, agora respondida por você:",
+      "traducao": "É a primeira porta à esquerda.",
+      "sensacao": "Anfitriã bilíngue: até o corredor da empresa já fala inglês. <i>Door</i> = porta.",
+      "audio": "audio/S04_Dia04_Card04_Its_the_first_door_on_the_left.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "My city is by the sea.",
+      "cenario": "A cliente pergunta como é Natal, que ela só conhece do mapa. Você resume:",
+      "traducao": "Minha cidade fica à beira-mar.",
+      "sensacao": "<i>By the sea</i> = à beira-mar. Três palavras, um cartão-postal.",
+      "audio": "audio/S04_Dia04_Card05_My_city_is_by_the_sea.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "It's far from here.",
+      "cenario": "A cliente, animada com a feira de artesanato: \"Can we walk there?\" Você, realista:",
+      "traducao": "É longe daqui.",
+      "sensacao": "Realismo de anfitriã: a feira vale a ida — de carro. <i>Far from here</i> = longe daqui.",
+      "audio": "audio/S04_Dia04_Card06_Its_far_from_here.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "It's over there.",
+      "cenario": "No evento que sua empresa apoia, alguém procura a saída. Você aponta:",
+      "traducao": "É logo ali.",
+      "sensacao": "<i>Over there</i> = ali adiante — o \"ali, ó\" do inglês, com direito a dedo esticado.",
+      "audio": "audio/S04_Dia04_Card07_Its_over_there.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "I'm on my way!",
+      "cenario": "O cliente confere do saguão: \"The meeting is at ten — are you close?\" Você, já no carro:",
+      "traducao": "Estou a caminho!",
+      "sensacao": "A frase-movimento: ainda não chegou, mas já é quase presença. <i>On my way</i> = a caminho.",
+      "audio": "audio/S04_Dia04_Card08_Im_on_my_way.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "This is my favorite place.",
+      "cenario": "Você leva o casal ao seu canto do pôr do sol e apresenta, quase em segredo:",
+      "traducao": "Este é o meu lugar favorito.",
+      "sensacao": "Todo mundo tem um canto que é seu. Apresentá-lo a alguém é quase um presente.",
+      "audio": "audio/S04_Dia04_Card09_This_is_my_favorite_place.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "I know every corner here!",
+      "cenario": "Depois do dia de guia turística improvisada, o casal aplaude seu domínio da cidade. Você ri:",
+      "traducao": "Eu conheço cada cantinho daqui!",
+      "sensacao": "Sua cidade, seu mapa interno. O inglês só deu voz ao que você sempre soube.",
+      "audio": "audio/S04_Dia04_Card10_I_know_every_corner_here.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

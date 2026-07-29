@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 2 · I go... — Kimberly Mentoria VIP</title>
+<!--
+  Dia 2 — fluxo de 4 etapas, no MOTOR NOVO (Camada 2 — motor_aula.js).
+  Estreia da Semana 3 no motor (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo de Conteúdo, KIM-S03-D02-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 12,
+  "rotulo": "Dia 2",
+  "titulo": "Dia 2 — I go...",
+  "sub": "Semana 3 — My Routine · I go... · I have... · I work...",
+  "lily": {
+    "audio": "audio/Lily_S03_Texto12.mp3",
+    "chave": "texto12",
+    "texto": [
+      "Good morning! I go to work early now.",
+      "First, breakfast at the bakery on the corner.",
+      "Then, I go to the shop on foot. It's not far!",
+      "Anna: \"Good morning, Lily! Ready for day two?\"",
+      "Yes! I'm ready, boss!",
+      "I love my new routine.",
+      "Flowers in the morning — a good life!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "I go to work by car.",
+      "cenario": "Papo de rotina na videochamada, enquanto o arquivo carrega: \"How do you go to work?\" Você responde:",
+      "traducao": "Eu vou pro trabalho de carro.",
+      "sensacao": "<i>By car</i> = de carro. Trânsito e playlist: o começo oficial do expediente.",
+      "audio": "audio/S03_Dia02_Card01_I_go_to_work_by_car.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "I go to the market on Saturdays.",
+      "cenario": "A esposa do casal adora feiras e quer saber dos seus sábados. Você conta o programa:",
+      "traducao": "Eu vou à feira aos sábados.",
+      "sensacao": "Sábado de feira: cores, cheiros e a sacola voltando cheia. <i>Market</i> = feira, mercado.",
+      "audio": "audio/S03_Dia02_Card02_I_go_to_the_market_on_Saturdays.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "I go shopping with my sister.",
+      "cenario": "A recepcionista do hotel repara nas sacolas iguais de vocês duas e sorri. Você explica o programa:",
+      "traducao": "Eu faço compras com a minha irmã.",
+      "sensacao": "Programa de irmãs: vitrines, risada e sacola dividida. <i>Go shopping</i> = fazer compras.",
+      "audio": "audio/S03_Dia02_Card03_I_go_shopping_with_my_sister.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "I go home for lunch.",
+      "cenario": "A cliente estranha você sempre offline ao meio-dia, e você explica o hábito bem brasileiro:",
+      "traducao": "Eu vou almoçar em casa.",
+      "sensacao": "Almoço com cheiro de casa no meio do expediente — um luxo que você defende. <i>Lunch</i> = almoço.",
+      "audio": "audio/S03_Dia02_Card04_I_go_home_for_lunch.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "Sometimes I go to the beach after work.",
+      "cenario": "O turista tem certeza de que morar em Natal é praia diária: \"Do you go to the beach every day?\" Você ri e ajusta:",
+      "traducao": "Às vezes eu vou à praia depois do trabalho.",
+      "sensacao": "Nem todo dia — mas quando o expediente acaba cedo, o mar está lá, esperando. <i>After work</i> = depois do trabalho.",
+      "audio": "audio/S03_Dia02_Card05_Sometimes_I_go_to_the_beach_after_work.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "I go on foot.",
+      "cenario": "O recepcionista oferece um táxi pro restaurante de sempre: \"Taxi?\" Você dispensa, já de tênis:",
+      "traducao": "Eu vou a pé.",
+      "sensacao": "Táxi dispensado com estilo — o passeio começa na calçada. <i>On foot</i> = a pé.",
+      "audio": "audio/S03_Dia02_Card06_I_go_on_foot.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "I go to bed late.",
+      "cenario": "No encontro da manhã, você boceja. Sua professora pergunta: \"Are you sleepy?\" Você confessa:",
+      "traducao": "Eu vou dormir tarde.",
+      "sensacao": "A série era boa, o sono que lute. Confissão com sorriso de culpa. <i>Go to bed</i> = ir dormir.",
+      "audio": "audio/S03_Dia02_Card07_I_go_to_bed_late.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "We go everywhere together.",
+      "cenario": "Terceiro passeio seguido com sua irmã, e o guia já ri: \"Together again?\" Você confirma:",
+      "traducao": "Nós vamos a todo lugar juntas.",
+      "sensacao": "Dupla oficial da viagem. <i>We</i> = nós: agora a frase carrega as duas.",
+      "audio": "audio/S03_Dia02_Card08_We_go_everywhere_together.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "I go out with my friends on Fridays.",
+      "cenario": "O cliente tenta marcar uma call pra sexta à noite: \"Are you free on Friday?\" Você defende a tradição:",
+      "traducao": "Eu saio com as minhas amigas às sextas.",
+      "sensacao": "Sexta tem dona: as amigas. <i>Go out</i> = sair — o sair de diversão, não só de porta.",
+      "audio": "audio/S03_Dia02_Card09_I_go_out_with_my_friends_on_Fridays.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "Thank you! Step by step!",
+      "cenario": "No fim da viagem, a esposa do casal elogia: \"Your English is better every day!\" Você agradece com a sua filosofia:",
+      "traducao": "Obrigada! Passo a passo!",
+      "sensacao": "Sem pressa e sem parar — o método virou lema. <i>Step by step</i>: passo a passo. E <i>thank you</i> estreia do jeito certo: recebendo elogio.",
+      "audio": "audio/S03_Dia02_Card10_Thank_you_Step_by_step.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

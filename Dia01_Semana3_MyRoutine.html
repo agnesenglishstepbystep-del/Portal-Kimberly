@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 1 · My Routine — Kimberly Mentoria VIP</title>
+<!--
+  Dia 1 — fluxo de 4 etapas, no MOTOR NOVO (Camada 2 — motor_aula.js).
+  Estreia da Semana 3 no motor (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo de Conteúdo, KIM-S03-D01-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 11,
+  "rotulo": "Dia 1",
+  "titulo": "Dia 1 — My Routine",
+  "sub": "Semana 3 — My Routine · I go... · I have... · I work...",
+  "lily": {
+    "audio": "audio/Lily_S03_Texto11.mp3",
+    "chave": "texto11",
+    "texto": [
+      "Big day today: my new job starts!",
+      "I'm nervous... and excited too!",
+      "My friend Anna has a flower shop in town.",
+      "Now, I work with her!",
+      "I love flowers — so it's perfect for me.",
+      "I'm ready. A fresh start, again!",
+      "Wish me luck!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "I work every day.",
+      "cenario": "A cliente estrangeira abre a videochamada perguntando da sua semana: \"How is your week?\" Você resume, rindo:",
+      "traducao": "Eu trabalho todos os dias.",
+      "sensacao": "A agenda contada em quatro palavras — cansa, mas é sua. <i>Every day</i> = todos os dias.",
+      "audio": "audio/S03_Dia01_Card01_I_work_every_day.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "I go to work early.",
+      "cenario": "Sua companheira de viagem propõe caminhada às seis da manhã e pergunta se é cedo demais pra você: \"Too early?\" Você ri:",
+      "traducao": "Eu vou pro trabalho cedo.",
+      "sensacao": "Madrugadora de carteirinha: quando a cidade acorda, você já está a caminho. <i>Early</i> = cedo.",
+      "audio": "audio/S03_Dia01_Card02_I_go_to_work_early.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "I have an English class today.",
+      "cenario": "O cliente quer adiantar uma conversa: \"Are you free today?\" Você protege o horário sagrado:",
+      "traducao": "Eu tenho aula de inglês hoje.",
+      "sensacao": "A agenda tem um compromisso inegociável agora — e ele é seu.",
+      "audio": "audio/S03_Dia01_Card03_I_have_an_English_class_today.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "I go to the gym now.",
+      "cenario": "A cliente comenta sua energia na videochamada. Você entrega o segredo:",
+      "traducao": "Eu vou pra academia agora (nessa fase).",
+      "sensacao": "A novata da academia virou frequentadora. <i>Now</i> aqui é \"nesta fase da vida\": hábito novo, orgulho novo.",
+      "audio": "audio/S03_Dia01_Card04_I_go_to_the_gym_now.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "I have a small company.",
+      "cenario": "No jantar do evento, a pergunta clássica chega de novo: \"What do you do?\" Dessa vez, você responde com mais história:",
+      "traducao": "Eu tenho uma empresa pequena.",
+      "sensacao": "Pequena no tamanho, enorme no que custou pra construir. <i>Company</i> = empresa.",
+      "audio": "audio/S03_Dia01_Card05_I_have_a_small_company.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "I go to the beach on Sundays.",
+      "cenario": "O guia pergunta como é a vida em Natal. Você conta o ritual da semana:",
+      "traducao": "Eu vou à praia aos domingos.",
+      "sensacao": "O domingo com cheiro de mar — o descanso que já tem endereço. <i>On Sundays</i> = aos domingos.",
+      "audio": "audio/S03_Dia01_Card06_I_go_to_the_beach_on_Sundays.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "Sometimes I work on Saturdays.",
+      "cenario": "Sua amiga quer companhia pra praia no sábado de manhã e confere antes: \"Do you work on Saturdays?\" Você responde, flexível:",
+      "traducao": "Às vezes eu trabalho aos sábados.",
+      "sensacao": "<i>Sometimes</i> = às vezes — a palavra que deixa a agenda respirar.",
+      "audio": "audio/S03_Dia01_Card07_Sometimes_I_work_on_Saturdays.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "I have a busy week.",
+      "cenario": "A cliente propõe uma reunião extra: \"Can we meet this week?\" Você olha a agenda lotada e responde, sincera:",
+      "traducao": "Minha semana está cheia.",
+      "sensacao": "A semana já chegou cheia. Dizer isso organiza a conversa — e a expectativa.",
+      "audio": "audio/S03_Dia01_Card08_I_have_a_busy_week.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "I go to the bakery every morning.",
+      "cenario": "Quarto dia de viagem, e a \"sua\" padaria (aquela da rua) já virou rotina. Você conta pro casal do hotel:",
+      "traducao": "Eu vou à padaria toda manhã.",
+      "sensacao": "Quatro dias e a rotina já achou seu cantinho na cidade nova. <i>Every morning</i> = toda manhã.",
+      "audio": "audio/S03_Dia01_Card09_I_go_to_the_bakery_every_morning.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "I have a good life.",
+      "cenario": "Olhando as fotos da semana — trabalho, praia, família — você pensa, e arrisca dizer em inglês, só pra você:",
+      "traducao": "Eu tenho uma vida boa.",
+      "sensacao": "A frase que não precisa de plateia. Gratidão em quatro palavras.",
+      "audio": "audio/S03_Dia01_Card10_I_have_a_good_life.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

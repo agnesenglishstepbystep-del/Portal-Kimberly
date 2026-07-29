@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 5 · Perdida? Nunca por muito tempo — Kimberly Mentoria VIP</title>
+<!--
+  Dia 5 — fluxo de 4 etapas, no MOTOR NOVO (Camada 2 — motor_aula.js).
+  Semana 4 — fecha o Mês 1 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo de Conteúdo, KIM-S04-D05-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 20,
+  "rotulo": "Dia 5",
+  "titulo": "Dia 5 — Perdida? Nunca por muito tempo",
+  "sub": "Semana 4 — Where I Am · Is there...? · Where is...? · Turn left/right",
+  "lily": {
+    "audio": "audio/Lily_S04_Texto20.mp3",
+    "chave": "texto20",
+    "texto": [
+      "Back at the shop, end of the day.",
+      "Anna: \"Lily, you are my star! Can you help me with big orders now?\"",
+      "Yes, boss! I love deliveries.",
+      "But next time, I need a plan.",
+      "Buses, maps, new streets... \"How do I get there?\" — my new question!",
+      "My world is bigger now: my town, the sea, new streets.",
+      "Step by step, my world grows!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "I'm lost.",
+      "cenario": "Mapa fechado, ruas iguais, referências sumidas. Uma senhora percebe e se aproxima: \"Are you okay?\" Você admite:",
+      "traducao": "Estou perdida.",
+      "sensacao": "Dizer \"estou perdida\" é o primeiro passo pra deixar de estar. Acontece nas melhores viagens.",
+      "audio": "audio/S04_Dia05_Card01_Im_lost.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "I don't know this street.",
+      "cenario": "Sua companheira pergunta se o restaurante está perto: \"Is it near here?\" Você olha em volta, honesta:",
+      "traducao": "Eu não conheço essa rua.",
+      "sensacao": "Admitir que não sabe também orienta: hora de perguntar a quem saiba.",
+      "audio": "audio/S04_Dia05_Card02_I_dont_know_this_street.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "It's not this way!",
+      "cenario": "O grupo começa a seguir pro lado errado na saída do teatro. Você, que memorizou o caminho, avisa:",
+      "traducao": "Não é por aqui!",
+      "sensacao": "A memória boa salvando o grupo. Três palavras, meia-volta, todo mundo no rumo.",
+      "audio": "audio/S04_Dia05_Card03_Its_not_this_way.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "This is not our hotel.",
+      "cenario": "O táxi para num hotel parecido, mas errado. O motorista anuncia: \"Here we are!\" Você confere a fachada:",
+      "traducao": "Este não é o nosso hotel.",
+      "sensacao": "Parecido não é igual. Dito com calma, o erro vira só mais dez minutos de corrida.",
+      "audio": "audio/S04_Dia05_Card04_This_is_not_our_hotel.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "I don't have a map.",
+      "cenario": "O guarda simpático da praça quer ajudar: \"Do you have a map?\" Você mostra o celular sem bateria:",
+      "traducao": "Eu não tenho mapa.",
+      "sensacao": "Celular morto, mapa nenhum: agora é no inglês e na gentileza alheia. E funciona.",
+      "audio": "audio/S04_Dia05_Card05_I_dont_have_a_map.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "The bank is not open today.",
+      "cenario": "Domingo de manhã, um turista pergunta do banco. Você poupa a caminhada dele:",
+      "traducao": "O banco não abre hoje.",
+      "sensacao": "Melhor que a direção certa: o aviso que evita a ida à toa.",
+      "audio": "audio/S04_Dia05_Card06_The_bank_is_not_open_today.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "We are not lost!",
+      "cenario": "Duas voltas no mesmo quarteirão e sua irmã já duvida, rindo: \"Are we lost?\" Você, de mapa aberto, garante:",
+      "traducao": "Nós não estamos perdidas!",
+      "sensacao": "Mapa na mão, moral intacto. Perdidas? Jamais — no máximo, explorando.",
+      "audio": "audio/S04_Dia05_Card07_We_are_not_lost.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "Excuse me — where is this?",
+      "cenario": "Endereço no print, pernas cansadas. Você mostra a tela pra atendente da padaria:",
+      "traducao": "Com licença — onde fica isto (aqui)?",
+      "sensacao": "O truque da viajante esperta: a tela mostra, você pergunta. E era pertinho.",
+      "audio": "audio/S04_Dia05_Card08_Excuse_me_where_is_this.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "I don't remember the name.",
+      "cenario": "O motorista pergunta qual restaurante: \"Which restaurant?\" O nome fugiu — você já saca o celular:",
+      "traducao": "Eu não lembro o nome.",
+      "sensacao": "O nome escapou, o jeito não: mostra a tela e a viagem segue. <i>Remember</i> = lembrar.",
+      "audio": "audio/S04_Dia05_Card09_I_dont_remember_the_name.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "I'm not afraid to ask!",
+      "cenario": "Sua professora pergunta o que mudou depois desta semana de perguntas. Você resume:",
+      "traducao": "Eu não tenho medo de perguntar!",
+      "sensacao": "A conquista da semana não foi decorar rua — foi perder o medo. Quem pergunta, chega. <i>Afraid</i> = com medo.",
+      "audio": "audio/S04_Dia05_Card10_Im_not_afraid_to_ask.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>
