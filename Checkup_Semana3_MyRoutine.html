@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Check-up · Semana 3 — Kimberly Mentoria VIP</title>
+<!--
+  Check-up da Semana 3 — no MOTOR NOVO (Camada 2 — motor_checkup.js).
+  3 questões: situação + 3 frases CORRETAS (sem input errado), posição da correta embaralhada.
+  Fonte: Acervo de Conteúdo, KIM-S03-CHK-C01 a C03.
+-->
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const CHECKUP={
+  "semana": 3,
+  "sufixo": "S03",
+  "sub": "My Routine · I go... · I have... · I work...",
+  "questoes": [
+    {
+      "id": "q1",
+      "situacao": "Apertado com o prazo, o cliente tenta: \"Can we meet on Sunday?\" Você responde:",
+      "opcoes": [
+        "I don't work on Sundays.",
+        "I start my day at six.",
+        "I have a new client!"
+      ],
+      "certa": 0
+    },
+    {
+      "id": "q2",
+      "situacao": "O cliente quer marcar a entrega: \"When are you free?\" Você responde:",
+      "opcoes": [
+        "I go on foot.",
+        "I love the weekend!",
+        "I have time on Friday."
+      ],
+      "certa": 2
+    },
+    {
+      "id": "q3",
+      "situacao": "Entre admirada e cansada, uma amiga pergunta: \"How do you do it all?\" Você responde:",
+      "opcoes": [
+        "In the morning, please!",
+        "One day at a time.",
+        "I have one sister."
+      ],
+      "certa": 1
+    }
+  ]
+};
+</script>
+<script src="motor_checkup.js"></script>
+</body>
+</html>

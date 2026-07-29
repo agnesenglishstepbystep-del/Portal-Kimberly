@@ -6,9 +6,21 @@
 /* ============================================================
    styles.css — Kimberly | Mentoria VIP Step by Step
    Folha de estilo COMPARTILHADA do portal (criada 08/07/2026).
-   Extraída dos 10 HTML sem mudança visual — identidade §5 do Guia.
 
-   Regra de arquitetura:
+   ── CAMADA 1 (29/07/2026): esta folha virou o DESIGN SYSTEM da
+   Identidade Visual 2.0. A regra que guiou a mudança:
+     • os NOMES dos tokens e TODOS os seletores continuam os mesmos
+       — só os VALORES foram reafinados pra paleta da IV2. Assim a
+       identidade nova entra em todas as telas sem tocar uma linha
+       de HTML nem de lógica de progresso.
+     • paleta e regras: identidade_visual_2/GUIA_ESTILO_VIDEIRA.md
+     • o tema NOITE já está definido na seção 7, mas fica INERTE até
+       a Camada 3 ligar [data-tema="noite"] no Meu Progresso.
+     • nada de animação em laço; tudo respeita prefers-reduced-motion
+       (seção 8). Se o navegador pedir menos movimento, a página
+       nasce estática e opaca — nunca invisível.
+
+   Regra de arquitetura (inalterada):
    - O que aparece em 2+ páginas mora AQUI (um fato, um lugar).
    - O que é exclusivo de uma página fica no <style> da própria
      página, SEMPRE depois do <link> — assim a página pode
@@ -23,27 +35,51 @@
    4. Botões
    5. Componentes comuns (instrução, aviso de áudio, overlay/modal)
    6. Fluxo do dia — Dia 1–5 (stepper, cartões, grades, Lily)
+   7. Tema noite (preparado pra Camada 3 — inerte por enquanto)
+   8. Movimento e acessibilidade
    ============================================================ */
 
 /* ---------- 1. Reset + tokens ---------- */
 * { margin:0; padding:0; box-sizing:border-box; }
 :root{
-  --azul:#1e3651; --azul-2:#2c4e73;
-  --verde:#2f7d52; --verde-2:#4fa37a; --verde-escuro:#1f5a3a;
-  --dourado:#c9a84c; --dourado-2:#e3c878;
-  --creme:#f8f5ef; --creme-2:#edf4f4;
-  --texto:#1e3651;
-  --sombra:0 10px 30px rgba(30,54,81,.12);
+  /* Paleta oficial da IV2 — mesmos nomes de antes, valores reafinados */
+  --azul:#16283f; --azul-2:#2a4763;          /* azul-meia-noite + apoio */
+  --verde:#2e7a5f; --verde-2:#4f9d7d; --verde-escuro:#1f5c4a;   /* esmeraldas */
+  --dourado:#d4af5a; --dourado-2:#e6cd8e;    /* ouro: tinta nobre no dia */
+  --creme:#f8f5ef; --creme-2:#e8edf3;        /* papel creme + lavagem de azul-céu */
+  --texto:#16283f;
+  --sombra:0 10px 30px rgba(22,40,63,.10);
+
+  /* Tokens novos da IV2 (as páginas podem usar) */
+  --papel:#fffdf9;                 /* cartão sobre o papel creme */
+  --ceu:#7d9bb8;                   /* azul-céu das lavagens do dia */
+  --glow:#f3ecdc;                  /* creme luminoso (noite) */
+  --noite:#16283f; --noite-2:#1e3450;
+  --fio-ouro:rgba(212,175,90,.34); /* fio de ouro: borda fina dos cartões */
+  --fio-ouro-forte:rgba(212,175,90,.62);
+  --neutro:#5a6b7a;                /* texto de apoio */
+  --neutro-2:#8a97a0;              /* legendas, estados desligados */
+  --trilho:#e7e0d2;                /* trilho de barras e passos */
+  --sombra-alta:0 18px 44px rgba(22,40,63,.16);
+  --raio:16px; --raio-g:22px; --raio-p:10px;
+  --transicao:.25s cubic-bezier(.2,.7,.3,1);
 }
 
 /* ---------- 2. Base ---------- */
 body{
-  font-family:'Nunito',Arial,Helvetica,sans-serif;
-  background:linear-gradient(180deg,var(--creme) 0%,var(--creme-2) 100%);
+  font-family:'Nunito','Segoe UI',system-ui,-apple-system,Arial,Helvetica,sans-serif;
+  /* cor de base + gradiente que acompanha a altura da página.
+     NÃO usar background-attachment:fixed — no iPhone ele custa rolagem e
+     pode deixar faixa em branco em página longa. */
+  background-color:var(--creme-2);
+  background-image:linear-gradient(180deg,var(--creme) 0%,var(--creme-2) 100%);
+  background-repeat:no-repeat;
   color:var(--texto);
   min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
 }
-h1,h2{ font-family:'Nunito',Arial,sans-serif; font-weight:800; }
+h1,h2{ font-family:'Nunito','Segoe UI',system-ui,Arial,sans-serif; font-weight:800; letter-spacing:-.01em; }
 
 /* Largura padrão de conteúdo (Dia 1–5 e Passos). Outras páginas ajustam no próprio <style>. */
 .wrap{ max-width:760px; margin:0 auto; padding:28px 18px; }
@@ -52,46 +88,68 @@ h1,h2{ font-family:'Nunito',Arial,sans-serif; font-weight:800; }
 header.topbar{
   display:flex; align-items:center; justify-content:space-between;
   padding:16px 24px; background:var(--azul); color:#fff;
+  /* o fio de ouro do arame de condução, atravessando de borda a borda */
+  border-bottom:1px solid var(--fio-ouro-forte);
 }
-header.topbar a{ color:#fff; text-decoration:none; font-size:.9rem; opacity:.9; }
+header.topbar a{ color:#fff; text-decoration:none; font-size:.9rem; opacity:.88; transition:opacity var(--transicao); }
 header.topbar a:hover{ opacity:1; text-decoration:underline; }
 .topbar-acoes{ display:flex; gap:16px; align-items:center; }
-.brand{ font-family:'Nunito',Arial,sans-serif; font-weight:800; font-size:1.05rem; letter-spacing:.02em; display:inline-flex; align-items:center; gap:9px; }
+.brand{ font-family:'Nunito','Segoe UI',Arial,sans-serif; font-weight:800; font-size:1.05rem; letter-spacing:.02em; display:inline-flex; align-items:center; gap:9px; }
 .brand b{ color:var(--dourado-2); }
 .brand img.logo{ width:30px; height:30px; object-fit:contain; border-radius:50%; }
 
-footer{ text-align:center; padding:24px; color:#9aa3ad; font-size:.8rem; }
+footer{ text-align:center; padding:24px; color:var(--neutro-2); font-size:.8rem; }
 
 /* ---------- 4. Botões ---------- */
 button, .btn{
-  font-family:Arial,sans-serif; cursor:pointer; border:none; border-radius:999px;
-  padding:11px 22px; font-size:.92rem; font-weight:bold; transition:.2s;
+  font-family:'Nunito','Segoe UI',Arial,sans-serif; cursor:pointer; border:none; border-radius:999px;
+  padding:11px 22px; font-size:.92rem; font-weight:800; letter-spacing:.01em;
+  transition:background var(--transicao), color var(--transicao), transform var(--transicao), box-shadow var(--transicao);
+}
+button:hover:not(:disabled), .btn:hover{ transform:translateY(-1px); }
+button:active:not(:disabled){ transform:translateY(0); }
+button:focus-visible, .btn:focus-visible, a:focus-visible{
+  outline:2px solid var(--dourado); outline-offset:3px;
 }
 .btn-ouvir{ background:var(--azul); color:#fff; }
 .btn-ouvir:hover{ background:var(--azul-2); }
 .btn-principal{ background:var(--verde); color:#fff; }
 .btn-principal:hover{ background:var(--verde-2); }
-.btn-principal:disabled{ background:#cfd6cf; color:#8b938b; cursor:not-allowed; }
+.btn-principal:disabled{ background:#d5dcd8; color:#8b938b; cursor:not-allowed; }
 .btn-dourado{ background:var(--dourado); color:var(--azul); }
 .btn-dourado:hover{ background:var(--dourado-2); }
-.btn-dourado:disabled{ background:#e7decb; color:#a89a6f; cursor:not-allowed; }
+.btn-dourado:disabled{ background:#eae2ce; color:#a89a6f; cursor:not-allowed; }
 .btn-fantasma{ background:transparent; color:var(--azul); border:1.5px solid var(--azul); }
+.btn-fantasma:hover{ background:rgba(22,40,63,.05); }
 
 /* ---------- 5. Componentes comuns ---------- */
 .instrucao{
-  background:#fff; border-left:4px solid var(--dourado); border-radius:10px;
-  padding:16px 20px; margin-bottom:26px; box-shadow:var(--sombra); font-size:.97rem; line-height:1.5;
+  background:var(--papel); border-left:4px solid var(--dourado);
+  border-top:1px solid var(--fio-ouro); border-right:1px solid var(--fio-ouro); border-bottom:1px solid var(--fio-ouro);
+  border-radius:var(--raio-p);
+  padding:16px 20px; margin-bottom:26px; box-shadow:var(--sombra); font-size:.97rem; line-height:1.55;
 }
 
 .audio-fallback{ font-size:.85rem; color:#a08a3f; margin-top:6px; display:none; }
 
-.overlay{ position:fixed; inset:0; background:rgba(30,54,81,.55); display:none; align-items:center; justify-content:center; z-index:50; padding:20px; }
+.overlay{ position:fixed; inset:0; background:rgba(22,40,63,.55); display:none; align-items:center; justify-content:center; z-index:50; padding:20px; }
 .overlay.on{ display:flex; }
-.modal{ background:#fff; border-radius:18px; padding:36px 30px; max-width:420px; text-align:center; box-shadow:0 20px 50px rgba(0,0,0,.3); }
+.modal{
+  background:var(--papel); border-radius:var(--raio-g); padding:36px 30px; max-width:420px; text-align:center;
+  border:1px solid var(--fio-ouro); box-shadow:0 24px 60px rgba(22,40,63,.34);
+}
 .modal .arvore-emoji{ font-size:3rem; margin-bottom:10px; }
 .modal h2{ color:var(--azul); margin-bottom:10px; }
-.modal p{ color:#5a6b7a; margin-bottom:22px; line-height:1.5; }
+.modal p{ color:var(--neutro); margin-bottom:22px; line-height:1.55; }
 .modal .acoes{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+
+/* Fio de ouro sob os títulos — o arame de condução da videira, em CSS
+   (sem imagem, sem mudar HTML): a assinatura da IV2 nas telas claras. */
+.titulo-dia::after, .wrap > h1::after, .hero h1::after, .intro h1::after, .card h1::after{
+  content:""; display:block; width:118px; height:1px; margin:14px auto 2px;
+  background:linear-gradient(90deg,transparent,var(--dourado),transparent);
+}
+.wrap > h1::after{ margin-bottom:10px; }
 
 /* ---------- 6. Fluxo do dia — Dia 1–5 ---------- */
 .titulo-dia{ text-align:center; margin-bottom:6px; }
@@ -102,11 +160,12 @@ button, .btn{
 .stepper{ display:flex; justify-content:center; gap:10px; margin:24px 0 30px; flex-wrap:wrap; }
 .step{
   display:flex; align-items:center; gap:8px; padding:8px 14px; border-radius:999px;
-  background:#fff; border:1px solid #e3ddd0; font-size:.82rem; color:#9aa3ad;
-  transition:.25s;
+  background:var(--papel); border:1px solid var(--trilho); font-size:.82rem; color:var(--neutro-2);
+  transition:background var(--transicao), color var(--transicao), border-color var(--transicao), box-shadow var(--transicao);
 }
-.step .dot{ width:20px; height:20px; border-radius:50%; background:#e3ddd0; color:#fff;
-  display:flex; align-items:center; justify-content:center; font-size:.72rem; font-weight:bold; }
+.step .dot{ width:20px; height:20px; border-radius:50%; background:var(--trilho); color:#fff;
+  display:flex; align-items:center; justify-content:center; font-size:.72rem; font-weight:bold;
+  transition:background var(--transicao), color var(--transicao); }
 .step.ativo{ background:var(--azul); color:#fff; border-color:var(--azul); box-shadow:var(--sombra); }
 .step.ativo .dot{ background:var(--dourado); color:var(--azul); }
 .step.feito{ background:var(--verde); color:#fff; border-color:var(--verde); }
@@ -116,29 +175,34 @@ button, .btn{
 .etapa.ativa{ display:block; }
 
 /* Etapa 1: Decifrar (um a um) */
-.progresso-decifrar{ text-align:center; color:var(--azul-2); font-size:.85rem; margin-bottom:14px; }
+.progresso-decifrar{ text-align:center; color:var(--azul-2); font-size:.85rem; margin-bottom:14px; font-weight:700; letter-spacing:.02em; }
 .card-unico{
-  background:#fff; border-radius:18px; box-shadow:var(--sombra); padding:32px 26px;
+  background:var(--papel); border-radius:var(--raio-g); border:1px solid var(--fio-ouro); box-shadow:var(--sombra);
+  padding:32px 26px;
   text-align:center; min-height:260px; display:flex; flex-direction:column; justify-content:center; gap:16px;
 }
-.cenario{ font-size:.92rem; color:#5a6b7a; line-height:1.5; }
+.cenario{ font-size:.92rem; color:var(--neutro); line-height:1.55; }
 .frase{ font-family:Georgia,'Times New Roman',serif; font-size:1.7rem; color:var(--azul); font-weight:bold; }
 .traducao{ font-size:1.15rem; color:var(--verde-escuro); font-weight:bold; }
-.sensacao{ font-size:.92rem; color:#5a6b7a; line-height:1.5; font-style:italic; }
+.sensacao{ font-size:.92rem; color:var(--neutro); line-height:1.55; font-style:italic; }
 
 .acoes-card{ display:flex; justify-content:center; gap:12px; flex-wrap:wrap; margin-top:6px; }
 
 /* Etapas 2 e 3: Escutar / Anki — grade */
 .total-escutas{ text-align:center; margin-bottom:18px; }
-.barra{ background:#e3ddd0; border-radius:999px; height:10px; overflow:hidden; max-width:340px; margin:8px auto 0; }
-.barra > div{ background:linear-gradient(90deg,var(--verde),var(--verde-2)); height:100%; width:0%; transition:.3s; }
+.barra{ background:var(--trilho); border-radius:999px; height:10px; overflow:hidden; max-width:340px; margin:8px auto 0; }
+.barra > div{ background:linear-gradient(90deg,var(--verde),var(--verde-2)); height:100%; width:0%; transition:width .45s cubic-bezier(.2,.7,.3,1); }
 
 .grade{ display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; margin-bottom:24px; }
-.mini-card{ background:#fff; border-radius:14px; box-shadow:var(--sombra); padding:16px; text-align:center; }
+.mini-card{
+  background:var(--papel); border-radius:var(--raio); border:1px solid var(--fio-ouro); box-shadow:var(--sombra);
+  padding:16px; text-align:center; transition:box-shadow var(--transicao);
+}
+.mini-card:hover{ box-shadow:var(--sombra-alta); }
 .mini-card .frase{ font-size:1.05rem; margin-bottom:10px; }
-.mini-card .cenario{ font-size:.78rem; color:#5a6b7a; line-height:1.4; margin-bottom:10px; }
+.mini-card .cenario{ font-size:.78rem; color:var(--neutro); line-height:1.45; margin-bottom:10px; }
 .mini-card .traducao{ font-size:.98rem; color:var(--verde-escuro); font-weight:bold; margin-bottom:6px; }
-.mini-card .sensacao{ font-size:.78rem; color:#5a6b7a; font-style:italic; line-height:1.4; }
+.mini-card .sensacao{ font-size:.78rem; color:var(--neutro); font-style:italic; line-height:1.45; }
 .mini-card .verso{ display:none; margin-top:4px; }
 .mini-card.virado .frente{ display:none; }
 .mini-card.virado .verso{ display:block; }
@@ -150,10 +214,13 @@ button, .btn{
 .rodape-etapa{ text-align:center; margin-top:10px; }
 
 /* Etapa 4: Com a Lily */
-.lily-box{ background:#fff; border-radius:18px; box-shadow:var(--sombra); padding:30px; text-align:center; }
+.lily-box{
+  background:var(--papel); border-radius:var(--raio-g); border:1px solid var(--fio-ouro); box-shadow:var(--sombra);
+  padding:30px; text-align:center;
+}
 .lily-box h2{ color:var(--azul); font-size:1.4rem; margin-bottom:6px; }
-.lily-box p.legenda{ color:#5a6b7a; font-size:.9rem; margin-bottom:20px; }
-.texto-lily{ display:none; text-align:left; background:var(--creme-2); border-radius:10px; padding:18px 20px; margin-top:18px; font-family:Georgia,serif; font-size:1.05rem; line-height:1.9; color:var(--azul); }
+.lily-box p.legenda{ color:var(--neutro); font-size:.9rem; margin-bottom:20px; }
+.texto-lily{ display:none; text-align:left; background:var(--creme-2); border-radius:var(--raio-p); padding:18px 20px; margin-top:18px; font-family:Georgia,serif; font-size:1.05rem; line-height:1.9; color:var(--azul); }
 .texto-lily.on{ display:block; }
 audio{ width:100%; max-width:380px; margin:10px auto; display:block; }
 
@@ -163,3 +230,41 @@ audio{ width:100%; max-width:380px; margin:10px auto; display:block; }
   .stepper{ gap:6px; }
   .step{ padding:7px 10px; font-size:.74rem; }
 }
+
+/* ---------- 7. Tema noite (INERTE até a Camada 3) ----------
+   O jardim é um só, em duas horas. Liga com data-tema="noite" no <html>
+   ou no <body> da página cerimonial. Nenhuma página usa isso hoje. */
+[data-tema="noite"]{
+  --creme:#16283f; --creme-2:#1e3450;
+  --papel:rgba(255,253,249,.055);
+  --texto:#f3ecdc;
+  --azul:#0f1e30; --azul-2:#31527a;
+  --neutro:#b9c6d3; --neutro-2:#8b9cad;
+  --trilho:rgba(243,236,220,.16);
+  --fio-ouro:rgba(212,175,90,.42); --fio-ouro-forte:rgba(212,175,90,.80);
+  --sombra:0 12px 34px rgba(0,0,0,.34);
+  --sombra-alta:0 20px 48px rgba(0,0,0,.42);
+}
+[data-tema="noite"] body{ color:var(--texto); }
+[data-tema="noite"] h1, [data-tema="noite"] h2,
+[data-tema="noite"] .titulo-dia h1, [data-tema="noite"] .lily-box h2{ color:var(--glow); }
+[data-tema="noite"] .frase, [data-tema="noite"] .texto-lily{ color:var(--glow); }
+[data-tema="noite"] .traducao, [data-tema="noite"] .contador.completo{ color:var(--dourado-2); }
+[data-tema="noite"] .brand b{ color:var(--dourado); }
+[data-tema="noite"] .titulo-dia::after, [data-tema="noite"] .wrap > h1::after, [data-tema="noite"] .intro h1::after{ background:linear-gradient(90deg,transparent,var(--dourado-2),transparent); }
+/* o anoitecer: a virada dia→noite é uma transição de ~1s, nunca uma troca seca */
+html.anoitecer, html.anoitecer body{ transition:background-color 1s ease, color 1s ease; }
+
+/* ---------- 8. Movimento e acessibilidade ----------
+   Padrão = página opaca e parada. O movimento é um acréscimo, e só
+   quando o sistema da aluna não pede o contrário. */
+@keyframes iv2-aparecer{ from{ opacity:0 } to{ opacity:1 } }
+@keyframes iv2-subir{ from{ opacity:0; transform:translateY(6px) } to{ opacity:1; transform:none } }
+@media (prefers-reduced-motion: no-preference){
+  body{ animation:iv2-aparecer .34s ease both; }
+  .etapa.ativa{ animation:iv2-subir .30s ease both; }
+}
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; }
+}
+::selection{ background:rgba(212,175,90,.32); }

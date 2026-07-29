@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 1 · Where is...? — Kimberly Mentoria VIP</title>
+<!--
+  Dia 1 — fluxo de 4 etapas, no MOTOR NOVO (Camada 2 — motor_aula.js).
+  Semana 4 — fecha o Mês 1 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo de Conteúdo, KIM-S04-D01-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 16,
+  "rotulo": "Dia 1",
+  "titulo": "Dia 1 — Where is...?",
+  "sub": "Semana 4 — Where I Am · Is there...? · Where is...? · Turn left/right",
+  "lily": {
+    "audio": "audio/Lily_S04_Texto16.mp3",
+    "chave": "texto16",
+    "texto": [
+      "Big news at the shop: a wedding order!",
+      "Flowers for a big party — my first delivery!",
+      "The party is at a hotel by the sea.",
+      "But... where is this hotel? I don't know!",
+      "It's far from my street, and I don't have a car.",
+      "Anna: \"Don't worry, Lily. Step by step!\"",
+      "Okay. First step: the map!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "Excuse me — where is the bathroom?",
+      "cenario": "Restaurante grande, primeira parada obrigatória. Você aborda o garçom:",
+      "traducao": "Com licença — onde é o banheiro?",
+      "sensacao": "A pergunta mais valiosa de qualquer viagem — aberta com a chave-mestra: <i>excuse me</i> = com licença.",
+      "audio": "audio/S04_Dia01_Card01_Excuse_me_where_is_the_bathroom.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "Where is the elevator?",
+      "cenario": "Check-in feito, mala pesada, corredor comprido. Você pergunta na recepção:",
+      "traducao": "Onde fica o elevador?",
+      "sensacao": "<i>Elevator</i> = elevador. A mala agradece a pergunta.",
+      "audio": "audio/S04_Dia01_Card02_Where_is_the_elevator.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "Where is gate 12?",
+      "cenario": "Conexão apertada, painel confuso. Você para um funcionário do aeroporto:",
+      "traducao": "Onde fica o portão 12?",
+      "sensacao": "Cada minuto conta — a pergunta certa corta caminho. <i>Gate</i> você conhece desde a primeira semana: portão.",
+      "audio": "audio/S04_Dia01_Card03_Where_is_gate_12.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "Where is the beach?",
+      "cenario": "Primeiro dia na cidade nova, protetor já na bolsa. Você pergunta pro recepcionista:",
+      "traducao": "Onde fica a praia?",
+      "sensacao": "A pergunta com cheiro de férias. E a resposta vem com bônus: dá pra ir a pé.",
+      "audio": "audio/S04_Dia01_Card04_Where_is_the_beach.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "Where is the bus stop?",
+      "cenario": "Plano do dia: conhecer a cidade de ônibus, como gente local. Você pergunta na padaria:",
+      "traducao": "Onde fica o ponto de ônibus?",
+      "sensacao": "<i>Bus stop</i> = ponto de ônibus. Viajante de verdade também anda de ônibus.",
+      "audio": "audio/S04_Dia01_Card05_Where_is_the_bus_stop.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "Where is the restaurant?",
+      "cenario": "Primeira manhã no hotel, fome de café da manhã. Você pergunta ao rapaz do saguão:",
+      "traducao": "Onde fica o restaurante?",
+      "sensacao": "Pergunta simples, recompensa quentinha no segundo andar.",
+      "audio": "audio/S04_Dia01_Card06_Where_is_the_restaurant.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "Where is the exit?",
+      "cenario": "Fim do espetáculo, mar de gente, placas confusas. Você pergunta à segurança:",
+      "traducao": "Onde fica a saída?",
+      "sensacao": "<i>Exit</i> = saída. Em lugar cheio, é a palavra que vale ouro.",
+      "audio": "audio/S04_Dia01_Card07_Where_is_the_exit.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "Where is the market?",
+      "cenario": "Você quer frutas e lembrancinhas de gente local. Pergunta à dona da pousada:",
+      "traducao": "Onde fica a feira/o mercado?",
+      "sensacao": "A feira: onde a cidade mostra a cara de verdade. E a farmácia — ela de novo! — virou ponto de referência.",
+      "audio": "audio/S04_Dia01_Card08_Where_is_the_market.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "Where is she?",
+      "cenario": "A guia sumiu de vista e o grupo está parado no sol. Você pergunta pro motorista:",
+      "traducao": "Onde ela está?",
+      "sensacao": "A pergunta que você já sabia responder — agora do outro lado do balcão.",
+      "audio": "audio/S04_Dia01_Card09_Where_is_she.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "Where are you?",
+      "cenario": "Aeroporto, vocês se perderam de vista de novo — só que dessa vez quem manda a mensagem é você:",
+      "traducao": "Onde você está?",
+      "sensacao": "A pergunta que abriu a sua jornada, agora sua. E a resposta que chega é a que um dia foi sua. Círculo completo.",
+      "audio": "audio/S04_Dia01_Card10_Where_are_you.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

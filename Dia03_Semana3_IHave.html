@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 3 · I have... — Kimberly Mentoria VIP</title>
+<!--
+  Dia 3 — fluxo de 4 etapas, no MOTOR NOVO (Camada 2 — motor_aula.js).
+  Estreia da Semana 3 no motor (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo de Conteúdo, KIM-S03-D03-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 13,
+  "rotulo": "Dia 3",
+  "titulo": "Dia 3 — I have...",
+  "sub": "Semana 3 — My Routine · I go... · I have... · I work...",
+  "lily": {
+    "audio": "audio/Lily_S03_Texto13.mp3",
+    "chave": "texto13",
+    "texto": [
+      "I have good news: I have my own key to the shop!",
+      "Anna is not here in the morning, so I open the shop.",
+      "I have a lot of work... and I love it.",
+      "Anna: \"Lily, you have a gift for this!\"",
+      "A gift? Maybe! I have good teachers: Anna... and the flowers.",
+      "On Mondays, we have new flowers — my favorite day!",
+      "My life is busy now — and I'm happy."
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "I have a meeting at ten.",
+      "cenario": "O cliente liga cedo querendo conversa longa: \"Can you talk now?\" Você olha o relógio:",
+      "traducao": "Eu tenho uma reunião às dez.",
+      "sensacao": "A agenda responde junto: dá, mas rapidinho. <i>Meeting</i> = reunião; <i>at ten</i> = às dez.",
+      "audio": "audio/S03_Dia03_Card01_I_have_a_meeting_at_ten.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "I have English class on Mondays and Thursdays.",
+      "cenario": "A cliente quer marcar um horário fixo sem atrapalhar seus estudos: \"When is your English class?\" Você responde:",
+      "traducao": "Eu tenho aula de inglês às segundas e quintas.",
+      "sensacao": "Dois encontros por semana segurando a jornada inteira. <i>On Mondays and Thursdays</i> = às segundas e quintas.",
+      "audio": "audio/S03_Dia03_Card02_I_have_English_class_on_Mondays_and_Thursdays.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "I have two clients today.",
+      "cenario": "Sua professora abre o encontro perguntando do seu dia: \"How is your day?\" Você resume:",
+      "traducao": "Eu tenho dois clientes hoje.",
+      "sensacao": "O dia medido em encontros: dois. E cada um chega no seu horário.",
+      "audio": "audio/S03_Dia03_Card03_I_have_two_clients_today.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "I have one sister.",
+      "cenario": "O papo com a vizinha de poltrona chega na família: \"Brothers and sisters?\" Você responde:",
+      "traducao": "Eu tenho uma irmã.",
+      "sensacao": "Uma irmã — e das boas. Família resumida sem pressa.",
+      "audio": "audio/S03_Dia03_Card04_I_have_one_sister.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "I have good friends.",
+      "cenario": "Depois do jantar-surpresa que as amigas organizaram, você conta pra sua professora, ainda emocionada:",
+      "traducao": "Eu tenho boas amigas.",
+      "sensacao": "A mesa cheia respondeu qualquer dúvida: você tem gente. E gente boa.",
+      "audio": "audio/S03_Dia03_Card05_I_have_good_friends.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "I have time on Friday.",
+      "cenario": "Pra marcar a entrega, o cliente pergunta: \"When are you free?\" Você confere a agenda e acha um respiro:",
+      "traducao": "Eu tenho tempo na sexta.",
+      "sensacao": "<i>I have time</i> — a frase mais generosa da agenda: tem espaço pra você.",
+      "audio": "audio/S03_Dia03_Card06_I_have_time_on_Friday.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "I have a new client!",
+      "cenario": "A proposta foi aceita. Você conta a novidade pra sócia, comemorando já em inglês:",
+      "traducao": "Eu tenho um cliente novo!",
+      "sensacao": "A notícia que paga a semana. Comemorar em inglês deixa ainda mais oficial.",
+      "audio": "audio/S03_Dia03_Card07_I_have_a_new_client.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "I have an idea!",
+      "cenario": "A reunião com o cliente emperra num problema de logística. Você levanta a mão, olhos brilhando:",
+      "traducao": "Tenho uma ideia!",
+      "sensacao": "A luz que acende no meio do impasse — e todo mundo se vira pra você.",
+      "audio": "audio/S03_Dia03_Card08_I_have_an_idea.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "I have everything here.",
+      "cenario": "Saída pro aeroporto, e sua irmã confere tudo, aflita: \"Passport? Tickets?\" Você bate na bolsa:",
+      "traducao": "Está tudo aqui comigo.",
+      "sensacao": "A bolsa organizada respondendo pela dona: pode ir tranquila. <i>Everything</i> = tudo.",
+      "audio": "audio/S03_Dia03_Card09_I_have_everything_here.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "I have big plans!",
+      "cenario": "Sua professora pergunta aonde você quer chegar com o inglês. Você não hesita:",
+      "traducao": "Eu tenho grandes planos!",
+      "sensacao": "Os olhos já enxergam onde os pés ainda vão chegar. E agora tem inglês no caminho.",
+      "audio": "audio/S03_Dia03_Card10_I_have_big_plans.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

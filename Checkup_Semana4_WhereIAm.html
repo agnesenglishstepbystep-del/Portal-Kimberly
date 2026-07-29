@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Check-up · Semana 4 — Kimberly Mentoria VIP</title>
+<!--
+  Check-up da Semana 4 — no MOTOR NOVO (Camada 2 — motor_checkup.js).
+  3 questões: situação + 3 frases CORRETAS (sem input errado), posição da correta embaralhada.
+  Fonte: Acervo de Conteúdo, KIM-S04-CHK-C01 a C03.
+-->
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const CHECKUP={
+  "semana": 4,
+  "sufixo": "S04",
+  "sub": "Where I Am · Is there...? · Where is...? · Turn left/right",
+  "questoes": [
+    {
+      "id": "q1",
+      "situacao": "Cidade nova, dor de cabeça boba. Você para uma moça na rua. O que você pergunta?",
+      "opcoes": [
+        "There's a pharmacy right there.",
+        "Where are you?",
+        "Is there a pharmacy near here?"
+      ],
+      "certa": 2
+    },
+    {
+      "id": "q2",
+      "situacao": "O táxi para num hotel parecido, mas errado. O motorista anuncia: \"Here we are!\" Você responde:",
+      "opcoes": [
+        "This is not our hotel.",
+        "It's my favorite place.",
+        "Turn left at the bakery."
+      ],
+      "certa": 0
+    },
+    {
+      "id": "q3",
+      "situacao": "Em Natal, um turista pergunta: \"Where is the market?\" — e você conhece o caminho. Você responde:",
+      "opcoes": [
+        "I'm lost.",
+        "Turn left at the bakery.",
+        "I don't have a map."
+      ],
+      "certa": 1
+    }
+  ]
+};
+</script>
+<script src="motor_checkup.js"></script>
+</body>
+</html>

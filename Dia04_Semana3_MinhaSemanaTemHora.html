@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 4 · Minha semana tem hora — Kimberly Mentoria VIP</title>
+<!--
+  Dia 4 — fluxo de 4 etapas, no MOTOR NOVO (Camada 2 — motor_aula.js).
+  Estreia da Semana 3 no motor (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo de Conteúdo, KIM-S03-D04-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 14,
+  "rotulo": "Dia 4",
+  "titulo": "Dia 4 — Minha semana tem hora",
+  "sub": "Semana 3 — My Routine · I go... · I have... · I work...",
+  "lily": {
+    "audio": "audio/Lily_S03_Texto14.mp3",
+    "chave": "texto14",
+    "texto": [
+      "At the shop, I have a new job too: I help people!",
+      "\"Where is the bank?\" \"Is there a pharmacy near here?\" — I know it all now!",
+      "The bank? Turn left at the bakery!",
+      "Every morning, the same questions... and I love it.",
+      "In the afternoon, I water the flowers.",
+      "At night, I go home, tired and happy.",
+      "My town is small — but my days are full!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "In the morning, please!",
+      "cenario": "A entrega internacional precisa de um horário: \"Morning or afternoon?\" Você garante o melhor:",
+      "traducao": "De manhã, por favor!",
+      "sensacao": "<i>Please</i> entra em cena: o \"por favor\" que abre portas. Manhã garantida.",
+      "audio": "audio/S03_Dia04_Card01_In_the_morning_please.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "I have meetings on Mondays.",
+      "cenario": "O instrutor da academia monta seu horário fixo de treino: \"Is Monday good for you?\" Você olha a agenda, sincera:",
+      "traducao": "Eu tenho reuniões às segundas.",
+      "sensacao": "Segunda já tem dona. A agenda agradece a franqueza.",
+      "audio": "audio/S03_Dia04_Card02_I_have_meetings_on_Mondays.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "We have lunch together on Sundays.",
+      "cenario": "A dona da pousada pergunta da sua família, e você conta a tradição:",
+      "traducao": "Nós almoçamos juntos aos domingos.",
+      "sensacao": "Mesa cheia, panela grande: o domingo que reúne. <i>Together</i> = juntos, a palavra-abraço.",
+      "audio": "audio/S03_Dia04_Card03_We_have_lunch_together_on_Sundays.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "I study English every day.",
+      "cenario": "Você conta que não pula um dia de estudo, e o marido do casal duvida, rindo: \"Every day?\" Você confirma, firme:",
+      "traducao": "Eu estudo inglês todos os dias.",
+      "sensacao": "O segredo sem segredo: constância. Um pouquinho todo dia constrói castelo.",
+      "audio": "audio/S03_Dia04_Card04_I_study_English_every_day.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "I listen to English every night.",
+      "cenario": "Sua professora pergunta como você está usando os áudios. Você conta o ritual:",
+      "traducao": "Eu escuto inglês toda noite.",
+      "sensacao": "Fone no ouvido, dia desligando — e o inglês entrando de mansinho. <i>Listen</i> = escutar: o motor do método.",
+      "audio": "audio/S03_Dia04_Card05_I_listen_to_English_every_night.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "Sunday is family day.",
+      "cenario": "A cliente pergunta seus planos antes de propor algo no fim de semana: \"Plans for Sunday?\" Você responde com a regra da casa:",
+      "traducao": "Domingo é dia de família.",
+      "sensacao": "A regra que não precisa de defesa: domingo tem dono. E é de vocês.",
+      "audio": "audio/S03_Dia04_Card06_Sunday_is_family_day.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "I have class tonight.",
+      "cenario": "Sua sócia quer resolver um assunto ainda hoje: \"Quick call tonight?\" Você mostra a agenda com firmeza gentil:",
+      "traducao": "Eu tenho aula hoje à noite.",
+      "sensacao": "A aula tem prioridade — amanhã tem call. <i>Tonight</i> = hoje à noite.",
+      "audio": "audio/S03_Dia04_Card07_I_have_class_tonight.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "I start my day at six.",
+      "cenario": "A vizinha de poltrona, do time do despertador tarde, pergunta: \"Are you a morning person?\" Você responde:",
+      "traducao": "Eu começo meu dia às seis.",
+      "sensacao": "<i>Morning person</i> — gente da manhã. Você, com o sol ainda chegando, já de pé: culpada.",
+      "audio": "audio/S03_Dia04_Card08_I_start_my_day_at_six.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "I love the weekend!",
+      "cenario": "Sexta-feira, fim do expediente. Você fecha o notebook e decreta, pra sala já vazia:",
+      "traducao": "Eu amo o fim de semana!",
+      "sensacao": "O notebook fecha e o corpo já sabe: chegou a melhor parte da semana. <i>Weekend</i> = fim de semana.",
+      "audio": "audio/S03_Dia04_Card09_I_love_the_weekend.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "One day at a time.",
+      "cenario": "Entre admirada e cansada, a cliente quer sua fórmula: \"How do you do it all?\" Você entrega:",
+      "traducao": "Um dia de cada vez.",
+      "sensacao": "A fórmula que serve pra agenda e pra vida. <i>One day at a time</i>: um dia de cada vez.",
+      "audio": "audio/S03_Dia04_Card10_One_day_at_a_time.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

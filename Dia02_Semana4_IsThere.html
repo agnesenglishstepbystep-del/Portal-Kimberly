@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 2 · Is there...? — Kimberly Mentoria VIP</title>
+<!--
+  Dia 2 — fluxo de 4 etapas, no MOTOR NOVO (Camada 2 — motor_aula.js).
+  Semana 4 — fecha o Mês 1 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo de Conteúdo, KIM-S04-D02-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 17,
+  "rotulo": "Dia 2",
+  "titulo": "Dia 2 — Is there...?",
+  "sub": "Semana 4 — Where I Am · Is there...? · Where is...? · Turn left/right",
+  "lily": {
+    "audio": "audio/Lily_S04_Texto17.mp3",
+    "chave": "texto17",
+    "texto": [
+      "Delivery day! Flowers in my arms, map in my bag.",
+      "First, the bus. \"Excuse me — is there a bus to the beach?\"",
+      "Yes — bus number 12! Thank you!",
+      "From the window, I see my little town go by.",
+      "The sea! I'm close now.",
+      "Next stop: me!",
+      "Wish me luck — again!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "Is there a pharmacy near here?",
+      "cenario": "Cidade nova, dor de cabeça boba atrapalhando o passeio. Você para uma moça na rua:",
+      "traducao": "Tem uma farmácia perto daqui?",
+      "sensacao": "Você conhece essa pergunta de todos os lados: já não soube responder, já respondeu apontando — hoje ela trabalha pra você.",
+      "audio": "audio/S04_Dia02_Card01_Is_there_a_pharmacy_near_here.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "Is there wi-fi here?",
+      "cenario": "Na padaria com mesinhas, você precisa mandar um arquivo pro trabalho. Antes de sentar:",
+      "traducao": "Tem wi-fi aqui?",
+      "sensacao": "A pergunta do século. E a senha, como sempre, mora no cardápio.",
+      "audio": "audio/S04_Dia02_Card02_Is_there_wifi_here.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "Is there a bank near the hotel?",
+      "cenario": "Você precisa de dinheiro trocado pro mercado de artesanato. Na recepção:",
+      "traducao": "Tem um banco perto do hotel?",
+      "sensacao": "<i>Bank</i> = banco. Pergunta de gente prática, resolvendo o dia numa frase.",
+      "audio": "audio/S04_Dia02_Card03_Is_there_a_bank_near_the_hotel.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "Is there a good restaurant near here?",
+      "cenario": "Primeira noite na cidade, fome e zero ideias. Você pergunta pro motorista do aplicativo:",
+      "traducao": "Tem um restaurante bom perto daqui?",
+      "sensacao": "A melhor dica sempre está com quem dirige a cidade o dia todo.",
+      "audio": "audio/S04_Dia02_Card04_Is_there_a_good_restaurant_near_here.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "Is there a bus to the beach?",
+      "cenario": "Economizando pros passeios pagos, você pergunta ao rapaz do quiosque:",
+      "traducao": "Tem ônibus pra praia?",
+      "sensacao": "Ônibus pra praia: o passeio raiz, com vista pela janela e economia no bolso.",
+      "audio": "audio/S04_Dia02_Card05_Is_there_a_bus_to_the_beach.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "Is there a problem?",
+      "cenario": "O oficial olha três vezes pro seu passaporte, franzindo a testa. Você pergunta, calma:",
+      "traducao": "Tem algum problema?",
+      "sensacao": "Perguntar de frente desarma a preocupação — na maioria das vezes, não era nada.",
+      "audio": "audio/S04_Dia02_Card06_Is_there_a_problem.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "Is there an ATM here?",
+      "cenario": "Jantar acabando, e o restaurante só aceita dinheiro. Você pergunta ao garçom:",
+      "traducao": "Tem um caixa eletrônico aqui?",
+      "sensacao": "<i>ATM</i> = caixa eletrônico. Três letras que salvam o fim do jantar.",
+      "audio": "audio/S04_Dia02_Card07_Is_there_an_ATM_here.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "Is there a table for two?",
+      "cenario": "Restaurante cheio, sem reserva, vocês duas na porta. Dessa vez, quem pergunta é você:",
+      "traducao": "Tem mesa pra dois?",
+      "sensacao": "Da pergunta que um dia te pegou de surpresa, você virou a freguesa que chega pedindo a mesa. <i>For two</i>: pra duas.",
+      "audio": "audio/S04_Dia02_Card08_Is_there_a_table_for_two.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "Is there time for the beach?",
+      "cenario": "Último dia, voo à tarde, o mar chamando. Você pergunta pro guia, esperançosa:",
+      "traducao": "Dá tempo de praia?",
+      "sensacao": "A pergunta mais importante do último dia. E a resposta: o melhor presente.",
+      "audio": "audio/S04_Dia02_Card09_Is_there_time_for_the_beach.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "Is there a menu in English?",
+      "cenario": "O cardápio chegou todo numa língua que você não estuda. Você pergunta, sem constrangimento:",
+      "traducao": "Tem cardápio em inglês?",
+      "sensacao": "Pedir o cardápio em inglês não é derrota — é estratégia. Você lendo, você escolhendo.",
+      "audio": "audio/S04_Dia02_Card10_Is_there_a_menu_in_English.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

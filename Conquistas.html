@@ -3,119 +3,260 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Meu Progresso — Kimberly Mentoria VIP</title>
+<title>Meu Progresso | Kimberly — Mentoria VIP</title>
 <!--
-  "Meu Progresso" — sistema visual da VIDEIRA (Safra 1), emergência da aula de retomada (20/07/2026).
-  Substitui a árvore antiga pela videira de 5 estágios (espaldeira azul = método/apoio ·
-  folhas verdes = crescimento · cacho dourado = colheita) — mapeada por DIAS COMPLETOS da
-  semana atual: 0→broto na espaldeira · 1→primeiro ramo · 2→folhas · 3→cacho verde ·
-  4+→cacho dourado. Check-up NÃO conta no estágio.
-  Selos novos (4) substituem as 4 medalhas antigas; estado bloqueado por CSS (uma arte só).
-  Contadores reorganizados + coleção de 12 colheitas em CSS (nenhum cacho antes de 5 dias).
-  LÓGICA DE PROGRESSO, CHAVES E SUPABASE INALTERADAS — só a camada visual mudou.
-  Lê o progresso de forma genérica (varre chaves diaN_*) para seguir funcionando quando
-  novos dias forem adicionados no futuro.
-  Kit 2 da videira (21/07/2026): cacho_p real nos slots colhidos da Safra 1 (semanas 1–4;
-  M/G entram quando as artes existirem) · folha dourada sobreposta em semana exemplar ·
-  lógica do DIA EXEMPLAR (diaN_completedAt no próprio dia + escutas_do_dia na mesma data,
-  sempre no fuso local da aluna) · selo 11 "Semana de ouro". Check-up segue fora de tudo.
-  CORREÇÃO 25/07/2026 (urgente, véspera do dia 6 da aluna): o estágio da videira passou
-  a usar os DIAS DA SEMANA CORRENTE, não o total da jornada. Antes, `min(4, diasCompletos)`
-  travava a planta no cacho dourado a partir do 5º dia e o ciclo semanal nunca recomeçava.
-  Ver cicloDaSemana()/textoDaVideira(). Rótulo da tarja e alt da imagem agora acompanham
-  safra e semana reais. Check-up segue fora da conta (grava 'checkup_SNN_completedAt').
-  DECISÃO DE AGNES (25/07/2026): a videira NÃO reinicia no 5º dia. O cacho dourado fica
-  na tela até a aluna abrir a semana seguinte — a colheita é celebrada no dia em que ela
-  a completa, e o ciclo só recomeça no primeiro passo da semana nova. Ver cicloDaSemana().
-  Auditoria do kit (25/07/2026): os 12 selos estão completos — artes 05, 06, 07, 08, 09,
-  10 e 12 aprovadas e integradas, com os gatilhos da §2 do PREPARACAO. Cachos M/G e as
-  videiras das Safras 2 e 3 seguem PENDENTES no designer (correção de acabamento e de
-  conceito da poda) — por isso a coleção continua usando só cacho_p nas semanas 1–4 e a
-  videira continua na série da Safra 1. LÓGICA DE PROGRESSO SEGUE INALTERADA.
+  Meu Progresso — Kimberly | Mentoria VIP Step by Step
+
+  CAMADA 3 (29/07/2026) — a página cerimonial da Identidade Visual 2.0.
+  O que esta camada mudou: SÓ apresentação. Um jardim, duas horas —
+  DIA como padrão e NOITE (o dossel) como registro cerimonial, mesma
+  página e mesmo layout, com o "anoitecer" de ~1s na virada. Entram
+  aqui os 12 selos novos (medalhões da IV2) e as animações aprovadas
+  por Agnes em 27/07 (barra com brilho que viaja, selo que nasce grande
+  e voa pro lugar, cacho que acende, gavinha que se desenha, fagulhas
+  na semana completa) — cada uma ≤1,5s, no gatilho da conquista, nada
+  em laço, sem confete, e todas caladas quando o sistema pede
+  prefers-reduced-motion.
+
+  O QUE NÃO MUDOU (e não pode mudar):
+  · varrer(), diaExemplar(), estadoSemanas(), cicloDaSemana(),
+    textoDaVideira(), selosDef e SAFRAS_COM_ARTE seguem IDÊNTICOS.
+  · Nenhuma chave de progresso é lida de forma nova nem gravada aqui.
+    Esta página continua SÓ LENDO o progresso.
+  · A cerimônia e o tema escolhido são guardados em chaves PRÓPRIAS do
+    localStorage (kim_ceremonia_* e kim_tema_progresso), FORA do objeto
+    de progresso — então nada disso viaja pro Supabase nem interfere
+    na jornada. Se a aluna abrir noutro aparelho, no pior caso ela vê a
+    celebração uma segunda vez: é inofensivo.
+
+  Decisão de Agnes (27/07, opção A): o check-up FECHA a semana como
+  CONVITE e nunca como trava. Quando a semana está madura e o check-up
+  ainda não veio, a tela reconhece isso com delicadeza e aponta o
+  caminho — sem bloquear nada. E o que ela escreveu nos check-ups
+  aparece na coleção, ao lado da colheita daquela semana.
+
+  Ciclo semanal (25/07): o estágio vem dos dias completos da SEMANA
+  CORRENTE, e o cacho dourado fica até a aluna abrir a semana seguinte.
+  SAFRAS_COM_ARTE=1 → subir esse número é a única mudança quando as
+  artes das Safras 2 e 3 chegarem.
 -->
 <link rel="stylesheet" href="styles.css">
 <style>
   body{ padding-bottom:60px; }
-  .wrap{ max-width:720px; padding:30px 18px; }
+  .wrap{ max-width:760px; padding:30px 18px; position:relative; z-index:1; }
   .wrap > h1{ text-align:center; color:var(--azul); font-size:1.7rem; margin-bottom:6px; }
-  .wrap > .sub-topo{ text-align:center; color:#5a6b7a; font-size:.95rem; margin-bottom:22px; }
+  .wrap > .sub-topo{ text-align:center; color:var(--neutro); font-size:.95rem; margin-bottom:22px; }
+  [data-tema="noite"] .wrap > h1{ color:var(--glow); }
+
+  /* o topo fica SEMPRE acima do dossel (o dossel é posicionado e, sem isto,
+     passaria por cima da barra) */
+  header.topbar{ position:relative; z-index:2; }
+
+  /* ---- O dossel: a copa da videira abrindo a página no tema noite ---- */
+  .dossel{
+    position:fixed; top:0; left:0; right:0; height:min(46vh,420px);
+    background:url('dossel_noite.webp') center top / cover no-repeat;
+    opacity:0; pointer-events:none; z-index:0;
+    transition:opacity 1s ease;
+    mask-image:linear-gradient(180deg,#000 0%,#000 42%,transparent 100%);
+    -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 42%,transparent 100%);
+  }
+  [data-tema="noite"] .dossel{ opacity:.5; }
+
+  /* ---- Botão do tema (discreto, na topbar) ---- */
+  .btn-tema{
+    background:transparent; border:1px solid rgba(255,255,255,.34); color:#fff;
+    border-radius:999px; padding:5px 12px; font-size:.78rem; font-weight:700; letter-spacing:.02em;
+  }
+  .btn-tema:hover{ border-color:var(--dourado); color:var(--dourado-2); }
+  /* no celular o botão fica só com o ícone, pra barra do topo não quebrar em duas linhas
+     (o aria-label continua dizendo o que ele faz, pra leitor de tela) */
+  @media(max-width:520px){
+    .btn-tema .rot-tema{ display:none; }
+    .btn-tema{ padding:5px 10px; }
+    header.topbar{ padding:14px 16px; }
+    .topbar-acoes{ gap:12px; }
+    .brand{ font-size:.94rem; }
+  }
 
   /* ---- Videira da semana ---- */
-  .videira-box{ background:#fcf5eb; border-radius:20px; box-shadow:var(--sombra); padding:22px 20px 18px; margin-bottom:22px; }
+  .videira-box{ background:var(--papel); border:1px solid var(--fio-ouro); border-radius:var(--raio-g); box-shadow:var(--sombra); padding:22px 20px 18px; margin-bottom:22px; }
+  [data-tema="noite"] .videira-box{ backdrop-filter:blur(2px); }
   .videira-eyebrow{ font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:var(--dourado); font-weight:800; }
   .videira-titulo{ font-size:1.28rem; color:var(--azul); font-weight:800; margin:6px 0 2px; }
-  .videira-sub{ font-size:.86rem; color:#5a6b7a; margin-bottom:12px; }
+  [data-tema="noite"] .videira-titulo{ color:var(--glow); }
+  .videira-sub{ font-size:.86rem; color:var(--neutro); margin-bottom:12px; }
   .videira-dots{ display:flex; gap:10px; align-items:center; margin-bottom:6px; }
-  .videira-dots .dot{ width:14px; height:14px; border-radius:50%; background:#d9e0dd; transition:.4s; }
+  .videira-dots .dot{ width:14px; height:14px; border-radius:50%; background:var(--trilho); transition:background .4s ease, box-shadow .4s ease; }
   .videira-dots .dot.on{ background:var(--verde); }
-  .videira-dots .rot{ font-size:.72rem; color:#8a97a0; margin-left:4px; }
-  .videira-art{ text-align:center; margin-top:10px; }
-  .videira-art img{ width:100%; max-width:500px; height:auto; display:block; margin:0 auto; transition:opacity .8s ease; }
+  [data-tema="noite"] .videira-dots .dot.on{ background:var(--dourado); box-shadow:0 0 8px rgba(212,175,90,.7); }
+  .videira-dots .rot{ font-size:.72rem; color:var(--neutro-2); margin-left:4px; }
+  .videira-art{ text-align:center; margin-top:14px; position:relative; }
+  /* A arte da IV2 traz o próprio papel (ou a própria noite): entra como JANELA
+     emoldurada pelo fio de ouro. As duas horas ficam empilhadas e o anoitecer
+     é um crossfade de ~1s — nunca uma troca seca. */
+  .videira-art .moldura{
+    position:relative; width:100%; max-width:560px; margin:0 auto; aspect-ratio:1200/670;
+    border-radius:var(--raio); overflow:hidden; border:1px solid var(--fio-ouro);
+    box-shadow:0 6px 18px rgba(22,40,63,.08);
+  }
+  [data-tema="noite"] .videira-art .moldura{ box-shadow:0 8px 26px rgba(0,0,0,.4); }
+  .videira-art img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; transition:opacity 1s ease; }
+  .videira-art img.noite{ opacity:0; }
+  [data-tema="noite"] .videira-art img.dia{ opacity:0; }
+  [data-tema="noite"] .videira-art img.noite{ opacity:1; }
+
+  /* Convite do check-up — nunca uma trava, sempre um convite (Agnes, 27/07) */
+  .convite{
+    display:none; margin-top:14px; padding:12px 16px; border-radius:var(--raio-p);
+    background:rgba(212,175,90,.10); border:1px solid var(--fio-ouro);
+    font-size:.88rem; line-height:1.5; color:var(--azul);
+  }
+  [data-tema="noite"] .convite{ color:var(--glow); background:rgba(212,175,90,.14); }
+  .convite.on{ display:block; }
+  .convite b{ color:#a8863a; }
+  [data-tema="noite"] .convite b{ color:var(--dourado-2); }
+  .convite a{ color:inherit; font-weight:800; text-decoration:underline; text-decoration-color:var(--dourado); }
 
   /* ---- Contadores ---- */
   .contadores{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:22px; }
-  .contador-card{ background:#fffdf9; border-radius:14px; box-shadow:var(--sombra); padding:0 0 14px; text-align:center; overflow:hidden; }
+  .contador-card{ background:var(--papel); border:1px solid var(--fio-ouro); border-radius:var(--raio); box-shadow:var(--sombra); padding:0 0 14px; text-align:center; overflow:hidden; }
   .contador-card .faixa{ height:5px; }
   .contador-card .num{ font-size:1.5rem; font-weight:800; color:var(--azul); margin-top:14px; }
-  .contador-card .lbl{ font-size:.72rem; color:#5a6b7a; margin-top:2px; padding:0 6px; }
+  [data-tema="noite"] .contador-card .num{ color:var(--glow); }
+  .contador-card .lbl{ font-size:.72rem; color:var(--neutro); margin-top:2px; padding:0 6px; }
 
-  /* ---- Barra do certificado ---- */
-  .certificado{ background:#fffdf9; border-radius:16px; box-shadow:var(--sombra); padding:18px 22px; margin-bottom:26px; }
+  /* ---- Barra do certificado, com o fio de ouro que se preenche ---- */
+  .certificado{ background:var(--papel); border:1px solid var(--fio-ouro); border-radius:var(--raio); box-shadow:var(--sombra); padding:18px 22px; margin-bottom:26px; }
   .certificado .topo{ display:flex; justify-content:space-between; font-size:.86rem; color:var(--azul-2); margin-bottom:8px; font-weight:800; }
-  .certificado .barra{ height:12px; max-width:none; margin:0; background:#eae3d4; border-radius:999px; overflow:hidden; }
-  .certificado .barra > div{ height:100%; width:0%; background:linear-gradient(90deg,var(--dourado),var(--dourado-2)); transition:.5s; }
+  [data-tema="noite"] .certificado .topo{ color:var(--dourado-2); }
+  .certificado .barra{ height:12px; max-width:none; margin:0; background:var(--trilho); border-radius:999px; overflow:hidden; position:relative; }
+  .certificado .barra > div{ height:100%; width:0%; background:linear-gradient(90deg,var(--dourado),var(--dourado-2)); transition:width 1.1s cubic-bezier(.2,.7,.3,1); position:relative; }
+  .certificado .barra > div::after{
+    content:""; position:absolute; inset:0; border-radius:999px; opacity:0;
+    background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.85) 50%,transparent 100%);
+    transform:translateX(-100%);
+  }
+  .certificado.celebrando .barra > div::after{ animation:brilho-viaja 1.2s ease .15s 1 both; }
+  @keyframes brilho-viaja{ 0%{opacity:0;transform:translateX(-100%)} 20%{opacity:1} 100%{opacity:0;transform:translateX(100%)} }
 
   /* ---- Coleção de colheitas ---- */
   .secao-titulo{ font-size:1.15rem; color:var(--azul); font-weight:800; margin:0 0 3px; }
-  .secao-sub{ font-size:.84rem; color:#5a6b7a; margin-bottom:14px; }
-  .colheita-grid{ display:grid; grid-template-columns:repeat(6,1fr); gap:12px 10px; margin-bottom:28px; }
+  [data-tema="noite"] .secao-titulo{ color:var(--glow); }
+  .secao-sub{ font-size:.84rem; color:var(--neutro); margin-bottom:14px; }
+  .colheita-grid{ display:grid; grid-template-columns:repeat(6,1fr); gap:12px 10px; margin-bottom:14px; }
   .colheita-slot{ text-align:center; }
   .colheita-slot .bola{
     width:100%; max-width:56px; aspect-ratio:1/1; margin:0 auto; border-radius:50%;
-    background:#fbf7ef; border:1.5px dashed #d7cfbc; display:flex; align-items:center; justify-content:center;
-    color:#c9a84c; font-size:1.1rem; transition:.3s;
+    background:rgba(212,175,90,.06); border:1.5px dashed rgba(212,175,90,.42); display:flex; align-items:center; justify-content:center;
+    color:var(--dourado); font-size:1.1rem; transition:.3s;
   }
-  .colheita-slot.andamento .bola{ border:2px solid var(--dourado); box-shadow:0 0 0 3px rgba(201,168,76,.14) inset; }
+  .colheita-slot.andamento .bola{ border:2px solid var(--dourado); box-shadow:0 0 0 3px rgba(212,175,90,.14) inset; }
   .colheita-slot.colhido .bola{
-    border:2px solid var(--dourado); background:radial-gradient(circle at 38% 34%, #f3dd97, #c9a84c 78%); color:#fff;
+    border:2px solid var(--dourado); background:radial-gradient(circle at 38% 34%, var(--dourado-2), var(--dourado) 78%); color:#fff;
   }
-  /* Slot colhido com arte real (kit 2): cacho no lugar do ✓; a folha dourada é um
+  /* Slot colhido com arte real: o cacho no lugar do ✓; a folha dourada é um
      overlay independente e só aparece em semana exemplar. Ausência da folha NÃO é falha. */
-  .colheita-slot.colhido .bola.bola-cacho{
-    position:relative; overflow:visible; background:#fbf7ef; color:transparent;
+  .colheita-slot.colhido .bola.bola-cacho{ position:relative; overflow:visible; background:transparent; color:transparent; }
+  .bola-cacho .cacho{ position:absolute; height:112%; width:auto; left:50%; top:50%; transform:translate(-50%,-53%); pointer-events:none; transition:opacity 1s ease; }
+  .bola-cacho .cacho.noite{ opacity:0; }
+  [data-tema="noite"] .bola-cacho .cacho.dia{ opacity:0; }
+  [data-tema="noite"] .bola-cacho .cacho.noite{ opacity:1; }
+  /* o glow do cacho: nasce por trás, cresce e fica — a luz da conquista */
+  .bola-cacho .luz{
+    position:absolute; left:50%; top:50%; width:190%; height:190%; transform:translate(-50%,-53%);
+    border-radius:50%; pointer-events:none; opacity:0;
+    background:radial-gradient(circle, rgba(247,232,190,.85) 0%, rgba(212,175,90,.28) 42%, rgba(212,175,90,0) 70%);
+    transition:opacity 1s ease;
   }
-  .bola-cacho .cacho{
-    position:absolute; height:112%; width:auto; left:50%; top:50%;
-    transform:translate(-50%,-53%); pointer-events:none;
-  }
-  .bola-cacho .folha-exemplar{
-    position:absolute; width:44%; height:auto; right:-7%; top:-9%; pointer-events:none;
-  }
-  .colheita-slot .n{ font-size:.68rem; color:#9aa3ad; margin-top:5px; }
-  .colheita-slot.colhido .n{ color:var(--dourado); font-weight:700; }
+  [data-tema="noite"] .colheita-slot.colhido .bola-cacho .luz{ opacity:.9; }
+  .colheita-slot .n{ font-size:.68rem; color:var(--neutro-2); margin-top:5px; }
+  .colheita-slot.colhido .n{ color:#a8863a; font-weight:700; }
+  [data-tema="noite"] .colheita-slot.colhido .n{ color:var(--dourado-2); }
+  .colheita-slot.exemplar .n::after{ content:" ✦"; color:var(--dourado); }
 
-  /* ---- Selos ---- */
+  /* As frases que ela escreveu ao fechar cada semana */
+  .frases-checkup{ margin:0 0 28px; padding:0; list-style:none; }
+  .frases-checkup li{
+    font-size:.88rem; line-height:1.55; color:var(--azul); padding:9px 14px; margin-bottom:8px;
+    background:var(--papel); border:1px solid var(--fio-ouro); border-left:3px solid var(--dourado);
+    border-radius:var(--raio-p);
+  }
+  [data-tema="noite"] .frases-checkup li{ color:var(--glow); }
+  .frases-checkup .sem{ font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color:var(--dourado); font-weight:800; display:block; margin-bottom:2px; }
+  .frases-checkup em{ font-style:italic; }
+
+  /* ---- Selos: a vitrine ----
+     Os selos são medalhões do registro cerimonial (fundo azul-meia-noite na
+     própria arte), então a vitrine é escura NOS DOIS TEMAS — de propósito:
+     no dia ela lê como um mostruário de joias sobre o papel creme. */
   .selos{ display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:14px; }
-  .selo{ background:#fffdf9; border-radius:16px; border:1px solid rgba(201,168,76,.30); box-shadow:var(--sombra); padding:18px 12px 14px; text-align:center; }
-  .selo img{ width:96px; height:96px; object-fit:contain; margin-bottom:8px; transition:.4s; }
-  .selo:not(.desbloqueado) img{ opacity:.16; filter:grayscale(1) saturate(.25); }
-  .selo .nome{ font-size:.82rem; font-weight:800; color:var(--azul); }
-  .selo:not(.desbloqueado) .nome{ color:#7f8c94; }
-  .selo .estado{ font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; font-weight:800; margin-top:4px; color:var(--verde); }
-  .selo:not(.desbloqueado) .estado{ color:#a7b0b6; }
+  .selo{
+    background:linear-gradient(180deg,#1b3049,#16283f); border-radius:var(--raio);
+    border:1px solid var(--fio-ouro); box-shadow:var(--sombra);
+    padding:12px 10px 14px; text-align:center; overflow:hidden; position:relative;
+  }
+  .selo img{ width:100%; max-width:118px; aspect-ratio:1/1; object-fit:cover; border-radius:12px; margin-bottom:8px; transition:opacity .5s ease, filter .5s ease, transform var(--transicao); }
+  .selo:not(.desbloqueado) img{ opacity:.22; filter:grayscale(.85) brightness(.75); }
+  .selo.desbloqueado:hover img{ transform:scale(1.03); }
+  .selo .nome{ font-size:.82rem; font-weight:800; color:var(--glow); }
+  .selo:not(.desbloqueado) .nome{ color:#7f8b99; }
+  .selo .estado{ font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; font-weight:800; margin-top:4px; color:var(--dourado-2); }
+  .selo:not(.desbloqueado) .estado{ color:#63707d; }
+  /* o selo que acabou de chegar recebe a gavinha dourada se desenhando em volta */
+  .selo .gavinha{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; opacity:0; }
+  .selo.novo .gavinha{ opacity:1; }
+  .selo.novo .gavinha path{ stroke-dasharray:1400; stroke-dashoffset:1400; animation:desenha-gavinha 1.4s ease .1s 1 both; }
+  @keyframes desenha-gavinha{ to{ stroke-dashoffset:0 } }
+  .selo.pousando{ animation:pousa 1.1s cubic-bezier(.2,.7,.3,1) 1 both; }
+  @keyframes pousa{ 0%{ box-shadow:0 0 0 0 rgba(212,175,90,0) } 35%{ box-shadow:0 0 34px 6px rgba(212,175,90,.55) } 100%{ box-shadow:var(--sombra) } }
+
+  /* ---- Camada da cerimônia ---- */
+  .cerimonia{ position:fixed; inset:0; z-index:60; display:none; align-items:center; justify-content:center; padding:24px;
+    background:rgba(11,20,33,.72); backdrop-filter:blur(3px); }
+  .cerimonia.on{ display:flex; }
+  .cerimonia .palco{ text-align:center; max-width:420px; }
+  .cerimonia .medalhao{
+    width:min(56vw,240px); aspect-ratio:1/1; border-radius:20px; display:block; margin:0 auto 18px;
+    box-shadow:0 0 70px 14px rgba(212,175,90,.45); border:1px solid var(--fio-ouro-forte);
+    animation:nasce 1.15s cubic-bezier(.2,.7,.3,1) 1 both, respira 1.6s ease 1.15s 1 both;
+  }
+  @keyframes nasce{ from{ opacity:0; transform:scale(.72) } to{ opacity:1; transform:scale(1) } }
+  @keyframes respira{ 0%{ transform:scale(1) } 45%{ transform:scale(1.035) } 100%{ transform:scale(1) } }
+  .cerimonia .eyebrow{ font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color:var(--dourado); font-weight:800; }
+  .cerimonia h2{ color:#f3ecdc; font-size:1.45rem; margin:6px 0 6px; }
+  .cerimonia p{ color:#cdd8e2; font-size:.94rem; line-height:1.55; margin-bottom:20px; }
+  .cerimonia .fechar{ background:var(--dourado); color:#16283f; }
+
+  /* fagulhas discretas — só na semana completa, uma vez, ≤1,5s */
+  .fagulhas{ position:absolute; inset:0; overflow:hidden; pointer-events:none; }
+  .fagulhas i{ position:absolute; bottom:12%; width:5px; height:5px; border-radius:50%; background:#f7e8be;
+    box-shadow:0 0 8px 2px rgba(247,232,190,.75); opacity:0; animation:sobe 1.5s ease 1 both; }
+  @keyframes sobe{ 0%{opacity:0; transform:translateY(0) scale(.7)} 25%{opacity:.95} 100%{opacity:0; transform:translateY(-120px) scale(1.05)} }
 
   @media(max-width:520px){
     .contadores{ grid-template-columns:repeat(2,1fr); }
     .colheita-grid{ grid-template-columns:repeat(4,1fr); }
     .videira-titulo{ font-size:1.14rem; }
   }
+  /* Movimento reduzido: a página inteira nasce parada, no estado final. */
+  @media (prefers-reduced-motion: reduce){
+    .dossel, .videira-art img, .bola-cacho .cacho, .bola-cacho .luz{ transition:none !important; }
+    .cerimonia .medalhao, .selo.novo .gavinha path, .selo.pousando, .fagulhas i,
+    .certificado.celebrando .barra > div::after{ animation:none !important; }
+    .selo.novo .gavinha path{ stroke-dashoffset:0; }
+    .certificado .barra > div{ transition:none !important; }
+  }
 </style>
 </head>
 <body>
 
+<div class="dossel" aria-hidden="true"></div>
+
 <header class="topbar">
   <span class="brand">Kimberly | <b>Mentoria VIP</b></span>
   <div class="topbar-acoes">
+    <button class="btn-tema" id="btnTema" type="button" aria-pressed="false"><span aria-hidden="true" class="ico-tema">☾</span> <span class="rot-tema">Anoitecer</span></button>
     <a href="index.html">← Início</a>
     <a href="#" onclick="sair();return false;">Sair</a>
   </div>
@@ -123,7 +264,6 @@
 
 <div class="wrap">
   <h1>Meu Progresso</h1>
-  <p class="sub-topo">A videira mostra o momento atual. Os contadores, a colheita e os selos contam a jornada inteira.</p>
 
   <!-- 1. Videira da semana -->
   <div class="videira-box">
@@ -132,33 +272,49 @@
     <div class="videira-sub" id="videiraSub">Comece pelo Dia 1.</div>
     <div class="videira-dots" id="videiraDots" aria-hidden="true"></div>
     <div class="videira-art">
-      <img id="videiraImg" src="videira_safra1_estagio0.webp" alt="Videira do meu progresso — Safra 1">
+      <div class="moldura">
+        <img class="dia" id="videiraImg" src="videira_safra1_estagio0.webp" alt="Videira do meu progresso — Safra 1">
+        <img class="noite" id="videiraImgNoite" src="videira_safra1_estagio0_noite.webp" alt="" aria-hidden="true">
+      </div>
     </div>
+    <div class="convite" id="convite"></div>
   </div>
 
   <!-- 2. Contadores -->
   <div class="contadores">
     <div class="contador-card"><div class="faixa" style="background:var(--verde)"></div><div class="num" id="numDias">0</div><div class="lbl">dias de estudo</div></div>
-    <div class="contador-card"><div class="faixa" style="background:var(--azul)"></div><div class="num" id="numLily">0</div><div class="lbl">histórias da Lily</div></div>
+    <div class="contador-card"><div class="faixa" style="background:var(--azul-2)"></div><div class="num" id="numLily">0</div><div class="lbl">histórias da Lily</div></div>
     <div class="contador-card"><div class="faixa" style="background:var(--dourado)"></div><div class="num" id="numAnki">0</div><div class="lbl">cartões no Anki</div></div>
     <div class="contador-card"><div class="faixa" style="background:var(--verde-2)"></div><div class="num" id="numColheitas">0 / 12</div><div class="lbl">colheitas</div></div>
   </div>
 
   <!-- 3. Barra do certificado -->
-  <div class="certificado">
+  <div class="certificado" id="certificado">
     <div class="topo"><span>Jornada até a colheita completa</span><span id="certTexto">0 / 60 passos diários</span></div>
     <div class="barra"><div id="certBarra"></div></div>
   </div>
 
   <!-- 4. Coleção de colheitas -->
   <h2 class="secao-titulo">Sua colheita</h2>
-  <p class="secao-sub">Cada semana completa acrescenta um cacho. São 12 ao longo da jornada.</p>
+  <p class="secao-sub">Cada semana completa acrescenta um cacho.</p>
   <div class="colheita-grid" id="colheitaGrid"></div>
+  <ul class="frases-checkup" id="frasesCheckup"></ul>
 
   <!-- 5. Selos da jornada -->
   <h2 class="secao-titulo">Selos da jornada</h2>
-  <p class="secao-sub">Cada selo marca uma conquista real do seu caminho.</p>
   <div class="selos" id="selos"></div>
+</div>
+
+<!-- Camada da cerimônia (só aparece quando há conquista nova) -->
+<div class="cerimonia" id="cerimonia" role="dialog" aria-modal="true" aria-labelledby="cerimoniaTitulo">
+  <div class="fagulhas" id="fagulhas" aria-hidden="true"></div>
+  <div class="palco">
+    <div id="cerimoniaPalco"></div>
+    <div class="eyebrow" id="cerimoniaEyebrow">Conquista</div>
+    <h2 id="cerimoniaTitulo"></h2>
+    <p id="cerimoniaTexto"></p>
+    <button class="btn fechar" id="cerimoniaFechar" type="button">Continuar</button>
+  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -225,9 +381,10 @@ function estadoSemanas(progress){
 }
 
 /* Selos — os 12 da jornada. Nomes e gatilhos aprovados por Agnes em 21/07/2026
-   (PREPARACAO_INTEGRACAO_KIT2_VIDEIRA.md §2); artes 05–10 e 12 aprovadas na auditoria
-   de 25/07 e integradas aqui. Uma arte por selo; estado bloqueado é só CSS
-   (classe .desbloqueado). Nenhuma medalha antiga no DOM. */
+   (PREPARACAO_INTEGRACAO_KIT2_VIDEIRA.md §2). Artes SUBSTITUÍDAS na Camada 3
+   (29/07/2026) pelos medalhões da Identidade Visual 2.0 — mesmos nomes de
+   arquivo, mesma ordem, mesmos gatilhos: nada de lógica mudou.
+   Uma arte por selo; estado bloqueado é só CSS (classe .desbloqueado). */
 const selosDef=[
   { img:'selo_01_primeiro_passo.webp',        nome:'Primeiro passo',          check:s=>s.diasCompletos>=1 },
   { img:'selo_02_primeira_escuta_lily.webp',  nome:'Primeira escuta da Lily', check:s=>s.textosOuvidos>=1 },
@@ -285,24 +442,132 @@ function cicloDaSemana(progress, sem){
   };
 }
 
+/* Frases da videira — REVISTAS por Agnes em 29/07/2026 (2ª rodada).
+   Princípio: a imagem já mostra a planta, então a palavra fala DELA.
+   A linha de cima reconhece o que a aluna fez; a de baixo entrega algo que
+   ela NÃO vê na imagem (o que falta, ou o que ela ganhou). Sem botânica
+   narrada — descrever o desenho que ela está olhando é redundância.
+   Recebe os DIAS REAIS da semana (0..5), não o estágio da arte: o estágio
+   satura em 4, e por isso 4 e 5 dias apareciam como a mesma tela dizendo
+   "semana completa" — com 4 dias ela ainda deve um dia e não tem cacho. */
 function textoDaVideira(c){
   const primeira = c.semana === 1;
-  if(c.estagio === 0) return primeira
-    ? {t:'Tudo pronto para o primeiro broto.', s:'Comece pelo Dia 1.'}
-    : {t:'A videira recomeça o ciclo.',        s:'Semana nova — o primeiro broto vem com o próximo passo.'};
-  if(c.estagio === 4) return {
-    t: primeira ? 'O primeiro cacho amadureceu — dourado.' : 'O cacho desta semana amadureceu — dourado.',
-    s: 'A semana da videira está completa. ✨'
-  };
-  const titulos={
-    1:'O primeiro ramo encontrou apoio.',
-    2:'As folhas já cobrem a espaldeira.',
-    3:'O cacho começou a se formar.'
-  };
-  return {
-    t: titulos[c.estagio],
-    s: c.estagio===1 ? '1 dia concluído nesta semana.' : c.estagio+' dias concluídos nesta semana.'
-  };
+  if(c.dias <= 0) return primeira
+    ? {t:'Sua videira começa aqui.', s:'Comece pelo Dia 1.'}
+    : {t:'Semana nova.',             s:'Comece pelo Dia 1.'};
+  if(c.dias >= 5) return {t:'Semana completa.',    s:'Seu cacho entrou na coleção.'};
+  if(c.dias === 1) return {t:'Primeiro dia feito.', s:'A videira já sentiu.'};
+  if(c.dias === 2) return {t:'Dois dias feitos.',   s:'Cada dia fica na planta.'};
+  /* a contagem regressiva só entra a partir do 3º dia, quando a colheita
+     está perto o bastante pra puxar e não longe o bastante pra pesar */
+  return c.dias === 3
+    ? {t:'Três dias feitos.',   s:'Faltam dois para a colheita.'}
+    : {t:'Quatro dias feitos.', s:'Falta um para a colheita.'};
+}
+
+/* ============================================================
+   CAMADA 3 — apresentação. Daqui pra baixo é SÓ tela: tema,
+   cerimônia e animações. Nada lê nem grava progresso.
+   ============================================================ */
+const SEM_MOVIMENTO = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const CHAVE_TEMA = 'kim_tema_progresso';
+const chaveCerimonia = () => 'kim_ceremonia_' + STUDENT;
+
+function aplicarTema(t, comAnoitecer){
+  const html = document.documentElement;
+  if(comAnoitecer && !SEM_MOVIMENTO) html.classList.add('anoitecer');
+  if(t === 'noite') html.dataset.tema = 'noite'; else delete html.dataset.tema;
+  const b = document.getElementById('btnTema');
+  b.querySelector('.ico-tema').textContent = (t === 'noite') ? '☀' : '☾';
+  b.querySelector('.rot-tema').textContent = (t === 'noite') ? 'Amanhecer' : 'Anoitecer';
+  b.setAttribute('aria-pressed', t === 'noite' ? 'true' : 'false');
+  b.setAttribute('aria-label', t === 'noite' ? 'Voltar ao tema claro' : 'Ver no tema noturno');
+  try{ localStorage.setItem(CHAVE_TEMA, t); }catch(e){}
+}
+
+/* assinatura das conquistas: só pra saber o que é NOVO desde a última visita.
+   Vive numa chave própria, fora do objeto de progresso. */
+function assinatura(selosAbertos, colhidas, exemplares){
+  return { selos: selosAbertos.slice().sort().join(','), colhidas, exemplares };
+}
+function lerAssinatura(){
+  try{ return JSON.parse(localStorage.getItem(chaveCerimonia()) || 'null'); }catch(e){ return null; }
+}
+function gravarAssinatura(a){
+  try{ localStorage.setItem(chaveCerimonia(), JSON.stringify(a)); }catch(e){}
+}
+
+function fagulhas(n){
+  const box = document.getElementById('fagulhas');
+  box.innerHTML = '';
+  if(SEM_MOVIMENTO) return;
+  for(let i=0;i<n;i++){
+    const f = document.createElement('i');
+    f.style.left = (14 + Math.random()*72) + '%';
+    f.style.animationDelay = (Math.random()*.5).toFixed(2) + 's';
+    box.appendChild(f);
+  }
+}
+
+const GAVINHA = '<svg class="gavinha" viewBox="0 0 150 170" fill="none" aria-hidden="true">'
+  + '<path d="M14 150 C4 110 8 60 40 30 C58 13 96 10 116 26 C140 45 146 92 138 132"'
+  + ' stroke="#d4af5a" stroke-width="1.6" stroke-linecap="round" opacity=".85"/></svg>';
+
+function celebrar(novosSelos, novasColheitas, semanaExemplarNova){
+  return new Promise(resolve => {
+    const cer = document.getElementById('cerimonia');
+    const primeiro = novosSelos[0];
+    /* o medalhão é criado agora, na hora da cerimônia: assim a página nunca
+       carrega um <img> vazio, e a animação de entrada roda ao ser inserido. */
+    const palco = document.getElementById('cerimoniaPalco');
+    palco.innerHTML = '';
+    const med = document.createElement('img');
+    med.className = 'medalhao';
+    if(primeiro !== undefined){
+      const m = selosDef[primeiro];
+      med.src = m.img; med.alt = m.nome;
+      document.getElementById('cerimoniaEyebrow').textContent = novosSelos.length > 1
+        ? novosSelos.length + ' selos novos' : 'Selo conquistado';
+      document.getElementById('cerimoniaTitulo').textContent = m.nome;
+      /* "Step by step." fica reservado pro momento maior — a semana que fecha
+         (Agnes, 29/07): repetido em toda conquista, ele gastaria. */
+      document.getElementById('cerimoniaTexto').textContent = novasColheitas > 0
+        ? (novosSelos.length > 1
+            ? 'A semana fechou, e ' + novosSelos.length + ' selos entraram na sua vitrine. Step by step.'
+            : 'A semana fechou e o cacho acendeu. Step by step.')
+        : (novosSelos.length > 1
+            ? 'E mais ' + (novosSelos.length-1) + ' na sua vitrine.'
+            : 'Mais um passo virou conquista.');
+    }else{
+      med.src = 'cacho_noite.webp'; med.alt = 'Cacho da colheita';
+      document.getElementById('cerimoniaEyebrow').textContent = 'Colheita';
+      document.getElementById('cerimoniaTitulo').textContent = 'O cacho desta semana acendeu.';
+      document.getElementById('cerimoniaTexto').textContent = 'Uma semana completa entrou na sua coleção. Step by step.';
+    }
+    palco.appendChild(med);
+    fagulhas(semanaExemplarNova ? 9 : (novasColheitas > 0 ? 6 : 0));
+    cer.classList.add('on');
+    const fechar = () => {
+      cer.classList.remove('on');
+      document.removeEventListener('keydown', onKey);
+      resolve();
+    };
+    const onKey = e => { if(e.key === 'Escape' || e.key === 'Enter') fechar(); };
+    document.getElementById('cerimoniaFechar').addEventListener('click', fechar, {once:true});
+    cer.addEventListener('click', e => { if(e.target === cer) fechar(); });
+    document.addEventListener('keydown', onKey);
+    document.getElementById('cerimoniaFechar').focus({preventScroll:true});
+  });
+}
+
+function contarAte(el, alvo, sufixo, dur){
+  if(SEM_MOVIMENTO || alvo <= 0){ el.textContent = alvo + (sufixo||''); return; }
+  const t0 = performance.now();
+  (function passo(t){
+    const p = Math.min(1, (t - t0) / dur);
+    el.textContent = Math.round(alvo * (1 - Math.pow(1-p, 3))) + (sufixo||'');
+    if(p < 1) requestAnimationFrame(passo);
+  })(t0);
 }
 
 (async function(){
@@ -313,39 +578,106 @@ function textoDaVideira(c){
   const sem = estadoSemanas(progress);
   s.semanasExemplares = sem.exemplaresTotal;
 
-  // Contadores
-  document.getElementById('numDias').textContent = s.diasCompletos;
-  document.getElementById('numLily').textContent = s.textosOuvidos;
-  document.getElementById('numAnki').textContent = s.cartoesAnki;
   const colheitas = sem.colhidas;
-  document.getElementById('numColheitas').textContent = colheitas + ' / 12';
+
+  // Quem já está aberto (a mesma conta de sempre — selosDef[i].check)
+  const abertos = [];
+  selosDef.forEach((m,i)=>{ if(m.check(s)) abertos.push(i); });
+
+  // O que é novo desde a última visita? (chave própria, fora do progresso)
+  const antes = lerAssinatura();
+  const agora = assinatura(abertos, colheitas, sem.exemplaresTotal);
+  const primeiraVisita = !antes;
+  const novosSelos = primeiraVisita ? [] : abertos.filter(i => !String(antes.selos).split(',').includes(String(i)));
+  const novasColheitas = primeiraVisita ? 0 : Math.max(0, colheitas - (antes.colhidas||0));
+  const exemplarNova   = primeiraVisita ? false : (sem.exemplaresTotal > (antes.exemplares||0));
+  const temCerimonia = novosSelos.length > 0 || novasColheitas > 0;
+  gravarAssinatura(agora);
+
+  // Tema: preferência dela manda; a cerimônia entra pela noite (o registro cerimonial)
+  let tema = 'dia';
+  try{ if(localStorage.getItem(CHAVE_TEMA) === 'noite') tema = 'noite'; }catch(e){}
+  if(temCerimonia) tema = 'noite';
+  aplicarTema(tema, false);
+  document.getElementById('btnTema').addEventListener('click', ()=>{
+    const novo = document.documentElement.dataset.tema === 'noite' ? 'dia' : 'noite';
+    aplicarTema(novo, true);
+  });
+
+  // Contadores
+  const elDias = document.getElementById('numDias');
+  const elLily = document.getElementById('numLily');
+  const elAnki = document.getElementById('numAnki');
+  const elColh = document.getElementById('numColheitas');
+  if(temCerimonia){
+    contarAte(elDias, s.diasCompletos, '', 900);
+    contarAte(elLily, s.textosOuvidos, '', 900);
+    contarAte(elAnki, s.cartoesAnki, '', 1100);
+    contarAte(elColh, colheitas, ' / 12', 700);
+  }else{
+    elDias.textContent = s.diasCompletos;
+    elLily.textContent = s.textosOuvidos;
+    elAnki.textContent = s.cartoesAnki;
+    elColh.textContent = colheitas + ' / 12';
+  }
 
   // Barra do certificado (60 passos diários)
   const totalPassos = 60;
   const pct = Math.min(100, (s.diasCompletos/totalPassos)*100);
-  document.getElementById('certBarra').style.width = pct+'%';
+  const barra = document.getElementById('certBarra');
   document.getElementById('certTexto').textContent = `${s.diasCompletos} / ${totalPassos} passos diários`;
+  if(temCerimonia && !SEM_MOVIMENTO){
+    document.getElementById('certificado').classList.add('celebrando');
+    requestAnimationFrame(()=>{ barra.style.width = pct+'%'; });
+  }else{
+    barra.style.width = pct+'%';
+  }
 
   // Videira — estágio por DIAS COMPLETOS DA SEMANA CORRENTE (0..4). Check-up NÃO conta.
   const ciclo = cicloDaSemana(progress, sem);
   const estagio = ciclo.estagio;
-  const txt = textoDaVideira(ciclo);
+  /* DIAS REAIS da semana que está na tela (0..5), pela mesma função de sempre.
+     O estágio da ARTE satura em 4 (são 5 artes pra 6 contagens possíveis), então
+     ele não serve pra falar com a aluna: 4 e 5 dias precisam de telas diferentes. */
+  const diasReais = contarDiasDaSemana(progress, ciclo.semana - 1);
+  const txt = textoDaVideira({semana: ciclo.semana, dias: diasReais});
   const img = document.getElementById('videiraImg');
   img.src = 'videira_safra'+ciclo.safraArte+'_estagio'+estagio+'.webp';
   img.alt = 'Videira do meu progresso — Safra '+ciclo.safraArte;
+  const imgN = document.getElementById('videiraImgNoite');
+  imgN.src = 'videira_safra'+ciclo.safraArte+'_estagio'+estagio+'_noite.webp';
   document.getElementById('videiraEyebrow').textContent = 'Safra '+ciclo.safraArte+' · Semana '+ciclo.semana;
   document.getElementById('videiraTitulo').textContent = txt.t;
   document.getElementById('videiraSub').textContent = txt.s;
 
-  // Dots do estágio (0..4)
+  /* Pontinhos = os 5 DIAS da semana (antes contavam estágios: com zero dias
+     um já vinha aceso, e com quatro dias os cinco acendiam). Assim eles se
+     explicam sozinhos e o rótulo "0 · 1 · 2 · 3 · 4 dias" não faz falta. */
   const dotsEl=document.getElementById('videiraDots');
+  dotsEl.setAttribute('aria-hidden','false');
+  dotsEl.setAttribute('role','img');
+  dotsEl.setAttribute('aria-label', diasReais + ' de 5 dias nesta semana');
   for(let i=0;i<5;i++){
     const d=document.createElement('span');
-    d.className='dot'+(i<=estagio?' on':'');
+    d.className='dot'+(i<diasReais?' on':'');
     dotsEl.appendChild(d);
   }
-  const rot=document.createElement('span'); rot.className='rot'; rot.textContent='0 · 1 · 2 · 3 · 4 dias';
-  dotsEl.appendChild(rot);
+
+  /* Convite do check-up (Agnes, 27/07 — opção A): a semana madura sem o check-up
+     é reconhecida com delicadeza, e o caminho é apontado. NADA é bloqueado: ela
+     pode abrir a semana seguinte e voltar depois. */
+  const semanaMadura = diasReais >= 5 ? ciclo.semana : 0;   // 5 dias de verdade, não o estágio saturado
+  if(semanaMadura){
+    const chave = 'checkup_S' + String(semanaMadura).padStart(2,'0') + '_completedAt';
+    const conv = document.getElementById('convite');
+    if(progress[chave]){
+      conv.innerHTML = '<b>Semana ' + semanaMadura + ' fechada.</b> Os cinco dias, e a sua frase guardada.';
+    }else{
+      conv.innerHTML = '<b>A semana está madura.</b> Falta o gesto de fechá-la: o Check-up da Semana ' + semanaMadura
+        + ' está nos <a href="Passos_Diarios.html">Passos Diários</a>.';
+    }
+    conv.classList.add('on');
+  }
 
   // Coleção de 12 colheitas — estado semanal real (kit 2). Nenhum cacho antes de
   // 5 dias completos. Semanas 1–4 (Safra 1) usam a arte cacho_p; M/G entram quando
@@ -358,13 +690,15 @@ function textoDaVideira(c){
     const exemplar = sem.exemplares[i];
     const temArte = colhido && i < 4; // Safra 1 = cacho P
     const slot=document.createElement('div');
-    slot.className='colheita-slot'+(colhido?' colhido':(andamento?' andamento':''));
+    slot.className='colheita-slot'+(colhido?' colhido':(andamento?' andamento':''))+(exemplar?' exemplar':'');
     if(colhido){
       slot.setAttribute('role','img');
       slot.setAttribute('aria-label','Semana '+(i+1)+' — colheita completa'+(exemplar?', semana de ouro':''));
     }
     if(temArte){
-      slot.innerHTML=`<div class="bola bola-cacho"><img class="cacho" src="cacho_p.webp" alt="">`+
+      slot.innerHTML=`<div class="bola bola-cacho"><span class="luz"></span>`+
+        `<img class="cacho dia" src="cacho_p.webp" alt="">`+
+        `<img class="cacho noite" src="cacho_noite.webp" alt="" aria-hidden="true">`+
         (exemplar?`<img class="folha-exemplar" src="ornamento_folha_dourada.webp" alt="" aria-hidden="true">`:'')+
         `</div><div class="n">${i+1}</div>`;
     }else{
@@ -373,15 +707,45 @@ function textoDaVideira(c){
     grid.appendChild(slot);
   }
 
-  // Selos
+  /* As frases dos check-ups, ao lado da colheita — o que ela mesma disse ao
+     fechar cada semana. Só aparece o que existe; ausência não é falha. */
+  const frases = progress['checkup_frases'] || {};
+  const ul = document.getElementById('frasesCheckup');
+  Object.keys(frases).sort().forEach(k=>{
+    const texto = (frases[k]||'').trim();
+    if(!texto) return;
+    const n = parseInt(String(k).replace(/\D/g,''),10) || 0;
+    const li = document.createElement('li');
+    li.innerHTML = '<span class="sem">Semana ' + n + '</span><em>“' + texto.replace(/</g,'&lt;') + '”</em>';
+    ul.appendChild(li);
+  });
+
+  // Selos — a vitrine
   const selosEl=document.getElementById('selos');
-  selosDef.forEach(m=>{
+  selosDef.forEach((m,i)=>{
     const ok=m.check(s);
     const div=document.createElement('div');
     div.className='selo'+(ok?' desbloqueado':'');
+    div.id='selo-'+i;
     div.innerHTML=`<img src="${m.img}" alt=""><div class="nome">${m.nome}</div><div class="estado">${ok?'Conquistado':'Em andamento'}</div>`;
     selosEl.appendChild(div);
   });
+
+  /* A cerimônia: o selo nasce grande no centro, respira, e o lugar dele na
+     vitrine recebe a gavinha se desenhando. Uma vez, no gatilho, ≤1,5s cada. */
+  if(temCerimonia){
+    await celebrar(novosSelos, novasColheitas, exemplarNova);
+    novosSelos.forEach(i=>{
+      const el = document.getElementById('selo-'+i);
+      if(!el) return;
+      el.insertAdjacentHTML('afterbegin', GAVINHA);
+      el.classList.add('novo','pousando');
+    });
+    if(novosSelos.length){
+      const alvo = document.getElementById('selo-'+novosSelos[0]);
+      if(alvo && !SEM_MOVIMENTO) alvo.scrollIntoView({behavior:'smooth', block:'center'});
+    }
+  }
 })();
 </script>
 </body>
