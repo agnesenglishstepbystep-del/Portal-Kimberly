@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 5 · A viajante que não trava — Kimberly Mentoria VIP</title>
+<!--
+  Dia 5 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 11 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S11-D05-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 55,
+  "rotulo": "Dia 5",
+  "titulo": "Dia 5 — A viajante que não trava",
+  "sub": "Semana 11 — Handling Unexpected Situations · I don't understand · Could you repeat that? · I need help",
+  "lily": {
+    "audio": "audio/Lily_S11_Texto55.mp3",
+    "chave": "texto55",
+    "texto": [
+      "At night, I call my mom with the news.",
+      "Mãe: \"A festival? And one year of my Lily at the shop?\"",
+      "Yes, Mom! One year of flowers, friends and English!",
+      "Mãe: \"Then I'm coming, Lily. I want to see your big day!\"",
+      "Mom is coming! Maya is coming! EVERYBODY is coming!",
+      "One year ago, I was alone in a new town...",
+      "Now? Now I can't wait for Friday!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "No problem — I can wait!",
+      "cenario": "O quarto ainda não ficou pronto e a recepcionista se desculpa: \"Sorry for the delay!\" Você, sofá bom e paisagem nova:",
+      "traducao": "Sem problema — eu posso esperar!",
+      "sensacao": "O <i>wait</i> da semana do deslocamento + a calma do Mês 3: esperar sem azedar. <i>No problem</i> dito por você — e sendo verdade.",
+      "audio": "audio/S11_Dia05_Card01_No_problem_I_can_wait.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "It's okay — these things happen!",
+      "cenario": "O garçom novato derrubou o suco na sua mesa e quer sumir de vergonha. Você desarma tudo:",
+      "traducao": "Tudo bem — essas coisas acontecem!",
+      "sensacao": "<i>These things happen</i> = acontece. A frase dos que já viajaram o suficiente pra saber: acontece mesmo — e passa.",
+      "audio": "audio/S11_Dia05_Card02_Its_okay_these_things_happen.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "I can ask!",
+      "cenario": "O grupo empacou: ninguém sabe onde é o embarque do barco, todo mundo com vergonha. Você levanta a mão:",
+      "traducao": "Eu posso perguntar!",
+      "sensacao": "O eco direto do seu \"I'm not afraid to ask!\" da semana das direções — dois meses depois, encurtado pela confiança. Perguntar virou reflexo.",
+      "audio": "audio/S11_Dia05_Card03_I_can_ask.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "Time for plan B!",
+      "cenario": "O passeio de barco: cancelado pela chuva. Você olha pra sua irmã, abre o guia da cidade e declara:",
+      "traducao": "Hora do plano B!",
+      "sensacao": "O <i>plan</i> dos seus mapas e caminhos ganhou alfabeto. Viajante experiente não perde o dia — troca de letra.",
+      "audio": "audio/S11_Dia05_Card04_Time_for_plan_B.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "I can solve this!",
+      "cenario": "Reserva duplicada, atendente confusa, sua irmã já desistindo. Você pega o comprovante e assume:",
+      "traducao": "Eu consigo resolver isso!",
+      "sensacao": "O <i>solved</i> da semana das compras no presente da coragem: <i>I can solve this</i>. Problema tem dono agora — e é você.",
+      "audio": "audio/S11_Dia05_Card05_I_can_solve_this.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "I'm okay — just a little lost!",
+      "cenario": "Você parou no meio da praça, girando o mapa. Uma senhora gentil se aproxima: \"Are you okay?\" Você tranquiliza:",
+      "traducao": "Estou bem — só um pouquinho perdida!",
+      "sensacao": "O <i>I'm lost</i> da semana das direções encolheu: agora é <i>just a little</i> — e com sorriso. Perdida-de-boa é quase um passeio extra.",
+      "audio": "audio/S11_Dia05_Card06_Im_okay_just_a_little_lost.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "Don't worry — I have time!",
+      "cenario": "O porteiro avisa, sem graça: \"The taxi is ten minutes late...\" Você, chá de banco com vista pro jardim:",
+      "traducao": "Não se preocupe — eu tenho tempo!",
+      "sensacao": "O <i>Don't worry</i> da Anna saiu da playlist e entrou na sua voz. Dez minutos não vencem quem tem paz.",
+      "audio": "audio/S11_Dia05_Card07_Dont_worry_I_have_time.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "One more try!",
+      "cenario": "O cartão da fechadura falhou duas vezes. Sua irmã já quer descer reclamando; você, no comando:",
+      "traducao": "Mais uma tentativa!",
+      "sensacao": "O <i>try</i> do provador virou insistência do bem. A terceira tentativa existe — e costuma dar certo.",
+      "audio": "audio/S11_Dia05_Card08_One_more_try.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "YES! Thank you so much!",
+      "cenario": "O funcionário do achados-e-perdidos aparece com algo familiar: \"Ma'am — is this your bag?\" Você quase abraça os dois:",
+      "traducao": "SIM! Muito obrigada!",
+      "sensacao": "A alegria em duas explosões: o <i>YES!</i> do reencontro e o <i>so much</i> da gratidão. Final feliz tem trilha sonora.",
+      "audio": "audio/S11_Dia05_Card09_YES_Thank_you_so_much.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "I'm not afraid anymore!",
+      "cenario": "No encontro, sua professora relembra a semana de perrengues e pergunta como você se sente hoje diante de um imprevisto. Você responde de peito aberto:",
+      "traducao": "Eu não tenho mais medo!",
+      "sensacao": "Na semana das direções você não tinha medo *<i>de perguntar</i><i>. Hoje a frase perdeu o complemento: não tem mais medo — ponto. </i>Anymore* = \"mais não\". Que caminho, hein?",
+      "audio": "audio/S11_Dia05_Card10_Im_not_afraid_anymore.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

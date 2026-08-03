@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 4 · Contando a história — Kimberly Mentoria VIP</title>
+<!--
+  Dia 4 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 9 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S09-D04-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 44,
+  "rotulo": "Dia 4",
+  "titulo": "Dia 4 — Contando a história",
+  "sub": "Semana 9 — Talking About Experiences · It was... · I went... · I loved/liked...",
+  "lily": {
+    "audio": "audio/Lily_S09_Texto44.mp3",
+    "chave": "texto44",
+    "texto": [
+      "Surprise! A call from the big city: Maya!",
+      "Maya: \"Lily! I have news: I'd like to visit your little town!\"",
+      "Visit? Here? YES! When?",
+      "Maya: \"Next week! I want to see your shop — and meet your friends!\"",
+      "You'll love Anna! And the bakery, and the park, and my street!",
+      "Maya: \"One week, Lily! See you soon!\"",
+      "My first visit from a friend... I can't wait!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "I had a great time!",
+      "cenario": "Primeira reunião depois das férias, e a cliente abre com: \"How was your vacation?\" Você responde com o resumo perfeito:",
+      "traducao": "Eu me diverti muito!",
+      "sensacao": "<i>I had a great time</i> = foi ótimo, aproveitei demais — o jeito mais inglês de dizer que valeu. <i>Great</i> = ótimo, e o <i>had</i> é o seu <i>have</i> de ontem.",
+      "audio": "audio/S09_Dia04_Card01_I_had_a_great_time.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "We visited a beautiful little church.",
+      "cenario": "Mostrando as fotos pra sua mãe, você chega na favorita e conta:",
+      "traducao": "Nós visitamos uma igrejinha linda.",
+      "sensacao": "<i>Visited</i> = visitamos — o <i>visit</i> do convite da Maya, agora contando história. Igrejinhas guardam os silêncios mais bonitos das viagens.",
+      "audio": "audio/S09_Dia04_Card02_We_visited_a_beautiful_little_church.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "I saw the sea from the plane!",
+      "cenario": "Seu sobrinho pergunta como é voar. Você conta o momento que não sai da cabeça:",
+      "traducao": "Eu vi o mar do avião!",
+      "sensacao": "<i>I saw</i> = eu vi. O assento na janela que você pediu na semana do hotel pagou a viagem inteira: o mar lá embaixo, e você lá em cima.",
+      "audio": "audio/S09_Dia04_Card03_I_saw_the_sea_from_the_plane.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "We had lunch by the sea.",
+      "cenario": "Sua amiga pergunta do melhor almoço da viagem. Fácil:",
+      "traducao": "Nós almoçamos à beira-mar.",
+      "sensacao": "O <i>lunch</i> da rotina + o <i>by the sea</i> dos seus mapas, unidos no passado. Alguns almoços viram fotografia na memória.",
+      "audio": "audio/S09_Dia04_Card04_We_had_lunch_by_the_sea.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "I took so many photos!",
+      "cenario": "Sua irmã reclama, rindo, que o álbum da viagem não acaba nunca. Você assume a culpa:",
+      "traducao": "Eu tirei tantas fotos!",
+      "sensacao": "<i>Took</i> = o <i>take a photo</i> da semana do deslocamento, virado pra ontem. Tantas fotos — e nenhuma sobrando.",
+      "audio": "audio/S09_Dia04_Card05_I_took_so_many_photos.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "We visited three beaches in one day!",
+      "cenario": "Contando o roteiro pra vizinha, você chega no dia mais ambicioso:",
+      "traducao": "Nós visitamos três praias num dia só!",
+      "sensacao": "Três praias, um dia, zero arrependimento. Números + praias + passado: seu inglês contando façanha.",
+      "audio": "audio/S09_Dia04_Card06_We_visited_three_beaches_in_one_day.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "We had breakfast in the garden every morning.",
+      "cenario": "Sua professora pergunta qual hábito da viagem você trouxe na memória. Você escolhe o começo dos dias:",
+      "traducao": "Nós tomávamos café da manhã no jardim toda manhã.",
+      "sensacao": "O <i>every morning</i> da rotina, agora perfumado de saudade. Alguns costumes de viagem a gente guarda pra sempre.",
+      "audio": "audio/S09_Dia04_Card07_We_had_breakfast_in_the_garden_every_morning.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "I met a new friend at the hotel!",
+      "cenario": "Sua mãe quer saber as novidades da viagem. Você guarda a melhor pra o final:",
+      "traducao": "Eu fiz uma amiga nova no hotel!",
+      "sensacao": "<i>I met</i> = eu conheci — o passado do <i>meet</i>. Viagem boa traz lembrancinha; viagem ótima traz gente nova. (Guarde essa história: ela continua semana que vem.)",
+      "audio": "audio/S09_Dia04_Card08_I_met_a_new_friend_at_the_hotel.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "I had a little problem... but I solved it!",
+      "cenario": "No relato pra sua professora, você chega na parte do perrengue — e conta com orgulho:",
+      "traducao": "Eu tive um probleminha... mas eu resolvi!",
+      "sensacao": "A frase da Lily no telefone da mãe, agora vivida por você. <i>Solved</i> — o carimbo da semana das compras — funcionando no passado.",
+      "audio": "audio/S09_Dia04_Card09_I_had_a_little_problem_but_I_solved_it.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "What a trip!",
+      "cenario": "Última foto mostrada, sala em silêncio bom. Você fecha o álbum e resume tudo em três palavras:",
+      "traducao": "Que viagem!",
+      "sensacao": "O suspiro que vira frase: <i>What a...!</i> — você ouviu a Lily dizer \"What a week!\" tantas vezes que isso já era seu.",
+      "audio": "audio/S09_Dia04_Card10_What_a_trip.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

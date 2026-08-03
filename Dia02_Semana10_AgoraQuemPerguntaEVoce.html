@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 2 · Agora quem pergunta é você — Kimberly Mentoria VIP</title>
+<!--
+  Dia 2 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 10 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S10-D02-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 47,
+  "rotulo": "Dia 2",
+  "titulo": "Dia 2 — Agora quem pergunta é você",
+  "sub": "Semana 10 — Connecting With People · Nice to meet you! · Where are you from? · How long are you here?",
+  "lily": {
+    "audio": "audio/Lily_S10_Texto47.mp3",
+    "chave": "texto47",
+    "texto": [
+      "Today: the grand tour! My street, my bakery, my park!",
+      "Maya: \"So THIS is the famous bakery!\"",
+      "Yes! I go there every morning — you know that story!",
+      "At the park, Maya asks: \"What do you do on Sundays here?\"",
+      "Nothing... and everything! The park, lemonade, my flowers!",
+      "Maya: \"I love it. The big city is fast... your town is calm.\"",
+      "Two shops, two towns, one friendship!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "Where are you from?",
+      "cenario": "Piscina do hotel, a moça da espreguiçadeira ao lado puxa assunto sobre o sol. Você aproveita e pergunta:",
+      "traducao": "De onde você é?",
+      "sensacao": "A PRIMEIRA pergunta que você ouviu neste curso — agora na sua voz. O círculo se fechou: quem respondia, pergunta.",
+      "audio": "audio/S10_Dia02_Card01_Where_are_you_from.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "What do you do?",
+      "cenario": "No jantar do passeio, seu vizinho de mesa é um senhor simpático e conversador. Você se interessa:",
+      "traducao": "O que você faz?",
+      "sensacao": "A pergunta que apresentou você ao mundo (\"I'm a business owner\") agora trabalha pra você conhecer o mundo.",
+      "audio": "audio/S10_Dia02_Card02_What_do_you_do.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "Do you like Brazil?",
+      "cenario": "A turista que você ajudou na praça está encantada com tudo. Você pergunta, já sabendo a resposta:",
+      "traducao": "Você gosta do Brasil?",
+      "sensacao": "A pergunta de anfitriã orgulhosa — e a resposta que enche o peito: <i>I love it here!</i>",
+      "audio": "audio/S10_Dia02_Card03_Do_you_like_Brazil.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "Do you speak Portuguese?",
+      "cenario": "O hóspede americano tenta ler o cardápio da pousada, sem sucesso. Você chega ajudando e pergunta:",
+      "traducao": "Você fala português?",
+      "sensacao": "O \"Do you speak English?\" que já te deixou nervosa — invertido! Agora é o SEU idioma que é o difícil. Que virada.",
+      "audio": "audio/S10_Dia02_Card04_Do_you_speak_Portuguese.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "Where are you staying?",
+      "cenario": "A nova amiga do passeio quer combinar o encontro de amanhã. Você organiza:",
+      "traducao": "Onde você está hospedada?",
+      "sensacao": "<i>Staying</i> de novo em campo: a pergunta prática que toda amizade de viagem precisa — pra saber onde se encontrar.",
+      "audio": "audio/S10_Dia02_Card05_Where_are_you_staying.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "Are you here on vacation?",
+      "cenario": "No barquinho do passeio, o moço da câmera enorme fotografa tudo. Você puxa papo:",
+      "traducao": "Você está aqui de férias?",
+      "sensacao": "O seu velho <i>I'm here on vacation</i> virou pergunta. Você conhece os dois lados dessa conversa — e agora escolhe qual joga.",
+      "audio": "audio/S10_Dia02_Card06_Are_you_here_on_vacation.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "What's your favorite place here?",
+      "cenario": "A hóspede veterana do hotel conhece a cidade toda. Você pede a dica de ouro:",
+      "traducao": "Qual é o seu lugar favorito aqui?",
+      "sensacao": "A pergunta que vale mais que guia de viagem: o <i>favorite</i> de quem já conhece. Resposta de morador não falha.",
+      "audio": "audio/S10_Dia02_Card07_Whats_your_favorite_place_here.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "Do you like the food here?",
+      "cenario": "O casal recém-chegado ainda não escolheu onde jantar. Você testa o terreno antes de indicar seu favorito:",
+      "traducao": "Você gosta da comida daqui?",
+      "sensacao": "Pergunta de quem se importa — e a resposta vem com a palavra que você usa desde a pousada: <i>delicious</i>.",
+      "audio": "audio/S10_Dia02_Card08_Do_you_like_the_food_here.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "Is your family here too?",
+      "cenario": "A moça do café da manhã sempre chega acompanhada de gente parecida com ela. Você confirma a teoria:",
+      "traducao": "Sua família está aqui também?",
+      "sensacao": "Pergunta de quem repara nas pessoas. <i>All of us</i> = todos nós — família completa, mesa feliz.",
+      "audio": "audio/S10_Dia02_Card09_Is_your_family_here_too.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "Do you want to see my photos?",
+      "cenario": "A conversa chegou nas viagens passadas, e as suas fotos da cidade grande estão logo ali no celular:",
+      "traducao": "Você quer ver minhas fotos?",
+      "sensacao": "A pergunta que transforma conhecido em amigo: dividir lembranças. E o \"Show me!\" da resposta — você já usou dos dois lados.",
+      "audio": "audio/S10_Dia02_Card10_Do_you_want_to_see_my_photos.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

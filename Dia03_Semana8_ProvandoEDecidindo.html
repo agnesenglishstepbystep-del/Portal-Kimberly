@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 3 · Provando e decidindo — Kimberly Mentoria VIP</title>
+<!--
+  Dia 3 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 8 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S08-D03-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 38,
+  "rotulo": "Dia 3",
+  "titulo": "Dia 3 — Provando e decidindo",
+  "sub": "Semana 8 — Shopping & Solving Problems · I'm looking for... · How much is...? · I have a problem",
+  "lily": {
+    "audio": "audio/Lily_S08_Texto38.mp3",
+    "chave": "texto38",
+    "texto": [
+      "Big day at the shop — everybody loves the fair things!",
+      "A woman looks at a basket and smiles: \"I love it! I'll take it!\"",
+      "A man: \"The blue ribbon, please — no, that one!\"",
+      "Anna: \"Lily, your fair things are gold!\"",
+      "Me? I check my email... nothing about my vases yet.",
+      "Patience, patience...",
+      "Tomorrow is a new day!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "Do you have this in blue?",
+      "cenario": "O vestido é perfeito; a cor, nem tanto. Segurando o cabide:",
+      "traducao": "Você tem este em azul?",
+      "sensacao": "O <i>Do you have...?</i> do hotel foi às compras: mesma pergunta, agora escolhendo cor. E azul, claro — combina com você.",
+      "audio": "audio/S08_Dia03_Card01_Do_you_have_this_in_blue.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "Do you have this in my size?",
+      "cenario": "A blusa da vitrine só tem um tamanho exposto. Você pergunta antes de se animar demais:",
+      "traducao": "Você tem este no meu tamanho?",
+      "sensacao": "<i>Size</i> = tamanho. A pergunta que evita decepção de provador — e a vendedora que confere no estoque vira sua melhor amiga por dois minutos.",
+      "audio": "audio/S08_Dia03_Card02_Do_you_have_this_in_my_size.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "Can I try it on?",
+      "cenario": "O vestido azul passou no teste do cabide. Falta o teste de verdade:",
+      "traducao": "Posso experimentar?",
+      "sensacao": "<i>Try it on</i> = experimentar (a roupa no corpo). O <i>Can I</i> que você aprendeu na mesa saiu do restaurante e entrou no provador. E a resposta já te entrega a próxima palavra da semana...",
+      "audio": "audio/S08_Dia03_Card03_Can_I_try_it_on.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "Where is the fitting room?",
+      "cenario": "Roupas no braço, loja grande, nenhuma plaquinha à vista. Você pergunta ao atendente do caixa:",
+      "traducao": "Onde fica o provador?",
+      "sensacao": "O <i>Where is...?</i> que já te guiou por aeroportos e ruas agora acha provador. <i>Fitting room</i> — essa você acabou de ouvir no cartão anterior, lembra?",
+      "audio": "audio/S08_Dia03_Card04_Where_is_the_fitting_room.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "I love it!",
+      "cenario": "Você sai do provador e a vendedora pergunta, curiosa: \"So... do you like it?\" O espelho já tinha respondido:",
+      "traducao": "Eu amei!",
+      "sensacao": "<i>Like</i> = gostar; <i>love</i> = amar. Quando o espelho sorri de volta, não é <i>like</i> — é <i>love</i>. (Guarde esse par: ele ainda vai contar histórias.)",
+      "audio": "audio/S08_Dia03_Card05_I_love_it.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "Small, please.",
+      "cenario": "Camiseta da cidade escolhida, e vem a pergunta do balcão: \"What size?\" Você responde:",
+      "traducao": "Pequeno, por favor.",
+      "sensacao": "O <i>small</i> que você já usa desde a semana da rotina, agora vestindo você. Pergunta ouvida, resposta pronta — balcão vencido.",
+      "audio": "audio/S08_Dia03_Card06_Small_please.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "I'll take it!",
+      "cenario": "Vestido provado, espelho aprovado, coração decidido. De volta ao balcão:",
+      "traducao": "Vou levar!",
+      "sensacao": "<i>I'll take it!</i> = vou levar! — a irmã gêmea do <i>I'll have</i> do restaurante. Lá você pedia; aqui você leva. Decisão dita em três palavras.",
+      "audio": "audio/S08_Dia03_Card07_Ill_take_it.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "I'll take two!",
+      "cenario": "O sabonete artesanal cheira a férias. Um pra você... e um pra sua irmã, vai:",
+      "traducao": "Vou levar dois!",
+      "sensacao": "Decisão em dobro — porque coisa boa se compra em par. O <i>two</i> de sempre fechando negócio.",
+      "audio": "audio/S08_Dia03_Card08_Ill_take_two.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "Not this one — that one, please!",
+      "cenario": "Na vitrine de doces, a atendente pega o brigadeiro errado. Você aponta melhor, rindo:",
+      "traducao": "Esse não — aquele, por favor!",
+      "sensacao": "<i>This one</i> = este (perto) · <i>that one</i> = aquele (lá). O par que aponta com precisão — e salva sobremesas do destino errado.",
+      "audio": "audio/S08_Dia03_Card09_Not_this_one_that_one_please.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "No... it's for me!",
+      "cenario": "O atendente embala o lenço azul com capricho e pergunta: \"A gift?\" Você sorri sem culpa nenhuma:",
+      "traducao": "Não... é pra mim!",
+      "sensacao": "O <i>It's for you</i> da semana do seu mundo, virado do avesso. Uma semana comprando pros outros — este aqui é seu. Merecido.",
+      "audio": "audio/S08_Dia03_Card10_No_its_for_me.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 4 · Confirmando a informação — Kimberly Mentoria VIP</title>
+<!--
+  Dia 4 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 11 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S11-D04-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 54,
+  "rotulo": "Dia 4",
+  "titulo": "Dia 4 — Confirmando a informação",
+  "sub": "Semana 11 — Handling Unexpected Situations · I don't understand · Could you repeat that? · I need help",
+  "lily": {
+    "audio": "audio/Lily_S11_Texto54.mp3",
+    "chave": "texto54",
+    "texto": [
+      "Friday plans at the shop — and Anna has a surprise!",
+      "Anna: \"Lily... the party on Friday? It's the town festival!\"",
+      "The festival! Music, flowers, food, everybody in the street!",
+      "Anna: \"And... it's your party too: ONE YEAR of Lily at the shop!\"",
+      "One year? One YEAR! Time goes fast!",
+      "A festival... and my one-year party... together?",
+      "This Friday is going to be BIG!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "Is this right?",
+      "cenario": "Formulário da imigração preenchido, você mostra pra funcionária antes de entregar:",
+      "traducao": "Está certo assim?",
+      "sensacao": "<i>Right</i> de novo em campo: certo. A pergunta curtinha que evita retrabalho — e vergonha.",
+      "audio": "audio/S11_Dia04_Card01_Is_this_right.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "Is this the right line?",
+      "cenario": "Três filas, zero placas, sua mala pesando. Você pergunta pro moço da frente:",
+      "traducao": "Esta é a fila certa?",
+      "sensacao": "<i>Line</i> = fila. Vinte segundos de pergunta economizam vinte minutos de fila errada — matemática de aeroporto.",
+      "audio": "audio/S11_Dia04_Card02_Is_this_the_right_line.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "Is this the right bus?",
+      "cenario": "Depois do ônibus perdido de ontem, hoje você não arrisca. Antes de subir, confere com o motorista:",
+      "traducao": "Este é o ônibus certo?",
+      "sensacao": "O frame da semana do deslocamento de volta — porque conferir nunca sai de moda. Quem já errou ônibus uma vez confere pra sempre.",
+      "audio": "audio/S11_Dia04_Card03_Is_this_the_right_bus.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "At ten — right?",
+      "cenario": "O passeio de amanhã foi combinado no meio de mil informações. Na saída, você sela o horário:",
+      "traducao": "Às dez — certo?",
+      "sensacao": "O <i>right?</i> pendurado no fim = \"né?\". A confirmação mais econômica do inglês: repete o essencial e pede o carimbo.",
+      "audio": "audio/S11_Dia04_Card04_At_ten_right.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "The museum is open today — right?",
+      "cenario": "Segunda-feira, dia clássico de museu fechado. Antes de atravessar a cidade, você liga e confirma:",
+      "traducao": "O museu está aberto hoje — certo?",
+      "sensacao": "O <i>open</i> que você usa desde o comecinho + o <i>right?</i> novo: a dupla que salva passeios de porta fechada.",
+      "audio": "audio/S11_Dia04_Card05_The_museum_is_open_today_right.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "Can you check, please?",
+      "cenario": "O sistema diz que seu quarto não tem café da manhã — mas você pagou. Você pede, calma:",
+      "traducao": "Você pode verificar, por favor?",
+      "sensacao": "Olha o <i>check</i> de novo! Era a conta do restaurante; agora é verbo: conferir. Palavra velha, emprego novo — o inglês adora isso.",
+      "audio": "audio/S11_Dia04_Card06_Can_you_check_please.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "Is everything okay with my reservation?",
+      "cenario": "Véspera do voo de volta, você liga pro hotel da conexão só pra dormir tranquila:",
+      "traducao": "Está tudo certo com a minha reserva?",
+      "sensacao": "O <i>Is everything okay?</i> que os garçons te ensinaram, agora a seu serviço. Véspera conferida, sono garantido — você já sabe.",
+      "audio": "audio/S11_Dia04_Card07_Is_everything_okay_with_my_reservation.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "Just to confirm: two nights?",
+      "cenario": "A reserva por telefone teve ruído na linha. Antes de desligar, você amarra:",
+      "traducao": "Só pra confirmar: duas noites?",
+      "sensacao": "<i>Just to confirm</i> = só pra confirmar — a frase-cinto-de-segurança dos adultos organizados. O <i>confirm</i> da semana do hotel em versão expressa.",
+      "audio": "audio/S11_Dia04_Card08_Just_to_confirm_two_nights.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "Did I understand right?",
+      "cenario": "A explicação foi longa e você repete o resumo pro guia, só pra garantir:",
+      "traducao": "Eu entendi certo?",
+      "sensacao": "Resumo repetido em voz alta, olho no guia: entender e conferir que entendeu — nível novo. O <i>did</i> das histórias e o <i>understand</i> do seu kit, trabalhando juntos.",
+      "audio": "audio/S11_Dia04_Card09_Did_I_understand_right.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "I always check first!",
+      "cenario": "Sua companheira de viagem se espanta: você de novo confirmando horário, portão, fila. Você explica seu segredo:",
+      "traducao": "Eu sempre confiro antes!",
+      "sensacao": "O <i>always</i> do seu lema da semana do deslocamento, agora protegendo a viagem inteira. Conferir primeiro é o superpoder silencioso dos viajantes calmos.",
+      "audio": "audio/S11_Dia04_Card10_I_always_check_first.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

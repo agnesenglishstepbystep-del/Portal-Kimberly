@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Check-up · Semana 10 — Kimberly Mentoria VIP</title>
+<!--
+  Check-up da Semana 10 — no motor (motor_checkup.js).
+  3 questões: situação + 3 frases CORRETAS (sem input errado), posição da correta embaralhada.
+  Fonte: Acervo, KIM-S10-CHK-C01 a C03.
+-->
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const CHECKUP={
+  "semana": 10,
+  "sufixo": "S10",
+  "sub": "Connecting With People · Nice to meet you! · Where are you from? · How long are you here?",
+  "questoes": [
+    {
+      "id": "q1",
+      "situacao": "No passeio de barco, a moça ao lado comenta a vista com você, e vocês riem juntas. Você quer transformar o momento em conversa:",
+      "opcoes": [
+        "See you soon!",
+        "Where are you from?",
+        "Me too!"
+      ],
+      "certa": 1
+    },
+    {
+      "id": "q2",
+      "situacao": "O senhor do passeio conta, feliz: \"My daughter lives in Brazil now.\" Você reage:",
+      "opcoes": [
+        "That's nice!",
+        "How long are you here?",
+        "Have a good trip!"
+      ],
+      "certa": 0
+    },
+    {
+      "id": "q3",
+      "situacao": "Jantar com os amigos novos da viagem: cardápio gigante, todo mundo perdido — e você, a veterana da mesa, fecha o menu e salva a noite:",
+      "opcoes": [
+        "Nice to meet you!",
+        "I'll take it!",
+        "What do you recommend?"
+      ],
+      "certa": 2
+    }
+  ]
+};
+</script>
+<script src="motor_checkup.js"></script>
+</body>
+</html>

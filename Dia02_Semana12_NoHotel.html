@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 2 · No hotel — Kimberly Mentoria VIP</title>
+<!--
+  Dia 2 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 12 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S12-D02-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 57,
+  "rotulo": "Dia 2",
+  "titulo": "Dia 2 — No hotel",
+  "sub": "Semana 12 — Travel With Confidence · integração dos 3 meses",
+  "lily": {
+    "audio": "audio/Lily_S12_Texto57.mp3",
+    "chave": "texto57",
+    "texto": [
+      "Surprise at the shop: Maya is here too!",
+      "Maya: \"Lily! I'm here for the festival — and for you!\"",
+      "Mom, this is Maya, my friend from the fair!",
+      "Mãe: \"Nice to meet you, Maya! Lily talks about you!\"",
+      "Maya: \"Nice to meet you too!\"",
+      "My mom, my Maya, my Anna — everybody together!",
+      "My little house is small... but my table is big!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "Good evening! We have a reservation.",
+      "cenario": "Fim do dia de voo, saguão acolhedor. Você chega ao balcão já abrindo a conversa:",
+      "traducao": "Boa noite! Nós temos uma reserva.",
+      "sensacao": "<i>Good evening</i> = boa noite (de chegada). O check-in da semana do hotel em versão dupla: <i>we have</i> — vocês têm reserva, e você tem o comando.",
+      "audio": "audio/S12_Dia02_Card01_Good_evening_We_have_a_reservation.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "What time is breakfast?",
+      "cenario": "Chaves na mão, última pergunta antes de subir:",
+      "traducao": "Que horas é o café da manhã?",
+      "sensacao": "<i>What time...?</i> = que horas...? O <i>time</i> de sempre organizando a manhã seguinte. Pergunta de quem já acordou atrasada uma vez.",
+      "audio": "audio/S12_Dia02_Card02_What_time_is_breakfast.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "There's a view of the sea from our room!",
+      "cenario": "Cortina aberta, mar na moldura. Você manda um áudio pra sua mãe na mesma hora:",
+      "traducao": "Tem vista pro mar do nosso quarto!",
+      "sensacao": "O <i>There's</i> da semana do seu mundo + a <i>view</i> da semana do hotel + o mar de sempre: a frase-cartão-postal. Alegria que se conta no mesmo minuto.",
+      "audio": "audio/S12_Dia02_Card03_Theres_a_view_of_the_sea_from_our_room.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "Do you have a map of the city?",
+      "cenario": "Primeira manhã, plano de explorar a pé. Na recepção, o pedido de sempre:",
+      "traducao": "Vocês têm um mapa da cidade?",
+      "sensacao": "O <i>Do you have...?</i> do hotel buscando o velho amigo de papel. Celular é ótimo; mapa não descarrega.",
+      "audio": "audio/S12_Dia02_Card04_Do_you_have_a_map_of_the_city.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "One more towel, please!",
+      "cenario": "Praia de manhã, piscina à tarde — a conta de toalhas não fecha. Você liga pra recepção:",
+      "traducao": "Mais uma toalha, por favor!",
+      "sensacao": "O <i>one more</i> que já pediu suco e noite extra, agora resolvendo o enxoval. Pedido pequeno, hóspede completa.",
+      "audio": "audio/S12_Dia02_Card05_One_more_towel_please.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "The pool is on the roof — right?",
+      "cenario": "Maiô na bolsa, elevador chamado. Você confirma com o rapaz do saguão, no estilo da semana dos imprevistos:",
+      "traducao": "A piscina é na cobertura — certo?",
+      "sensacao": "<i>Roof</i> = cobertura — você ouviu essa no hotel da Lily, na cidade grande. O <i>right?</i> de conferir + a piscina de sonho: tarde garantida.",
+      "audio": "audio/S12_Dia02_Card06_The_pool_is_on_the_roof_right.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "Our window doesn't open.",
+      "cenario": "Noite quente, janela emperrada. Você liga pra recepção e nomeia o problema, sem drama:",
+      "traducao": "Nossa janela não abre.",
+      "sensacao": "O <i>doesn't</i> da semana das compras no plantão do quarto. Problema novo, método velho: nomear com calma — e a solução já vem subindo.",
+      "audio": "audio/S12_Dia02_Card07_Our_window_doesnt_open.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "Can we have breakfast in the room tomorrow?",
+      "cenario": "Amanhã é o dia do descanso programado da dupla. Você organiza na véspera:",
+      "traducao": "Podemos tomar café da manhã no quarto amanhã?",
+      "sensacao": "O plano de preguiça agendado com elegância: <i>can we...?</i> — o pedido em nome das duas. Roupão já separado.",
+      "audio": "audio/S12_Dia02_Card08_Can_we_have_breakfast_in_the_room_tomorrow.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "This hotel is perfect for us!",
+      "cenario": "No corredor, a governanta pergunta se está tudo bem com o quarto. Você responde com a avaliação completa:",
+      "traducao": "Este hotel é perfeito pra nós!",
+      "sensacao": "O elogio que ilumina o dia de quem trabalha: <i>perfect for us</i>. Hóspede que elogia também constrói a viagem.",
+      "audio": "audio/S12_Dia02_Card09_This_hotel_is_perfect_for_us.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "Goodnight, beautiful city!",
+      "cenario": "Varanda, luzes acesas lá embaixo, dia cumprido. Antes de fechar a cortina, você se despede:",
+      "traducao": "Boa noite, cidade linda!",
+      "sensacao": "A frase que a Lily disse na primeira viagem dela — agora sua, na sua varanda, na sua história. Boa noite, cidade. Até amanhã.",
+      "audio": "audio/S12_Dia02_Card10_Goodnight_beautiful_city.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

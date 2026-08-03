@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 3 · I need (to)... — Kimberly Mentoria VIP</title>
+<!--
+  Dia 3 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 5 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S05-D03-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 23,
+  "rotulo": "Dia 3",
+  "titulo": "Dia 3 — I need (to)...",
+  "sub": "Semana 5 — Getting Around · Can you...? · How do I get to...? · I need (to)...",
+  "lily": {
+    "audio": "audio/Lily_S05_Texto23.mp3",
+    "chave": "texto23",
+    "texto": [
+      "Busy day: three deliveries!",
+      "I need a plan.",
+      "First, the hotel by the sea. Then, the school. Then, the little park.",
+      "Wait — I need water. And my map!",
+      "Okay: flowers, bike, water, map... ready!",
+      "One delivery at a time.",
+      "At night: tired... and SO proud of myself."
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "I need a taxi.",
+      "cenario": "O porteiro do hotel te vê parada na calçada, olhando pros lados: \"Can I help you?\" Você responde:",
+      "traducao": "Eu preciso de um táxi.",
+      "sensacao": "<i>I need</i> = eu preciso. Direto, educado, resolvido — o inglês da necessidade real, sem rodeio e sem drama.",
+      "audio": "audio/S05_Dia03_Card01_I_need_a_taxi.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "I need to go to the airport.",
+      "cenario": "Você entra no táxi e o motorista pergunta o clássico dos clássicos: \"Where to?\" Você responde:",
+      "traducao": "Eu preciso ir pro aeroporto.",
+      "sensacao": "<i>Where to?</i> = pra onde? A pergunta mais repetida do mundo dos táxis — e a sua resposta já sai sem pensar.",
+      "audio": "audio/S05_Dia03_Card02_I_need_to_go_to_the_airport.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "I need a map of the city.",
+      "cenario": "Hoje o celular fica no hotel — passeio à moda antiga. No balcão de turismo, antes de tudo:",
+      "traducao": "Eu preciso de um mapa da cidade.",
+      "sensacao": "Papel, caneta e ruas de verdade. O mapa que você pediu — não o que sobrou na bolsa.",
+      "audio": "audio/S05_Dia03_Card03_I_need_a_map_of_the_city.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "I need to charge my phone.",
+      "cenario": "A bateria pisca 10% no meio do passeio — e o mapa mora nele. Na lanchonete, você pergunta pela tomada:",
+      "traducao": "Eu preciso carregar meu celular.",
+      "sensacao": "<i>Charge</i> = carregar. A necessidade mais moderna da lista — e das mais urgentes.",
+      "audio": "audio/S05_Dia03_Card04_I_need_to_charge_my_phone.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "I need water.",
+      "cenario": "O sol da uma da tarde não perdoa e a subida do mirante foi longa. No quiosque da praça:",
+      "traducao": "Eu preciso de água.",
+      "sensacao": "Duas palavras, alívio imediato. As frases mais simples são as que o corpo agradece primeiro.",
+      "audio": "audio/S05_Dia03_Card05_I_need_water.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "I need help with my bags.",
+      "cenario": "O degrau do trem é alto e as malas não colaboram. Você chama o funcionário da plataforma:",
+      "traducao": "Eu preciso de ajuda com as malas.",
+      "sensacao": "Ontem você pediu com <i>can you</i>; hoje nomeia com <i>I need</i>. Dois caminhos, a mesma coragem de pedir.",
+      "audio": "audio/S05_Dia03_Card06_I_need_help_with_my_bags.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "I need a break!",
+      "cenario": "Terceiro museu do dia — ideia sua, aliás. Você se joga no banco do corredor e declara pra sua companheira de viagem:",
+      "traducao": "Eu preciso de uma pausa!",
+      "sensacao": "<i>Break</i> = pausa. Até os melhores roteiros pedem um banco e cinco minutinhos.",
+      "audio": "audio/S05_Dia03_Card07_I_need_a_break.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "I need to be at the airport at ten.",
+      "cenario": "Voo cedo amanhã. Na recepção, você deixa tudo combinado na véspera:",
+      "traducao": "Eu preciso estar no aeroporto às dez.",
+      "sensacao": "Véspera organizada, manhã tranquila. O <i>at ten</i> que marcava reunião agora marca portão de embarque.",
+      "audio": "audio/S05_Dia03_Card08_I_need_to_be_at_the_airport_at_ten.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "I need one more day!",
+      "cenario": "Check-out marcado, e a cidade ainda cheia de cantos sem visitar. Você brinca com a dona da pousada, meio a sério:",
+      "traducao": "Eu preciso de mais um dia!",
+      "sensacao": "O elogio disfarçado de pedido: quando um lugar cabe no coração, o calendário fica apertado.",
+      "audio": "audio/S05_Dia03_Card09_I_need_one_more_day.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "I need a vacation... again!",
+      "cenario": "De volta ao trabalho, agenda cheia. Você manda pra sua irmã a foto de vocês duas no pôr do sol:",
+      "traducao": "Eu preciso de férias... de novo!",
+      "sensacao": "<i>Vacation</i> voltou — você a conhece desde a primeira semana. Agora é desejo declarado: a próxima viagem virou meta.",
+      "audio": "audio/S05_Dia03_Card10_I_need_a_vacation_again.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 5 · Probleminhas de quarto — Kimberly Mentoria VIP</title>
+<!--
+  Dia 5 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 6 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S06-D05-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 30,
+  "rotulo": "Dia 5",
+  "titulo": "Dia 5 — Probleminhas de quarto",
+  "sub": "Semana 6 — Staying Somewhere · I'd like... · Do you have...? · Could you...?",
+  "lily": {
+    "audio": "audio/Lily_S06_Texto30.mp3",
+    "chave": "texto30",
+    "texto": [
+      "Last day at the hotel. My bag is full of fair flowers and ideas!",
+      "At breakfast: \"One more juice, please!\"",
+      "Recepcionista: \"Lily, your flowers are beautiful!\"",
+      "Thank you! They're for my shop — well, Anna's shop... OUR shop!",
+      "Recepcionista: \"Come back soon!\"",
+      "I'd like that! And next time: a room with a view of the pool!",
+      "The big city is big... but I'm not so little anymore!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "The shower is not working.",
+      "cenario": "Primeira manhã no quarto novo: o registro gira, gira... e nada. Você liga pra recepção, direto ao ponto:",
+      "traducao": "O chuveiro não está funcionando.",
+      "sensacao": "<i>Shower</i> = chuveiro; <i>not working</i> = sem funcionar. Problema nomeado sem novela — meio caminho andado, como você já sabe.",
+      "audio": "audio/S06_Dia05_Card01_The_shower_is_not_working.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "My room is very cold.",
+      "cenario": "O controle do ar-condicionado sumiu e o quarto virou geladeira. No balcão, a recepcionista pergunta: \"How can I help you?\" Você responde, ainda de casaco:",
+      "traducao": "Meu quarto está muito frio.",
+      "sensacao": "<i>Very cold</i> dispensa termômetro: o casaco dentro do quarto conta a história. Dito com calma, resolvido com rapidez.",
+      "audio": "audio/S06_Dia05_Card02_My_room_is_very_cold.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "My key is not working.",
+      "cenario": "Cartão na fechadura, luzinha vermelha. De novo. O rapaz do corredor se oferece pra ajudar e você explica:",
+      "traducao": "Minha chave não está funcionando.",
+      "sensacao": "A <i>key</i> do check-in — agora com defeito. Acontece nos melhores hotéis; resolver em inglês é que é a novidade.",
+      "audio": "audio/S06_Dia05_Card03_My_key_is_not_working.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "There's no towel in the bathroom.",
+      "cenario": "Banho tomado, mão pra fora do box... e o gancho vazio. Você alcança o telefone do quarto:",
+      "traducao": "Não tem toalha no banheiro.",
+      "sensacao": "O <i>There's no...</i> que você já domina, aplicado à emergência mais molhada da hospedagem.",
+      "audio": "audio/S06_Dia05_Card04_Theres_no_towel_in_the_bathroom.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "I can't open the door!",
+      "cenario": "Cartão, maçaneta, empurra, puxa — nada. Sua irmã de um lado da porta, você do outro, rindo da situação:",
+      "traducao": "Eu não consigo abrir a porta!",
+      "sensacao": "O <i>can't</i> honesto dos pequenos apuros. A porta venceu o primeiro round — a recepção vence o segundo.",
+      "audio": "audio/S06_Dia05_Card05_I_cant_open_the_door.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "My room is noisy at night.",
+      "cenario": "Terceira noite de música alta do salão vizinho. No café, o gerente pergunta: \"Everything okay with the room?\" Você aproveita:",
+      "traducao": "Meu quarto é barulhento à noite.",
+      "sensacao": "<i>Noisy</i> = barulhento. Reclamação sem drama, na hora certa, pra pessoa certa — assim se resolve.",
+      "audio": "audio/S06_Dia05_Card06_My_room_is_noisy_at_night.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "Excuse me — this is not my key.",
+      "cenario": "A recepcionista te entrega o cartão... com o número do quarto errado. Você confere e devolve, gentil:",
+      "traducao": "Com licença — esta não é a minha chave.",
+      "sensacao": "O <i>this is not</i> de conferir — educado, atento, sem constrangimento. Detalhe visto, confusão evitada.",
+      "audio": "audio/S06_Dia05_Card07_Excuse_me_this_is_not_my_key.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "Can you send someone, please?",
+      "cenario": "O chuveiro de novo! Dessa vez você já liga sabendo o caminho das pedras:",
+      "traducao": "Você pode mandar alguém, por favor?",
+      "sensacao": "<i>Send someone</i> = mandar alguém. A frase-chave de TODO problema de quarto — quem a conhece, se hospeda em paz.",
+      "audio": "audio/S06_Dia05_Card08_Can_you_send_someone_please.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "Everything is perfect now, thank you!",
+      "cenario": "Chuveiro novo, quarto quentinho, chave funcionando. A recepção liga pra conferir: \"Is everything okay now?\" Você responde, sincera:",
+      "traducao": "Está tudo perfeito agora, obrigada!",
+      "sensacao": "Fechar o ciclo com elogio: problema resolvido também merece resposta. E que hóspede você está se tornando.",
+      "audio": "audio/S06_Dia05_Card09_Everything_is_perfect_now_thank_you.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "Problems? No problem!",
+      "cenario": "Sua irmã pergunta, por mensagem, como está sendo se virar sozinha num hotel em outra língua. Você resume:",
+      "traducao": "Problemas? Sem problema!",
+      "sensacao": "O lema da hóspede que aprendeu a pedir: problema em inglês também tem solução em inglês.",
+      "audio": "audio/S06_Dia05_Card10_Problems_No_problem.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

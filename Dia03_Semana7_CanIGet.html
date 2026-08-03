@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 3 · Can I get...? — Kimberly Mentoria VIP</title>
+<!--
+  Dia 3 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 7 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S07-D03-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 33,
+  "rotulo": "Dia 3",
+  "titulo": "Dia 3 — Can I get...?",
+  "sub": "Semana 7 — Eating Out · I'll have... · What do you recommend? · Can I get...?",
+  "lily": {
+    "audio": "audio/Lily_S07_Texto33.mp3",
+    "chave": "texto33",
+    "texto": [
+      "Day three: I know the fair food now!",
+      "My new trick: \"Can I get this to go?\"",
+      "Lunch in the garden, flowers everywhere.",
+      "Oops — no fork! \"Can I get a fork, please?\"",
+      "The food man smiles: \"Of course, flower girl!\"",
+      "Maya laughs. I laugh too.",
+      "Small things, big joy!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "Can I get the check, please?",
+      "cenario": "Fim do jantar, sobremesa vencida, dia cumprido. Você faz o sinal universal e completa em inglês:",
+      "traducao": "Pode trazer a conta, por favor?",
+      "sensacao": "<i>The check</i> = a conta. A frase que encerra refeições no mundo inteiro — dita por quem chegou, comeu e resolveu.",
+      "audio": "audio/S07_Dia03_Card01_Can_I_get_the_check_please.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "Can I get some water?",
+      "cenario": "O prato chegou, a água não. Você chama o garçom que passa:",
+      "traducao": "Pode trazer uma água?",
+      "sensacao": "<i>Can I get...?</i> = posso pegar/receber...? — o pedido pra si, completando a família do Can. Água na mesa, refeição completa.",
+      "audio": "audio/S07_Dia03_Card02_Can_I_get_some_water.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "Can I get this to go?",
+      "cenario": "O passeio começa em quinze minutos e a fatia de bolo não vai ficar pra trás:",
+      "traducao": "Pode embalar pra viagem?",
+      "sensacao": "<i>To go</i> = pra levar, pra viagem. A frase que leva o melhor da mesa pro resto do dia.",
+      "audio": "audio/S07_Dia03_Card03_Can_I_get_this_to_go.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "Can I get a fork, please?",
+      "cenario": "O garfo escorregou e foi ao chão na primeira garfada. Você levanta a mão, rindo:",
+      "traducao": "Pode trazer um garfo, por favor?",
+      "sensacao": "<i>Fork</i> = garfo. Acidente pequeno, solução de uma frase — e o jantar segue.",
+      "audio": "audio/S07_Dia03_Card04_Can_I_get_a_fork_please.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "Can I get more napkins?",
+      "cenario": "O molho da massa venceu o guardanapo único. Você pede reforço:",
+      "traducao": "Pode trazer mais guardanapos?",
+      "sensacao": "<i>Napkins</i> = guardanapos. Mesa de verdade tem molho — e quem come de verdade pede reforço sem cerimônia.",
+      "audio": "audio/S07_Dia03_Card05_Can_I_get_more_napkins.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "Can I get the menu again?",
+      "cenario": "O jantar acabou, mas a conversa não — e bateu vontade de sobremesa. Você chama de volta:",
+      "traducao": "Pode trazer o cardápio de novo?",
+      "sensacao": "<i>Again</i> fazendo o trabalho dele: a noite pediu segundo tempo.",
+      "audio": "audio/S07_Dia03_Card06_Can_I_get_the_menu_again.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "Can I get a table outside?",
+      "cenario": "Noite perfeita, praça iluminada, e o salão de dentro meio abafado. Você pede o melhor lugar:",
+      "traducao": "Tem uma mesa lá fora?",
+      "sensacao": "<i>Outside</i> = lá fora. Jantar com céu de teto: pedido de quem aprendeu a escolher até o cenário.",
+      "audio": "audio/S07_Dia03_Card07_Can_I_get_a_table_outside.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "Can I get one more juice?",
+      "cenario": "O suco da casa é bom demais pra ficar num copo só. Você repete, sem culpa:",
+      "traducao": "Pode trazer mais um suco?",
+      "sensacao": "O \"One more juice, please!\" da Lily no café do hotel — agora do seu jeito, com o Can I da semana.",
+      "audio": "audio/S07_Dia03_Card08_Can_I_get_one_more_juice.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "Can I get a little more time?",
+      "cenario": "O garçom chega com o bloquinho e o cardápio ainda está na página um. Você pede, sem pressa:",
+      "traducao": "Pode me dar mais um tempinho?",
+      "sensacao": "<i>A little more time</i> = mais um tempinho. E a resposta ensina de volta: <i>take your time</i> — fique à vontade.",
+      "audio": "audio/S07_Dia03_Card09_Can_I_get_a_little_more_time.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "Can I get the recipe?",
+      "cenario": "O prato da dona da pousada mereceu prêmio. Você tenta, meio de brincadeira, meio a sério:",
+      "traducao": "Pode me dar a receita?",
+      "sensacao": "<i>Recipe</i> = receita. O elogio máximo a uma cozinheira — e a resposta clássica: segredo!",
+      "audio": "audio/S07_Dia03_Card10_Can_I_get_the_recipe.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

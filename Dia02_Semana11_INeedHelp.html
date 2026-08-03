@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 2 · I need help — Kimberly Mentoria VIP</title>
+<!--
+  Dia 2 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 11 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S11-D02-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 52,
+  "rotulo": "Dia 2",
+  "titulo": "Dia 2 — I need help",
+  "sub": "Semana 11 — Handling Unexpected Situations · I don't understand · Could you repeat that? · I need help",
+  "lily": {
+    "audio": "audio/Lily_S11_Texto52.mp3",
+    "chave": "texto52",
+    "texto": [
+      "I call the flower company. The man talks fast — SO fast!",
+      "\"Slowly, please! I have a problem with my order.\"",
+      "He checks: \"Order 15?\" — No, sir: order 50! Five-zero!",
+      "Ah! The wrong number — THAT was the problem!",
+      "\"Could you repeat that, please?\" — White flowers, Friday morning.",
+      "Did I understand right? Yes! Problem solved!",
+      "Me, the phone, and my English: good team!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "I need help, please!",
+      "cenario": "A máquina do metrô engoliu o bilhete e o painel pisca em vermelho. Você acena pra funcionária:",
+      "traducao": "Eu preciso de ajuda, por favor!",
+      "sensacao": "O <i>I need</i> da semana do deslocamento no modo direto. E a resposta te entrega ouro: <i>what's wrong?</i> = o que houve? — a pergunta que sempre vem.",
+      "audio": "audio/S11_Dia02_Card01_I_need_help_please.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "I need a doctor.",
+      "cenario": "Sua irmã amanheceu com febre no hotel. Na recepção, você vai direto ao ponto:",
+      "traducao": "Eu preciso de um médico.",
+      "sensacao": "<i>Doctor</i> = médico. A frase que ninguém quer usar — e que TODA viajante precisa ter pronta. Curta, clara, salvadora.",
+      "audio": "audio/S11_Dia02_Card02_I_need_a_doctor.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "I need a pharmacy, please.",
+      "cenario": "Dor de cabeça teimosa no meio do passeio. Você para na banca de jornais e pede a direção:",
+      "traducao": "Eu preciso de uma farmácia, por favor.",
+      "sensacao": "A <i>pharmacy</i> que você já sabia PERGUNTAR onde ficava agora entra na frase de necessidade. Remédio a duas quadras.",
+      "audio": "audio/S11_Dia02_Card03_I_need_a_pharmacy_please.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "I need a new ticket, please.",
+      "cenario": "O ônibus partiu — com o seu horário anotado errado. No guichê, sem drama:",
+      "traducao": "Eu preciso de uma passagem nova, por favor.",
+      "sensacao": "Perder o ônibus custa uma passagem; travar custaria o dia. <i>New ticket</i> e a viagem recomeça.",
+      "audio": "audio/S11_Dia02_Card04_I_need_a_new_ticket_please.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "My phone is not working!",
+      "cenario": "A tela apagou de vez — com mapa, ingressos e tudo dentro. Você explica pro rapaz da loja de eletrônicos:",
+      "traducao": "Meu celular não está funcionando!",
+      "sensacao": "O <i>not working</i> dos probleminhas de quarto, agora no bolso. Nomear o defeito é o primeiro conserto.",
+      "audio": "audio/S11_Dia02_Card05_My_phone_is_not_working.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "Can you call the hotel for me?",
+      "cenario": "Celular morto, endereço do hotel só na memória... do celular. Você recorre à moça do quiosque:",
+      "traducao": "Você pode ligar pro hotel pra mim?",
+      "sensacao": "O <i>call</i> que já chamou táxi e recepção, agora com o <i>for me</i> da gentileza: quando o SEU telefone falha, o mundo empresta o dele.",
+      "audio": "audio/S11_Dia02_Card06_Can_you_call_the_hotel_for_me.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "Can you help me find my gate?",
+      "cenario": "Aeroporto gigante, conexão curta, painel confuso. Você mostra o cartão de embarque pro funcionário:",
+      "traducao": "Você pode me ajudar a achar meu portão?",
+      "sensacao": "<i>Help me find</i> = me ajuda a achar — o time completo: ajuda + busca + destino. Três velhas conhecidas suas, escaladas juntas.",
+      "audio": "audio/S11_Dia02_Card07_Can_you_help_me_find_my_gate.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "Where is the information desk?",
+      "cenario": "Pergunta difícil demais pro apressado da plataforma. Você decide ir à fonte oficial:",
+      "traducao": "Onde fica o balcão de informações?",
+      "sensacao": "O <i>desk</i> que a Lily descobriu no hotel tem um primo em toda estação: o balcão que existe pra te salvar.",
+      "audio": "audio/S11_Dia02_Card08_Where_is_the_information_desk.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "My flight is in one hour!",
+      "cenario": "A fila do balcão não anda e o relógio corre. Você explica a urgência ao supervisor:",
+      "traducao": "Meu voo é daqui a uma hora!",
+      "sensacao": "<i>Flight</i> = voo (você já ouviu essa na semana das histórias); <i>hour</i> = hora. Urgência dita com clareza abre caminhos — e filas.",
+      "audio": "audio/S11_Dia02_Card09_My_flight_is_in_one_hour.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "All good now — thank you!",
+      "cenario": "Bilhete novo na mão, coração no lugar. A funcionária confere: \"Better now?\" Você fecha o ciclo:",
+      "traducao": "Tudo certo agora — obrigada!",
+      "sensacao": "Pedir ajuda tem duas pontas: o pedido e o obrigada. <i>All good</i> = tudo certo — o laço no fim do perrengue.",
+      "audio": "audio/S11_Dia02_Card10_All_good_now_thank_you.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

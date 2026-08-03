@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 5 · Quase perdida, nunca parada — Kimberly Mentoria VIP</title>
+<!--
+  Dia 5 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 5 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S05-D05-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 25,
+  "rotulo": "Dia 5",
+  "titulo": "Dia 5 — Quase perdida, nunca parada",
+  "sub": "Semana 5 — Getting Around · Can you...? · How do I get to...? · I need (to)...",
+  "lily": {
+    "audio": "audio/Lily_S05_Texto25.mp3",
+    "chave": "texto25",
+    "texto": [
+      "The trip is tomorrow!",
+      "In my bag: my map and my list.",
+      "My list: \"Do you have a room with a view?\"",
+      "\"I'd like breakfast, please.\" Practice, practice!",
+      "Am I nervous? A little. But I'm not afraid!",
+      "My mom says: \"Step by step, Lily!\"",
+      "Goodnight, little town. Tomorrow: the city!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "I can't find the bus stop.",
+      "cenario": "Primeiro dia sozinha na cidade, e o ponto não aparece de jeito nenhum. Você volta à padaria da esquina e admite pra atendente:",
+      "traducao": "Eu não consigo achar o ponto de ônibus.",
+      "sensacao": "<i>I can't</i> = eu não consigo. Dizer isso não é derrota — é o primeiro passo da solução. Você já sabe: quem pergunta, chega.",
+      "audio": "audio/S05_Dia05_Card01_I_cant_find_the_bus_stop.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "I can't find my ticket!",
+      "cenario": "Sua vez na catraca do embarque. Bolso, bolsa, outro bolso... Você murmura, revirando tudo — e ele estava marcando a página do guia:",
+      "traducao": "Eu não consigo achar minha passagem!",
+      "sensacao": "Os dez segundos mais longos de qualquer viagem — e o final feliz de sempre. Respira.",
+      "audio": "audio/S05_Dia05_Card02_I_cant_find_my_ticket.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "The bus is not here yet.",
+      "cenario": "Sua companheira chega correndo no ponto, com medo de ter perdido: \"Where is the bus?\" Você, que chegou antes, tranquiliza:",
+      "traducao": "O ônibus ainda não chegou.",
+      "sensacao": "<i>Yet</i> de plantão de novo: ainda não — mas já já. Você virou o ponto de calma da dupla.",
+      "audio": "audio/S05_Dia05_Card03_The_bus_is_not_here_yet.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "The taxi is not coming.",
+      "cenario": "O carrinho do aplicativo está parado na mesma esquina há cinco minutos. Você mostra a tela pra irmã e decide: cancelar e chamar outro.",
+      "traducao": "O táxi não está vindo.",
+      "sensacao": "Tecnologia falha, viajante não. Problema nomeado, plano B acionado — sem drama.",
+      "audio": "audio/S05_Dia05_Card04_The_taxi_is_not_coming.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "I don't have a ticket yet.",
+      "cenario": "O fiscal aponta a catraca da plataforma: \"Ticket?\" Você explica, já procurando o guichê com os olhos:",
+      "traducao": "Eu ainda não tenho passagem.",
+      "sensacao": "A negativa que pede direção — e ganha: o guichê era logo ali. <i>Yet</i> segurando a esperança, como sempre.",
+      "audio": "audio/S05_Dia05_Card05_I_dont_have_a_ticket_yet.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "I'm not in a hurry.",
+      "cenario": "O trânsito trava e o motorista se desculpa pelo espelho: \"Sorry — traffic!\" Você, de janela aberta e cidade bonita:",
+      "traducao": "Eu não estou com pressa.",
+      "sensacao": "<i>Hurry</i> = pressa. E você, dessa vez, sem nenhuma — o passeio já começou dentro do carro.",
+      "audio": "audio/S05_Dia05_Card06_Im_not_in_a_hurry.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "This is the wrong bus!",
+      "cenario": "Duas paradas depois, a paisagem não confere com o mapa. Você percebe, avisa a irmã e desce na próxima — rindo:",
+      "traducao": "Este é o ônibus errado!",
+      "sensacao": "<i>Wrong</i> = errado. Ônibus errado é só um tour bônus quando o resto do dia é seu.",
+      "audio": "audio/S05_Dia05_Card07_This_is_the_wrong_bus.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "I can't walk anymore!",
+      "cenario": "A ladeira do mirante venceu. Sua companheira anima: \"One more street?\" Você senta no degrau, rindo:",
+      "traducao": "Eu não consigo mais andar!",
+      "sensacao": "<i>Anymore</i> = \"mais não\". A confissão dos pés no fim de um dia muito bem vivido.",
+      "audio": "audio/S05_Dia05_Card08_I_cant_walk_anymore.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "We can take a taxi!",
+      "cenario": "Show encerrado, o último ônibus já passou. Antes de o desânimo chegar, você resolve:",
+      "traducao": "A gente pode pegar um táxi!",
+      "sensacao": "Depois do <i>can you</i> e do <i>can't</i>, o <i>we can</i> — o \"dá sim\" da autonomia. Sempre tem um caminho, e agora você sabe pedir por ele.",
+      "audio": "audio/S05_Dia05_Card09_We_can_take_a_taxi.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "I always find my way!",
+      "cenario": "No encontro, sua professora pergunta como foi se virar sozinha numa semana de ruas novas. Você, com o mapa todo rabiscado de lembranças:",
+      "traducao": "Eu sempre acho o meu caminho!",
+      "sensacao": "<i>Always</i> = sempre. Perder-se fez parte — achar-se também. A frase já nasce lema.",
+      "audio": "audio/S05_Dia05_Card10_I_always_find_my_way.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

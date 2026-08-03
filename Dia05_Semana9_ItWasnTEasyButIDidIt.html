@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 5 · It wasn't easy, but I did it! — Kimberly Mentoria VIP</title>
+<!--
+  Dia 5 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 9 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S09-D05-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 45,
+  "rotulo": "Dia 5",
+  "titulo": "Dia 5 — It wasn't easy, but I did it!",
+  "sub": "Semana 9 — Talking About Experiences · It was... · I went... · I loved/liked...",
+  "lily": {
+    "audio": "audio/Lily_S09_Texto45.mp3",
+    "chave": "texto45",
+    "texto": [
+      "Big news at the shop: my friend from the fair is coming!",
+      "Anna: \"Maya, the sunflower girl? Nice! What does she do?\"",
+      "She has a flower shop too — in the big city!",
+      "I practice the introductions: \"Anna, this is Maya. Maya, this is Anna!\"",
+      "\"Nice to meet you!\" — I know they'll say that!",
+      "One year ago, I was new here... now I have friends visiting ME!",
+      "It wasn't easy... but look at my little world now!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "No... I didn't have time!",
+      "cenario": "Seu colega pergunta do museu famoso: \"Did you go to the museum?\" Você confessa, sem culpa:",
+      "traducao": "Não... eu não tive tempo!",
+      "sensacao": "<i>Didn't</i> = o <i>don't</i> de ontem. O seu velho \"I don't have time today\", contado como memória — porque roteiro bom sempre fica devendo um museu.",
+      "audio": "audio/S09_Dia05_Card01_No_I_didnt_have_time.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "The bus didn't come... so we walked!",
+      "cenario": "Contando os perrengues da viagem pra sua amiga, você lembra da noite do ônibus fantasma:",
+      "traducao": "O ônibus não veio... então nós fomos a pé!",
+      "sensacao": "<i>Walked</i> = andamos. O plano falhou, as pernas não. Perrengue contado no passado já é só uma boa história.",
+      "audio": "audio/S09_Dia05_Card02_The_bus_didnt_come_so_we_walked.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "I was nervous on the plane... but I was okay!",
+      "cenario": "Sua irmã mais nova vai fazer o primeiro voo dela e pergunta como foi o seu. Você conta a verdade inteira:",
+      "traducao": "Eu estava nervosa no avião... mas eu fiquei bem!",
+      "sensacao": "<i>I was</i> = eu estava. O <i>nervous</i> da primeira semana e o <i>okay</i> de sempre, lado a lado — porque coragem é isso: os dois juntos.",
+      "audio": "audio/S09_Dia05_Card03_I_was_nervous_on_the_plane_but_I_was_okay.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "I was a little lost... but I found my way!",
+      "cenario": "No relato da tarde em que o mapa do celular morreu, você conta o final feliz:",
+      "traducao": "Eu estava um pouco perdida... mas achei meu caminho!",
+      "sensacao": "O lema da semana do deslocamento — <i>I always find my way!</i> — provado no passado: <i>found</i>. Perdida foi só o começo da história.",
+      "audio": "audio/S09_Dia05_Card04_I_was_a_little_lost_but_I_found_my_way.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "We didn't have a map — but we had time!",
+      "cenario": "Sua professora pergunta como foi o dia sem roteiro. Você resume a filosofia da dupla:",
+      "traducao": "Nós não tínhamos mapa — mas tínhamos tempo!",
+      "sensacao": "A matemática das melhores tardes: menos mapa, mais tempo. <i>Didn't have</i> e <i>had</i> na mesma frase — o passado inteiro trabalhando pra você.",
+      "audio": "audio/S09_Dia05_Card05_We_didnt_have_a_map_but_we_had_time.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "The first day wasn't easy — new city, new words!",
+      "cenario": "Uma amiga pergunta se foi tudo perfeito desde o começo. Você responde com honestidade de veterana:",
+      "traducao": "O primeiro dia não foi fácil — cidade nova, palavras novas!",
+      "sensacao": "<i>Wasn't</i> = não foi. Admitir o difícil de ontem é o luxo de quem venceu: hoje dá até pra contar sorrindo.",
+      "audio": "audio/S09_Dia05_Card06_The_first_day_wasnt_easy_new_city_new_words.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "I didn't want to come back!",
+      "cenario": "De volta ao trabalho, a recepção te recebe: \"Welcome back!\" Você agradece rindo — e confessa:",
+      "traducao": "Eu não queria voltar!",
+      "sensacao": "O elogio máximo a uma viagem: não querer que acabe. <i>Didn't want</i> — a saudade dita em bom inglês.",
+      "audio": "audio/S09_Dia05_Card07_I_didnt_want_to_come_back.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "It wasn't the plan... but it was better!",
+      "cenario": "Contando como vocês perderam o passeio de barco e descobriram a praia deserta, você filosofa:",
+      "traducao": "Não era o plano... mas foi melhor!",
+      "sensacao": "<i>Better</i> = melhor. Viagem ensina isso: o plano é só o rascunho — o dia é quem escreve a versão final.",
+      "audio": "audio/S09_Dia05_Card08_It_wasnt_the_plan_but_it_was_better.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "My English wasn't perfect — but it worked!",
+      "cenario": "Sua professora pergunta como foi se comunicar a viagem inteira. Você entrega a descoberta mais importante:",
+      "traducao": "Meu inglês não foi perfeito — mas funcionou!",
+      "sensacao": "<i>It worked!</i> — a frase da Lily depois da mensagem difícil, agora sua. Comunicação não pede perfeição; pede coragem.",
+      "audio": "audio/S09_Dia05_Card09_My_English_wasnt_perfect_but_it_worked.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "It wasn't easy, but I did it!",
+      "cenario": "No fim do encontro, sua professora relembra o seu primeiro mês e pergunta o que você diria pra você mesma daquela época. Você não hesita:",
+      "traducao": "Não foi fácil, mas eu consegui!",
+      "sensacao": "Dois meses atrás você escreveu: <i>\"It's not easy, but I'm learning.\"</i> Hoje a frase cresceu junto com você — e virou passado de vitória: *<i>eu consegui</i>*.",
+      "audio": "audio/S09_Dia05_Card10_It_wasnt_easy_but_I_did_it.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

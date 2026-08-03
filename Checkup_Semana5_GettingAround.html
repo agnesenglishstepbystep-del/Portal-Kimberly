@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Check-up · Semana 5 — Kimberly Mentoria VIP</title>
+<!--
+  Check-up da Semana 5 — no motor (motor_checkup.js).
+  3 questões: situação + 3 frases CORRETAS (sem input errado), posição da correta embaralhada.
+  Fonte: Acervo, KIM-S05-CHK-C01 a C03.
+-->
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const CHECKUP={
+  "semana": 5,
+  "sufixo": "S05",
+  "sub": "Getting Around · Can you...? · How do I get to...? · I need (to)...",
+  "questoes": [
+    {
+      "id": "q1",
+      "situacao": "Dia do voo. Na recepção do hotel, você precisa organizar a ida. O que você pergunta?",
+      "opcoes": [
+        "Can you take a photo, please?",
+        "How do I get to the airport?",
+        "I need a break!"
+      ],
+      "certa": 1
+    },
+    {
+      "id": "q2",
+      "situacao": "Da janela do táxi, você vê a lojinha de artesanato perfeita. Você pede:",
+      "opcoes": [
+        "Is this the right gate?",
+        "I need to charge my phone.",
+        "Can you stop here, please?"
+      ],
+      "certa": 2
+    },
+    {
+      "id": "q3",
+      "situacao": "No caminho pro centro, o motorista simpático puxa conversa: \"Where are you from?\" Você responde:",
+      "opcoes": [
+        "I'm from Brazil.",
+        "I'm not in a hurry.",
+        "I'm on my way!"
+      ],
+      "certa": 0
+    }
+  ]
+};
+</script>
+<script src="motor_checkup.js"></script>
+</body>
+</html>

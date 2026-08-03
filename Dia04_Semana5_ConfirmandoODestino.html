@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 4 · Confirmando o destino — Kimberly Mentoria VIP</title>
+<!--
+  Dia 4 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 5 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S05-D04-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 24,
+  "rotulo": "Dia 4",
+  "titulo": "Dia 4 — Confirmando o destino",
+  "sub": "Semana 5 — Getting Around · Can you...? · How do I get to...? · I need (to)...",
+  "lily": {
+    "audio": "audio/Lily_S05_Texto24.mp3",
+    "chave": "texto24",
+    "texto": [
+      "Anna: \"Lily, big news: the flower fair, in the city!\"",
+      "The city? Wow!",
+      "Anna: \"Can you go for us? Three days!\"",
+      "Yes! Yes! ... Wait. Three days? I need a hotel!",
+      "My first hotel! I practice on the phone: \"Do you have a room?\"",
+      "\"I'd like a room, please.\" — my new words!",
+      "Big city, here I go!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "Is this the bus to downtown?",
+      "cenario": "O ônibus 10 encosta no ponto, mas o letreiro está apagado. Você confere com o motorista antes de subir:",
+      "traducao": "Este é o ônibus pro centro?",
+      "sensacao": "Dez segundos de conferência que economizam uma hora de volta. Na semana das direções você perguntou se o ônibus <i>existia</i>; agora confere se <i>é este</i>.",
+      "audio": "audio/S05_Dia04_Card01_Is_this_the_bus_to_downtown.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "Is this the right gate?",
+      "cenario": "O painel do aeroporto mudou duas vezes. Você mostra o cartão de embarque pra atendente:",
+      "traducao": "Este é o portão certo?",
+      "sensacao": "<i>Right</i> = certo. A palavrinha que tira o peso do ombro em qualquer aeroporto do mundo.",
+      "audio": "audio/S05_Dia04_Card02_Is_this_the_right_gate.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "To the airport, please.",
+      "cenario": "Táxi da manhã, céu ainda escuro. Você entra, ajeita a mala no colo e diz só o essencial:",
+      "traducao": "Pro aeroporto, por favor.",
+      "sensacao": "Três palavras e a cidade começa a passar pela janela. Destino dito, dia lançado.",
+      "audio": "audio/S05_Dia04_Card03_To_the_airport_please.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "Two tickets, please.",
+      "cenario": "Bilheteria do passeio de barco, sua irmã já de olho no melhor banco. Você pede:",
+      "traducao": "Duas passagens, por favor.",
+      "sensacao": "<i>Tickets</i> = passagens, bilhetes. E o \"here you go\" — aqui está — vem junto, de brinde. Mar à vista.",
+      "audio": "audio/S05_Dia04_Card04_Two_tickets_please.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "Here it is!",
+      "cenario": "O fiscal passa pelo vagão conferindo os bilhetes: \"Tickets, please?\" O seu já estava na mão:",
+      "traducao": "Aqui está!",
+      "sensacao": "<i>Here it is</i> = aqui está (o meu). Organizada até no idioma.",
+      "audio": "audio/S05_Dia04_Card05_Here_it_is.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "Yes, that's right!",
+      "cenario": "O motorista do aplicativo confere o destino em voz alta antes de sair: \"To the hotel by the sea?\" Você confirma:",
+      "traducao": "Sim, isso mesmo!",
+      "sensacao": "<i>That's right</i> = isso mesmo. A confirmação que fecha porta de carro e abre viagem.",
+      "audio": "audio/S05_Dia04_Card06_Yes_thats_right.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "This is my stop!",
+      "cenario": "Pela janela do ônibus, a rua da pousada aparece. Você levanta num pulo, avisando sua companheira:",
+      "traducao": "Esta é a minha parada!",
+      "sensacao": "Reconhecer a SUA parada numa cidade estranha: pequena vitória com gosto de moradora.",
+      "audio": "audio/S05_Dia04_Card07_This_is_my_stop.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "Is the bus on time?",
+      "cenario": "Passeio marcado pras nove em ponto e o ponto ainda vazio. Você pergunta pra moça do quiosque ao lado:",
+      "traducao": "O ônibus está no horário?",
+      "sensacao": "<i>On time</i> = no horário. Pergunta de quem aprendeu que relógio de viagem também se confere.",
+      "audio": "audio/S05_Dia04_Card08_Is_the_bus_on_time.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "This is our gate.",
+      "cenario": "Vocês duas navegando um aeroporto gigante — e, de repente, o número do painel confere com o do cartão. Você aponta:",
+      "traducao": "Este é o nosso portão.",
+      "sensacao": "O portão é da dupla, achado sem ajuda de ninguém. Olha vocês duas.",
+      "audio": "audio/S05_Dia04_Card09_This_is_our_gate.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "We're on the right bus!",
+      "cenario": "Destino conferido com o motorista, mochila no colo, cidade desfilando na janela certa. Você comemora baixinho com a irmã:",
+      "traducao": "Estamos no ônibus certo!",
+      "sensacao": "O alívio gostoso de quem conferiu antes. <i>Right</i> de novo em cena: certo — e no lugar certo.",
+      "audio": "audio/S05_Dia04_Card10_Were_on_the_right_bus.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

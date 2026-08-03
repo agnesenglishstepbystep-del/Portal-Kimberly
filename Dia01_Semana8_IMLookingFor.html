@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 1 · I'm looking for... — Kimberly Mentoria VIP</title>
+<!--
+  Dia 1 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 8 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S08-D01-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 36,
+  "rotulo": "Dia 1",
+  "titulo": "Dia 1 — I'm looking for...",
+  "sub": "Semana 8 — Shopping & Solving Problems · I'm looking for... · How much is...? · I have a problem",
+  "lily": {
+    "audio": "audio/Lily_S08_Texto36.mp3",
+    "chave": "texto36",
+    "texto": [
+      "Home, sweet home — and my fair boxes are here!",
+      "Anna: \"Lily! Open them! Show me everything!\"",
+      "Ribbons — check! Seeds — check! Baskets — check!",
+      "But... I'm looking for the little vases.",
+      "Not in this box... not in that one...",
+      "Anna: \"Maybe in the big box?\"",
+      "Yes, here they are — oh, no. They're broken!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "I'm looking for a gift.",
+      "cenario": "Loja de lembranças perto do hotel, aniversário de uma amiga chegando. A vendedora se aproxima e você já explica:",
+      "traducao": "Estou procurando um presente.",
+      "sensacao": "<i>I'm looking for...</i> = estou procurando... — a chave que abre toda loja do mundo. Você diz o que busca; a loja faz o resto.",
+      "audio": "audio/S08_Dia01_Card01_Im_looking_for_a_gift.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "I'm looking for a dress.",
+      "cenario": "Jantar especial marcado e a mala não ajudou. Você entra na loja e vai direto ao ponto:",
+      "traducao": "Estou procurando um vestido.",
+      "sensacao": "<i>Dress</i> = vestido. Objetivo declarado, vendedora apontando o caminho — compra com rumo.",
+      "audio": "audio/S08_Dia01_Card02_Im_looking_for_a_dress.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "I'm looking for shoes.",
+      "cenario": "Shopping de cidade grande, andares e mais andares. No balcão de informações:",
+      "traducao": "Estou procurando sapatos.",
+      "sensacao": "<i>Shoes</i> = sapatos. E a resposta você já conhece dos hotéis: <i>second floor</i> — é subir e escolher.",
+      "audio": "audio/S08_Dia01_Card03_Im_looking_for_shoes.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "I'm looking for a hat.",
+      "cenario": "Sol forte na cidade de praia, passeio a pé marcado pra tarde. Na barraquinha:",
+      "traducao": "Estou procurando um chapéu.",
+      "sensacao": "<i>Hat</i> = chapéu. Proteção com estilo — e vendedora de feira sempre tem \"o seu\".",
+      "audio": "audio/S08_Dia01_Card04_Im_looking_for_a_hat.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "I'm looking for something for my mother.",
+      "cenario": "Última parada antes do aeroporto — falta o presente mais importante. Você entra na lojinha e confessa:",
+      "traducao": "Estou procurando alguma coisa pra minha mãe.",
+      "sensacao": "<i>Something</i> = alguma coisa — a palavra de quem ainda não sabe *<i>o quê</i><i>, mas sabe </i><i>pra quem</i>*. O resto, a loja ajuda a achar.",
+      "audio": "audio/S08_Dia01_Card05_Im_looking_for_something_for_my_mother.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "I'm looking for a charger.",
+      "cenario": "O carregador ficou em casa — e a bateria do celular já avisa. Na loja de eletrônicos:",
+      "traducao": "Estou procurando um carregador.",
+      "sensacao": "<i>Charger</i> = carregador — primo direto do <i>charge my phone</i> que você usa desde a estrada. Problema moderno, frase pronta.",
+      "audio": "audio/S08_Dia01_Card06_Im_looking_for_a_charger.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "I'm looking for flowers.",
+      "cenario": "Você foi convidada pra jantar na casa de uma família local. Chegar de mãos vazias? Nunca. No mercado:",
+      "traducao": "Estou procurando flores.",
+      "sensacao": "<i>Flowers</i> = flores — as velhas conhecidas da playlist. Agora é você comprando, do outro lado do balcão da Lily.",
+      "audio": "audio/S08_Dia01_Card07_Im_looking_for_flowers.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "I'm looking for this.",
+      "cenario": "O nome do produto você não sabe — mas a foto está no seu celular. Você mostra a tela pra vendedora:",
+      "traducao": "Estou procurando isto.",
+      "sensacao": "Quando a palavra falta, o <i>this</i> resolve: \"isto aqui\". Celular na mão, dedo na foto — comunicação é isso.",
+      "audio": "audio/S08_Dia01_Card08_Im_looking_for_this.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "Just looking, thank you!",
+      "cenario": "Você acabou de entrar, sem pressa nenhuma, e o vendedor já vem: \"Can I help you?\" Você sorri:",
+      "traducao": "Só olhando, obrigada!",
+      "sensacao": "<i>Just looking</i> = só olhando — o direito universal de namorar vitrines em paz. Gentil, curtinha e libertadora.",
+      "audio": "audio/S08_Dia01_Card09_Just_looking_thank_you.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "I'm looking for the exit!",
+      "cenario": "O shopping é gigante, as sacolas estão cheias e as pernas pedem hotel. Você recorre ao segurança, rindo:",
+      "traducao": "Estou procurando a saída!",
+      "sensacao": "A estrutura da semana trabalhando até na hora de ir embora — e a <i>exit</i> das placas de aeroporto voltando pra fechar o dia com humor.",
+      "audio": "audio/S08_Dia01_Card10_Im_looking_for_the_exit.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

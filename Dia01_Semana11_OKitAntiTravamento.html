@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 1 · O kit anti-travamento — Kimberly Mentoria VIP</title>
+<!--
+  Dia 1 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 11 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S11-D01-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 51,
+  "rotulo": "Dia 1",
+  "titulo": "Dia 1 — O kit anti-travamento",
+  "sub": "Semana 11 — Handling Unexpected Situations · I don't understand · Could you repeat that? · I need help",
+  "lily": {
+    "audio": "audio/Lily_S11_Texto51.mp3",
+    "chave": "texto51",
+    "texto": [
+      "Delivery day: the one hundred flowers are here!",
+      "I open the boxes and... no! These are the WRONG flowers!",
+      "Yellow flowers — but the order was white!",
+      "Anna: \"Lily, the party is on Friday!\"",
+      "Okay, okay... I don't understand — my list was right!",
+      "Deep breath. One problem at a time!",
+      "Phone in my hand: time to solve this!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "Sorry — I don't understand.",
+      "cenario": "O motorista explica alguma coisa rápido demais, e as palavras viram vento. Você respira e diz a frase mais corajosa do curso:",
+      "traducao": "Desculpa — eu não entendo.",
+      "sensacao": "<i>I don't understand</i> = eu não entendo. Não é derrota — é o botão de recomeçar a conversa. E olha: o mundo repete com paciência.",
+      "audio": "audio/S11_Dia01_Card01_Sorry_I_dont_understand.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "Could you repeat that, please?",
+      "cenario": "O aviso do portão veio pelo alto-falante e você só pegou metade. No balcão, você pede:",
+      "traducao": "Você poderia repetir, por favor?",
+      "sensacao": "<i>Repeat</i> = repetir. O <i>Could you</i> gentil do hotel trabalhando na missão mais importante: ouvir de novo.",
+      "audio": "audio/S11_Dia01_Card02_Could_you_repeat_that_please.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "Slowly, please!",
+      "cenario": "O senhor explica o caminho com a velocidade de um trem-bala. Você sorri e pede:",
+      "traducao": "Devagar, por favor!",
+      "sensacao": "<i>Slowly</i> = devagar. Uma palavra e o mundo reduz a marcha pra você. Quem pede devagar, entende rápido.",
+      "audio": "audio/S11_Dia01_Card03_Slowly_please.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "One more time, please?",
+      "cenario": "O número do quarto veio junto com três informações. Você confirma o essencial:",
+      "traducao": "Mais uma vez, por favor?",
+      "sensacao": "O <i>one more</i> dos sucos e das noites extras, agora pedindo bis de informação. Repetir não custa; perder o quarto, sim.",
+      "audio": "audio/S11_Dia01_Card04_One_more_time_please.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "What does this word mean?",
+      "cenario": "Uma palavra da placa insiste em não fazer sentido. Você mostra pro funcionário e pergunta:",
+      "traducao": "O que significa esta palavra?",
+      "sensacao": "<i>Mean</i> = significar. A pergunta que transforma qualquer pessoa em dicionário ambulante — e cada dúvida em aula grátis.",
+      "audio": "audio/S11_Dia01_Card05_What_does_this_word_mean.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "I don't speak much English... yet!",
+      "cenario": "A conversa no saguão acelerou e você prefere avisar, com um sorriso:",
+      "traducao": "Eu não falo muito inglês... ainda!",
+      "sensacao": "O <i>much</i> do \"How much\" em novo emprego, e o <i>yet</i> de sempre segurando o futuro: *<i>ainda</i>*. E repare na resposta que essa honestidade costuma trazer.",
+      "audio": "audio/S11_Dia01_Card06_I_dont_speak_much_English_yet.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "Did you say ten or two?",
+      "cenario": "*Ten* e *two* adoram se confundir no ouvido — e o horário do passeio depende disso. Você confere:",
+      "traducao": "Você disse dez ou dois?",
+      "sensacao": "O <i>did you...?</i> da semana das histórias caçando números gêmeos. Confundir é humano; conferir é viajante experiente.",
+      "audio": "audio/S11_Dia01_Card07_Did_you_say_ten_or_two.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "Sorry — English, please!",
+      "cenario": "A atendente, animada, dispara no idioma local. Você pede o idioma do meio do caminho:",
+      "traducao": "Desculpa — em inglês, por favor!",
+      "sensacao": "Sim, você agora PEDE inglês — porque ele virou a sua ponte com o mundo. Que plot twist, hein?",
+      "audio": "audio/S11_Dia01_Card08_Sorry_English_please.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "Wait — I know this word!",
+      "cenario": "No meio da explicação do guia, uma palavra acende uma lampadinha. Você levanta o dedo, feliz:",
+      "traducao": "Espera — eu conheço esta palavra!",
+      "sensacao": "O momento-troféu de quem estuda: a palavra do Anki aparecendo na vida real. Espera... essa é MINHA!",
+      "audio": "audio/S11_Dia01_Card09_Wait_I_know_this_word.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "Ohh! Now I understand!",
+      "cenario": "A moça repetiu devagar, desenhou no ar — e a ficha caiu com barulho. Você comemora:",
+      "traducao": "Ahh! Agora eu entendi!",
+      "sensacao": "O final feliz do kit: a nuvem abre, o sentido chega. <i>Now</i> = agora — a palavrinha que conta a vitória.",
+      "audio": "audio/S11_Dia01_Card10_Ohh_Now_I_understand.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

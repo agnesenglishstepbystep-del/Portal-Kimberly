@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 3 · I loved it! — Kimberly Mentoria VIP</title>
+<!--
+  Dia 3 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 9 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S09-D03-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 43,
+  "rotulo": "Dia 3",
+  "titulo": "Dia 3 — I loved it!",
+  "sub": "Semana 9 — Talking About Experiences · It was... · I went... · I loved/liked...",
+  "lily": {
+    "audio": "audio/Lily_S09_Texto43.mp3",
+    "chave": "texto43",
+    "texto": [
+      "Ring! Mom time!",
+      "Mãe: \"Lily! Did you like the big city?\"",
+      "Did I like it? Mom... I LOVED it!",
+      "Mãe: \"And the people? Did you like the people?\"",
+      "I loved the people! I have a new friend — Maya!",
+      "Mãe: \"My Lily, big city girl... I'm proud of you.\"",
+      "Thanks, Mom. I'm a little proud of me too!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "I loved it!",
+      "cenario": "Saindo do espetáculo de dança, a moça da bilheteria pergunta: \"Did you like the show?\" Você responde com o coração ainda batendo forte:",
+      "traducao": "Eu amei!",
+      "sensacao": "O <i>I love it!</i> do provador ganhou ontem: <i>loved</i>. E <i>did you like...?</i> é a pergunta que toda experiência boa atrai.",
+      "audio": "audio/S09_Dia03_Card01_I_loved_it.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "I loved the food there!",
+      "cenario": "Uma colega vai viajar pro mesmo lugar e pede dicas. Você começa pelo que importa:",
+      "traducao": "Eu amei a comida de lá!",
+      "sensacao": "Recomendação com selo de saudade: <i>loved</i> + <i>there</i> = amei, e foi lá. A memória do paladar fala alto.",
+      "audio": "audio/S09_Dia03_Card02_I_loved_the_food_there.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "I liked the museum — but I loved the beach!",
+      "cenario": "Sua professora pergunta o ponto alto da viagem. Você compara, sincera:",
+      "traducao": "Eu gostei do museu — mas eu AMEI a praia!",
+      "sensacao": "<i>Liked</i> < <i>loved</i>: gostar e amar, lado a lado na mesma frase. A régua da emoção, agora no passado.",
+      "audio": "audio/S09_Dia03_Card03_I_liked_the_museum_but_I_loved_the_beach.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "She loved the flowers!",
+      "cenario": "Você trouxe flores pra sua mãe na volta. Sua irmã, curiosa: \"Did she like the flowers?\" Você confirma:",
+      "traducao": "Ela amou as flores!",
+      "sensacao": "O passado também fala dos outros: <i>she loved</i>. Presente entregue, coração da mãe conquistado — missão de filha cumprida.",
+      "audio": "audio/S09_Dia03_Card04_She_loved_the_flowers.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "I loved every minute!",
+      "cenario": "No corredor do trabalho, seu colega resume a pergunta de todo mundo: \"So... good trip?\" Você responde sem pensar duas vezes:",
+      "traducao": "Eu amei cada minuto!",
+      "sensacao": "<i>Every minute</i> = cada minuto. Quando não dá pra escolher a melhor parte, é porque foi tudo.",
+      "audio": "audio/S09_Dia03_Card05_I_loved_every_minute.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "We loved the little restaurant near the hotel!",
+      "cenario": "Sua amiga vai se hospedar no mesmo hotel e pede indicações. Você entrega o segredo da dupla:",
+      "traducao": "Nós amamos o restaurantezinho perto do hotel!",
+      "sensacao": "A dica de ouro de toda viagem: pequeno, perto e inesquecível. <i>We loved</i> — aprovação em dose dupla.",
+      "audio": "audio/S09_Dia03_Card06_We_loved_the_little_restaurant_near_the_hotel.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "I loved the view from my room!",
+      "cenario": "Passando as fotos da viagem com sua amiga, aparece a foto da janela. Você suspira:",
+      "traducao": "Eu amei a vista do meu quarto!",
+      "sensacao": "A <i>view</i> que você pediu no check-in virou a lembrança favorita. Pedido certo, memória eterna.",
+      "audio": "audio/S09_Dia03_Card07_I_loved_the_view_from_my_room.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "My mother loved the photos!",
+      "cenario": "Você passou a tarde mostrando a viagem pra família. À noite, conta pra sua companheira de viagem como foi:",
+      "traducao": "Minha mãe amou as fotos!",
+      "sensacao": "As fotos viajaram de novo — dessa vez até o sofá da sua mãe. <i>Loved</i> de mãe vale em dobro.",
+      "audio": "audio/S09_Dia03_Card08_My_mother_loved_the_photos.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "Did I like it? I LOVED it!",
+      "cenario": "Seu cliente estrangeiro pergunta da cidade grande: \"Did you like the big city?\" Você devolve a pergunta já respondendo:",
+      "traducao": "Se eu gostei? Eu AMEI!",
+      "sensacao": "Repetir a pergunta antes de responder: charme de quem conversa com conforto. E o <i>loved</i> em maiúsculas do coração.",
+      "audio": "audio/S09_Dia03_Card09_Did_I_like_it_I_LOVED_it.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "I liked the city... but I loved the people!",
+      "cenario": "No encontro, sua professora pergunta o que ficou da viagem. Você pensa um segundo e escolhe a verdade:",
+      "traducao": "Eu gostei da cidade... mas eu amei as pessoas!",
+      "sensacao": "Lugares são lindos; pessoas são inesquecíveis. A frase que separa turista de viajante — e já aponta pra semana que vem.",
+      "audio": "audio/S09_Dia03_Card10_I_liked_the_city_but_I_loved_the_people.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

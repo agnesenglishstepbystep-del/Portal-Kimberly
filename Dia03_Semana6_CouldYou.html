@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 3 · Could you...? — Kimberly Mentoria VIP</title>
+<!--
+  Dia 3 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 6 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S06-D03-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 28,
+  "rotulo": "Dia 3",
+  "titulo": "Dia 3 — Could you...?",
+  "sub": "Semana 6 — Staying Somewhere · I'd like... · Do you have...? · Could you...?",
+  "lily": {
+    "audio": "audio/Lily_S06_Texto28.mp3",
+    "chave": "texto28",
+    "texto": [
+      "The flower fair: flowers from everywhere!",
+      "Big flowers, little flowers, new colors, new people!",
+      "I learn, I ask, I take photos for the shop.",
+      "At night, my phone rings — it's Anna!",
+      "Anna: \"How is the fair, Lily?\"",
+      "Beautiful, boss! And I have big ideas for the shop!",
+      "Tomorrow: day two. Goodnight, big city!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "Could you clean the room, please?",
+      "cenario": "Vocês vão passar o dia fora, e o quarto amanheceu de pernas pro ar. Na saída, você avisa a camareira do corredor:",
+      "traducao": "Você poderia limpar o quarto, por favor?",
+      "sensacao": "<i>Could you...?</i> = você poderia...? — o Can com laço de fita. <i>Clean</i> = limpar. Pedido feito, quarto novo te esperando à noite.",
+      "audio": "audio/S06_Dia03_Card01_Could_you_clean_the_room_please.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "Could you bring more water, please?",
+      "cenario": "Serviço de quarto na linha, garrafinha vazia na mesa. Você completa o pedido do jantar:",
+      "traducao": "Você poderia trazer mais água, por favor?",
+      "sensacao": "<i>Bring</i> = trazer. Você pede, a casa traz — hospedagem funcionando como deve ser.",
+      "audio": "audio/S06_Dia03_Card02_Could_you_bring_more_water_please.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "Could you call me at six, please?",
+      "cenario": "Passeio imperdível de manhã cedíssimo — e você não confia só no despertador do celular:",
+      "traducao": "Você poderia me ligar às seis, por favor?",
+      "sensacao": "O despertador reserva. O <i>at six</i> que abria o seu dia agora te acorda em outro país.",
+      "audio": "audio/S06_Dia03_Card03_Could_you_call_me_at_six_please.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "Could you change my room, please?",
+      "cenario": "A janela abre pro estacionamento — e você sonhava com o jardim. Na recepção, você tenta, gentil:",
+      "traducao": "Você poderia trocar meu quarto, por favor?",
+      "sensacao": "<i>Change</i> = trocar. Pedir não custa — e costuma custar menos ainda quando se pede bem.",
+      "audio": "audio/S06_Dia03_Card04_Could_you_change_my_room_please.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "Could you keep my bags?",
+      "cenario": "Check-out ao meio-dia, voo só à noite — e a cidade inteira ainda te esperando. No balcão:",
+      "traducao": "Você poderia guardar minhas malas?",
+      "sensacao": "<i>Keep</i> = guardar. As malas ficam, você vai: a tarde extra que a pergunta certa comprou.",
+      "audio": "audio/S06_Dia03_Card05_Could_you_keep_my_bags.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "Could you take this to my room, please?",
+      "cenario": "As sacolas da feira de artesanato pesam mais que a mala. Na recepção, você aponta a montanha:",
+      "traducao": "Você poderia levar isto pro meu quarto, por favor?",
+      "sensacao": "<i>Take this</i> = levar isto. Braços livres, compras a caminho do quarto — viajar também é saber delegar.",
+      "audio": "audio/S06_Dia03_Card06_Could_you_take_this_to_my_room_please.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "Could you recommend a restaurant?",
+      "cenario": "Última noite na cidade e vocês querem acertar em cheio. Você pergunta pra recepcionista, caderneta aberta:",
+      "traducao": "Você poderia recomendar um restaurante?",
+      "sensacao": "<i>Recommend</i> = recomendar. A chave dos segredos de qualquer cidade — quem trabalha ali sempre sabe onde se come bem.",
+      "audio": "audio/S06_Dia03_Card07_Could_you_recommend_a_restaurant.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "Could you watch my bags for a minute?",
+      "cenario": "Café da manhã movimentado, e você precisa voltar ao quarto num pulo. Você pede à moça da mesa ao lado:",
+      "traducao": "Você poderia ficar de olho nas minhas malas um minutinho?",
+      "sensacao": "<i>Watch</i> = ficar de olho. O pedido de confiança entre viajantes — um minutinho, um favor, um sorriso de volta.",
+      "audio": "audio/S06_Dia03_Card08_Could_you_watch_my_bags_for_a_minute.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "Could you show me the room?",
+      "cenario": "Hotel sem reserva, preço bom... mas você aprendeu a conferir antes de dizer sim:",
+      "traducao": "Você poderia me mostrar o quarto?",
+      "sensacao": "<i>Show me</i> de novo em campo — e o \"come with me\" voltando pra você. Hóspede esperta vê primeiro, decide depois.",
+      "audio": "audio/S06_Dia03_Card09_Could_you_show_me_the_room.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "Could you write it down, please?",
+      "cenario": "A recepcionista explica o caminho do teatro: nomes de rua, curvas, referências. Você estende o bloquinho:",
+      "traducao": "Você poderia anotar, por favor?",
+      "sensacao": "<i>Write it down</i> = anotar. No papel, a explicação vira mapa — e ninguém se perde.",
+      "audio": "audio/S06_Dia03_Card10_Could_you_write_it_down_please.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

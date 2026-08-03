@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 4 · Gente nova, histórias suas — Kimberly Mentoria VIP</title>
+<!--
+  Dia 4 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 12 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S12-D04-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 59,
+  "rotulo": "Dia 4",
+  "titulo": "Dia 4 — Gente nova, histórias suas",
+  "sub": "Semana 12 — Travel With Confidence · integração dos 3 meses",
+  "lily": {
+    "audio": "audio/Lily_S12_Texto59.mp3",
+    "chave": "texto59",
+    "texto": [
+      "The surprise: a big sign — \"ONE YEAR OF LILY AT THE SHOP!\"",
+      "Anna: \"One year ago, a nervous girl started here...\"",
+      "Anna: \"Today, she is the heart of this shop!\"",
+      "We remember everything: the bike, the fair, the broken vases, the big order!",
+      "Mãe: \"And her English! My Lily talks to the world now!\"",
+      "I was nervous... I cried a little... okay, a lot!",
+      "What a year. What a beautiful year!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "Hi! Are you traveling too?",
+      "cenario": "Mesa comunitária do café, uma moça sozinha com um guia aberto. Você puxa a cadeira e a conversa:",
+      "traducao": "Oi! Você também está viajando?",
+      "sensacao": "A abertura de quem já sabe: viajante reconhece viajante. Uma pergunta e o café da manhã vira encontro.",
+      "audio": "audio/S12_Dia04_Card01_Hi_Are_you_traveling_too.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "Two sisters from Brazil!",
+      "cenario": "O senhor do passeio olha pra vocês duas, curioso: \"And you two are...?\" Você apresenta a dupla com orgulho:",
+      "traducao": "Duas irmãs do Brasil!",
+      "sensacao": "A resposta-retrato: duas irmãs, um país, uma viagem. Apresentação completa em quatro palavras.",
+      "audio": "audio/S12_Dia04_Card02_Two_sisters_from_Brazil.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "Yesterday we went to the market downtown.",
+      "cenario": "Os novos amigos pedem dicas do que fazer. Você abre o mapa mental do dia anterior:",
+      "traducao": "Ontem nós fomos ao mercado no centro.",
+      "sensacao": "O <i>yesterday</i> + o <i>went</i> da semana das histórias trabalhando de guia turístico. Sua experiência virou o roteiro dos outros.",
+      "audio": "audio/S12_Dia04_Card03_Yesterday_we_went_to_the_market_downtown.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "The market was my favorite part!",
+      "cenario": "A moça do Chile pergunta: \"What was your favorite part?\" Você responde na hora, com cheiro de tempero na memória:",
+      "traducao": "O mercado foi a minha parte favorita!",
+      "sensacao": "<i>Favorite part</i> = parte favorita. A pergunta chega no passado e você responde no passado — sem nem notar o milagre.",
+      "audio": "audio/S12_Dia04_Card04_The_market_was_my_favorite_part.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "Are you here with family?",
+      "cenario": "O grupo grande e barulhento da mesa ao lado parece se divertir muito. Você pergunta pra senhora sorridente:",
+      "traducao": "Você está aqui com a família?",
+      "sensacao": "Pergunta de quem repara — e a resposta vem transbordando: <i>the whole family</i>, a família inteira. Alegria explicada.",
+      "audio": "audio/S12_Dia04_Card05_Are_you_here_with_family.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "We love it here too!",
+      "cenario": "O casal de amigos novos declara: \"We love this city!\" Vocês duas concordam em coro:",
+      "traducao": "Nós também amamos isto aqui!",
+      "sensacao": "O amor pela cidade, compartilhado: <i>too</i> fazendo o que faz de melhor — juntar pessoas na mesma frase.",
+      "audio": "audio/S12_Dia04_Card06_We_love_it_here_too.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "Tomorrow is our last day...",
+      "cenario": "A amiga nova pergunta: \"How long are you here?\" — a MESMA pergunta que você aprendeu a fazer. Você responde, agridoce:",
+      "traducao": "Amanhã é o nosso último dia...",
+      "sensacao": "A pergunta da semana das conversas voltando pra você — sinal de que a conversa é de verdade. <i>Last day</i> dói um pouquinho; é assim que se sabe que valeu.",
+      "audio": "audio/S12_Dia04_Card07_Tomorrow_is_our_last_day.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "Dinner together tonight?",
+      "cenario": "Último dia pede despedida à altura. Você propõe, direta e sorridente:",
+      "traducao": "Jantar juntas hoje à noite?",
+      "sensacao": "O convite sem cerimônia de quem já é amiga: três palavras, um plano. O <i>together</i> da sua rotina fechando a viagem.",
+      "audio": "audio/S12_Dia04_Card08_Dinner_together_tonight.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "This trip was a dream!",
+      "cenario": "No jantar de despedida, alguém pede um brinde de suco à viagem. Você levanta o copo e resume:",
+      "traducao": "Esta viagem foi um sonho!",
+      "sensacao": "<i>Dream</i> = sonho — a palavra que faltava no seu inglês e que esta viagem mereceu. Foi sonho, foi real, foi sua.",
+      "audio": "audio/S12_Dia04_Card09_This_trip_was_a_dream.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "One photo, everybody!",
+      "cenario": "Fim do jantar, mesa cheia de gente de três países. Você levanta o celular e organiza a lembrança:",
+      "traducao": "Uma foto, pessoal!",
+      "sensacao": "<i>Everybody</i> = todo mundo — palavra da festa da Lily, agora reunindo a SUA mesa. Clique: amizade documentada.",
+      "audio": "audio/S12_Dia04_Card10_One_photo_everybody.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

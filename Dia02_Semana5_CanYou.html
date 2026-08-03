@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 2 · Can you...? — Kimberly Mentoria VIP</title>
+<!--
+  Dia 2 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 5 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S05-D02-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 22,
+  "rotulo": "Dia 2",
+  "titulo": "Dia 2 — Can you...?",
+  "sub": "Semana 5 — Getting Around · Can you...? · How do I get to...? · I need (to)...",
+  "lily": {
+    "audio": "audio/Lily_S05_Texto22.mp3",
+    "chave": "texto22",
+    "texto": [
+      "Surprise at the shop: a delivery bike!",
+      "Anna: \"It's for you, Lily. Can you ride a bike?\"",
+      "Yes, I can! I love it!",
+      "Now my deliveries are fast.",
+      "The basket is perfect for the flowers.",
+      "Wind in my hair, flowers with me — a good life!",
+      "Bike, map and me: a good team!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "Can you help me, please?",
+      "cenario": "A mala grande emperrou na escada da pousada. O rapaz da limpeza passa pelo corredor e você chama:",
+      "traducao": "Você pode me ajudar, por favor?",
+      "sensacao": "Pedir ajuda também é falar inglês. <i>Can you...?</i> = você pode...? — a chave de todos os pedidos, estreando na sua voz.",
+      "audio": "audio/S05_Dia02_Card01_Can_you_help_me_please.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "Can you call a taxi, please?",
+      "cenario": "Jantar marcado do outro lado da cidade. Na recepção, você resolve em uma frase:",
+      "traducao": "Você pode chamar um táxi, por favor?",
+      "sensacao": "<i>Call</i> = chamar. O pedido curto que põe a noite em movimento — e o carro já vem.",
+      "audio": "audio/S05_Dia02_Card02_Can_you_call_a_taxi_please.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "Can you show me on the map?",
+      "cenario": "A moça explica o caminho rápido demais. Você sorri, abre o mapa de papel e pede:",
+      "traducao": "Você pode me mostrar no mapa?",
+      "sensacao": "O mapa vira mesa de conversa. <i>Show me</i> = me mostra. E o \"we are here\" você conhece dos dois lados — já foi você quem apontou o pontinho.",
+      "audio": "audio/S05_Dia02_Card03_Can_you_show_me_on_the_map.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "Can you take a photo, please?",
+      "cenario": "Pôr do sol dourado, vocês duas de costas pro mar. Você estende o celular pro senhor simpático que passa:",
+      "traducao": "Você pode tirar uma foto, por favor?",
+      "sensacao": "<i>Take a photo</i> = tirar uma foto. A frase que abre sorrisos em qualquer país — e a foto que vai virar quadro.",
+      "audio": "audio/S05_Dia02_Card04_Can_you_take_a_photo_please.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "Can you wait a minute, please?",
+      "cenario": "O motorista chegou e você ainda está fechando a mala. Pela janela, você pede:",
+      "traducao": "Você pode esperar um minutinho, por favor?",
+      "sensacao": "<i>Wait a minute</i> = espera um minutinho. E o \"no problem\" volta pra você — agora do outro lado da conversa.",
+      "audio": "audio/S05_Dia02_Card05_Can_you_wait_a_minute_please.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "Can you stop here, please?",
+      "cenario": "Da janela do táxi, você avista a lojinha de artesanato perfeita. Decisão instantânea:",
+      "traducao": "Você pode parar aqui, por favor?",
+      "sensacao": "A viagem obedece a quem sabe pedir. <i>Stop</i> = parar — e a lojinha era mesmo tudo aquilo.",
+      "audio": "audio/S05_Dia02_Card06_Can_you_stop_here_please.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "Can you take us to the airport?",
+      "cenario": "Fim da hospedagem. Malas no porta-malas, vocês duas no banco de trás:",
+      "traducao": "Você pode nos levar ao aeroporto?",
+      "sensacao": "<i>Take us</i> = nos levar. A frase-comando das partidas — dita com o coração ainda ficando um pouquinho na cidade.",
+      "audio": "audio/S05_Dia02_Card07_Can_you_take_us_to_the_airport.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "Can you send the address, please?",
+      "cenario": "A cliente marcou o jantar de negócios num restaurante que você não conhece. Você responde a mensagem:",
+      "traducao": "Você pode enviar o endereço, por favor?",
+      "sensacao": "<i>Send</i> = enviar. Logística internacional resolvida em uma linha — sem sair do sofá.",
+      "audio": "audio/S05_Dia02_Card08_Can_you_send_the_address_please.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "Can you open the door, please?",
+      "cenario": "Você volta pra pousada com os braços cheios de sacolas da feira de artesanato. A dona vem da cozinha:",
+      "traducao": "Você pode abrir a porta, por favor?",
+      "sensacao": "Mãos ocupadas, inglês funcionando. Pedido pequeno, autonomia grande.",
+      "audio": "audio/S05_Dia02_Card09_Can_you_open_the_door_please.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "Can you come with me?",
+      "cenario": "O balcão de câmbio fica no fundo do shopping, e ir sozinha ainda dá um friozinho. Você chama sua irmã:",
+      "traducao": "Você pode vir comigo?",
+      "sensacao": "O \"come with me\" da semana das direções era você guiando; agora é você convidando. E a resposta — <i>always</i>, sempre — é das que a gente guarda.",
+      "audio": "audio/S05_Dia02_Card10_Can_you_come_with_me.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

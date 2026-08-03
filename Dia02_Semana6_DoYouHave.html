@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 2 · Do you have...? — Kimberly Mentoria VIP</title>
+<!--
+  Dia 2 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 6 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S06-D02-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 27,
+  "rotulo": "Dia 2",
+  "titulo": "Dia 2 — Do you have...?",
+  "sub": "Semana 6 — Staying Somewhere · I'd like... · Do you have...? · Could you...?",
+  "lily": {
+    "audio": "audio/Lily_S06_Texto27.mp3",
+    "chave": "texto27",
+    "texto": [
+      "Good morning, big city!",
+      "Breakfast first: bread, fruit... and orange juice!",
+      "My new question works: \"Do you have a pool?\"",
+      "Recepcionista: \"Yes — on the roof!\"",
+      "A pool on the roof! My little town has no pool on a roof!",
+      "Wi-fi, gym, room service... hotels have everything!",
+      "But first: the flower fair. Time to work!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "Do you have a room for tonight?",
+      "cenario": "Mudança de planos no meio do roteiro: uma cidade a mais, zero reservas. Vocês entram no primeiro hotel charmoso:",
+      "traducao": "Vocês têm um quarto pra hoje à noite?",
+      "sensacao": "<i>Do you have...?</i> = vocês têm...? A pergunta que transforma imprevisto em aventura com cama boa.",
+      "audio": "audio/S06_Dia02_Card01_Do_you_have_a_room_for_tonight.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "Do you have a pool?",
+      "cenario": "Sol de meio-dia, cidade fervendo. No balcão, a pergunta mais importante do verão:",
+      "traducao": "Vocês têm piscina?",
+      "sensacao": "<i>Pool</i> = piscina — a palavra que a Lily descobriu no hotel da entrega, agora na sua voz. E ainda por cima na cobertura!",
+      "audio": "audio/S06_Dia02_Card02_Do_you_have_a_pool.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "Do you have more towels?",
+      "cenario": "Praia de manhã, piscina à tarde: as toalhas do quarto não deram conta. Você liga pra recepção:",
+      "traducao": "Vocês têm mais toalhas?",
+      "sensacao": "<i>Towels</i> = toalhas. Necessidade pequena, autonomia enorme: você liga, pede e resolve — em inglês.",
+      "audio": "audio/S06_Dia02_Card03_Do_you_have_more_towels.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "Do you have an adapter?",
+      "cenario": "O carregador brasileiro não entra na tomada do quarto de jeito nenhum. Na recepção:",
+      "traducao": "Vocês têm um adaptador?",
+      "sensacao": "<i>Adapter</i> = adaptador. A palavrinha que salva a bateria — e o resto da viagem.",
+      "audio": "audio/S06_Dia02_Card04_Do_you_have_an_adapter.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "Do you have a gym?",
+      "cenario": "Rotina é rotina, até de férias. Mala desfeita, tênis na mão:",
+      "traducao": "Vocês têm academia?",
+      "sensacao": "A academia te acompanha pelo mundo. <i>First floor</i> = primeiro andar — e o hábito continua de pé.",
+      "audio": "audio/S06_Dia02_Card05_Do_you_have_a_gym.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "Do you have room service?",
+      "cenario": "Dia longo demais pra sair de novo. Você liga pra recepção, já de pijama:",
+      "traducao": "Vocês têm serviço de quarto?",
+      "sensacao": "<i>Room service</i> = serviço de quarto. Jantar de pijama também é experiência internacional. (E <i>desk</i> — a Lily conheceu essa no hotel da entrega.)",
+      "audio": "audio/S06_Dia02_Card06_Do_you_have_room_service.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "Do you have a table by the window?",
+      "cenario": "Restaurante do hotel, fim de tarde dourado lá fora. Na entrada, você pede o melhor lugar:",
+      "traducao": "Vocês têm uma mesa perto da janela?",
+      "sensacao": "<i>By the window</i> = junto à janela. Jantar com vista: pedido de quem aprendeu que dá pra escolher.",
+      "audio": "audio/S06_Dia02_Card07_Do_you_have_a_table_by_the_window.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "Do you have juice?",
+      "cenario": "Café da manhã do hotel, mesa farta. Você pergunta ao rapaz do salão pelo seu copo de todo dia:",
+      "traducao": "Vocês têm suco?",
+      "sensacao": "O pedido fiel de todas as manhãs — e a resposta vem em dose dupla: laranja e manga.",
+      "audio": "audio/S06_Dia02_Card08_Do_you_have_juice.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "Do you have an umbrella?",
+      "cenario": "O céu fechou bem na hora do passeio. No saguão, você resolve rápido:",
+      "traducao": "Vocês têm um guarda-chuva?",
+      "sensacao": "<i>Umbrella</i> = guarda-chuva. Chuva de viagem não cancela programa — só muda o acessório.",
+      "audio": "audio/S06_Dia02_Card09_Do_you_have_an_umbrella.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "Do you have chocolate cake?",
+      "cenario": "Noite de comemorar a semana — e a vontade tem nome. Você liga pro serviço de quarto:",
+      "traducao": "Vocês têm bolo de chocolate?",
+      "sensacao": "A pergunta mais feliz do cardápio. <i>Chocolate cake</i> = bolo de chocolate — comemoração servida no quarto.",
+      "audio": "audio/S06_Dia02_Card10_Do_you_have_chocolate_cake.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

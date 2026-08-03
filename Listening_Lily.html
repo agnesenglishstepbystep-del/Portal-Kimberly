@@ -104,8 +104,7 @@ const Progress={
   }
 };
 
-/* Catálogo da playlist — Semanas 1 a 3 (Textos #1–#15; Acervo KIM-S01-LILY-T01 a T05,
-   KIM-S02-LILY-T06 a T10 e KIM-S03-LILY-T11 a T15).
+/* Catálogo da playlist — Semanas 1 a 12 (Textos #1–#60; Acervo KIM-SNN-LILY-TNN).
    ATENÇÃO ao campo `dia`: numeração GLOBAL, a mesma das telas de estudo
    (Semana 1 = dia1..dia5, Semana 2 = dia6..dia10, Semana 3 = dia11..dia15...) —
    é ela que casa com a chave `diaN_completedAt` do progresso. O texto entra na
@@ -131,7 +130,47 @@ const textos=[
   { id:'texto17', dia:17, titulo:'Texto #17 — Is there...?',    audio:'audio/Lily_S04_Texto17.mp3' },
   { id:'texto18', dia:18, titulo:'Texto #18 — Vire aqui',       audio:'audio/Lily_S04_Texto18.mp3' },
   { id:'texto19', dia:19, titulo:'Texto #19 — Os meus lugares', audio:'audio/Lily_S04_Texto19.mp3' },
-  { id:'texto20', dia:20, titulo:'Texto #20 — Perdida? Nunca por muito tempo', audio:'audio/Lily_S04_Texto20.mp3' }
+  { id:'texto20', dia:20, titulo:'Texto #20 — Perdida? Nunca por muito tempo', audio:'audio/Lily_S04_Texto20.mp3' },
+  { id:'texto21', dia:21, titulo:'Texto #21 — How do I get to...?', audio:'audio/Lily_S05_Texto21.mp3' },
+  { id:'texto22', dia:22, titulo:'Texto #22 — Can you...?', audio:'audio/Lily_S05_Texto22.mp3' },
+  { id:'texto23', dia:23, titulo:'Texto #23 — I need (to)...', audio:'audio/Lily_S05_Texto23.mp3' },
+  { id:'texto24', dia:24, titulo:'Texto #24 — Confirmando o destino', audio:'audio/Lily_S05_Texto24.mp3' },
+  { id:'texto25', dia:25, titulo:'Texto #25 — Quase perdida, nunca parada', audio:'audio/Lily_S05_Texto25.mp3' },
+  { id:'texto26', dia:26, titulo:'Texto #26 — Chegando', audio:'audio/Lily_S06_Texto26.mp3' },
+  { id:'texto27', dia:27, titulo:'Texto #27 — Do you have...?', audio:'audio/Lily_S06_Texto27.mp3' },
+  { id:'texto28', dia:28, titulo:'Texto #28 — Could you...?', audio:'audio/Lily_S06_Texto28.mp3' },
+  { id:'texto29', dia:29, titulo:"Texto #29 — I'd like...", audio:'audio/Lily_S06_Texto29.mp3' },
+  { id:'texto30', dia:30, titulo:'Texto #30 — Probleminhas de quarto', audio:'audio/Lily_S06_Texto30.mp3' },
+  { id:'texto31', dia:31, titulo:"Texto #31 — I'll have...", audio:'audio/Lily_S07_Texto31.mp3' },
+  { id:'texto32', dia:32, titulo:'Texto #32 — What do you recommend?', audio:'audio/Lily_S07_Texto32.mp3' },
+  { id:'texto33', dia:33, titulo:'Texto #33 — Can I get...?', audio:'audio/Lily_S07_Texto33.mp3' },
+  { id:'texto34', dia:34, titulo:'Texto #34 — Entendendo o garçom', audio:'audio/Lily_S07_Texto34.mp3' },
+  { id:'texto35', dia:35, titulo:'Texto #35 — Nem tudo vem certo', audio:'audio/Lily_S07_Texto35.mp3' },
+  { id:'texto36', dia:36, titulo:"Texto #36 — I'm looking for...", audio:'audio/Lily_S08_Texto36.mp3' },
+  { id:'texto37', dia:37, titulo:'Texto #37 — How much is...?', audio:'audio/Lily_S08_Texto37.mp3' },
+  { id:'texto38', dia:38, titulo:'Texto #38 — Provando e decidindo', audio:'audio/Lily_S08_Texto38.mp3' },
+  { id:'texto39', dia:39, titulo:'Texto #39 — I have a problem', audio:'audio/Lily_S08_Texto39.mp3' },
+  { id:'texto40', dia:40, titulo:'Texto #40 — Resolvendo e fechando o mês', audio:'audio/Lily_S08_Texto40.mp3' },
+  { id:'texto41', dia:41, titulo:'Texto #41 — It was...', audio:'audio/Lily_S09_Texto41.mp3' },
+  { id:'texto42', dia:42, titulo:'Texto #42 — I went...', audio:'audio/Lily_S09_Texto42.mp3' },
+  { id:'texto43', dia:43, titulo:'Texto #43 — I loved it!', audio:'audio/Lily_S09_Texto43.mp3' },
+  { id:'texto44', dia:44, titulo:'Texto #44 — Contando a história', audio:'audio/Lily_S09_Texto44.mp3' },
+  { id:'texto45', dia:45, titulo:"Texto #45 — It wasn't easy, but I did it!", audio:'audio/Lily_S09_Texto45.mp3' },
+  { id:'texto46', dia:46, titulo:'Texto #46 — Nice to meet you!', audio:'audio/Lily_S10_Texto46.mp3' },
+  { id:'texto47', dia:47, titulo:'Texto #47 — Agora quem pergunta é você', audio:'audio/Lily_S10_Texto47.mp3' },
+  { id:'texto48', dia:48, titulo:'Texto #48 — How long are you here?', audio:'audio/Lily_S10_Texto48.mp3' },
+  { id:'texto49', dia:49, titulo:'Texto #49 — Demonstrando interesse', audio:'audio/Lily_S10_Texto49.mp3' },
+  { id:'texto50', dia:50, titulo:'Texto #50 — Despedidas que ficam', audio:'audio/Lily_S10_Texto50.mp3' },
+  { id:'texto51', dia:51, titulo:'Texto #51 — O kit anti-travamento', audio:'audio/Lily_S11_Texto51.mp3' },
+  { id:'texto52', dia:52, titulo:'Texto #52 — I need help', audio:'audio/Lily_S11_Texto52.mp3' },
+  { id:'texto53', dia:53, titulo:'Texto #53 — Explicando o problema', audio:'audio/Lily_S11_Texto53.mp3' },
+  { id:'texto54', dia:54, titulo:'Texto #54 — Confirmando a informação', audio:'audio/Lily_S11_Texto54.mp3' },
+  { id:'texto55', dia:55, titulo:'Texto #55 — A viajante que não trava', audio:'audio/Lily_S11_Texto55.mp3' },
+  { id:'texto56', dia:56, titulo:'Texto #56 — Partida e chegada', audio:'audio/Lily_S12_Texto56.mp3' },
+  { id:'texto57', dia:57, titulo:'Texto #57 — No hotel', audio:'audio/Lily_S12_Texto57.mp3' },
+  { id:'texto58', dia:58, titulo:'Texto #58 — Pela cidade', audio:'audio/Lily_S12_Texto58.mp3' },
+  { id:'texto59', dia:59, titulo:'Texto #59 — Gente nova, histórias suas', audio:'audio/Lily_S12_Texto59.mp3' },
+  { id:'texto60', dia:60, titulo:'Texto #60 — Imprevisto? Resolvido. E a volta pra casa', audio:'audio/Lily_S12_Texto60.mp3' }
 ];
 
 function $(s){return document.querySelector(s);}
