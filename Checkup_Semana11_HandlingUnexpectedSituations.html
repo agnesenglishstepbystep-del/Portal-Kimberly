@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Check-up · Semana 11 — Kimberly Mentoria VIP</title>
+<!--
+  Check-up da Semana 11 — no motor (motor_checkup.js).
+  3 questões: situação + 3 frases CORRETAS (sem input errado), posição da correta embaralhada.
+  Fonte: Acervo, KIM-S11-CHK-C01 a C03.
+-->
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const CHECKUP={
+  "semana": 11,
+  "sufixo": "S11",
+  "sub": "Handling Unexpected Situations · I don't understand · Could you repeat that? · I need help",
+  "questoes": [
+    {
+      "id": "q1",
+      "situacao": "O moço da bilheteria explica os horários do barco numa velocidade impossível. Você precisa ouvir de novo:",
+      "opcoes": [
+        "Could you repeat that, please?",
+        "I lost my key!",
+        "Is this right?"
+      ],
+      "certa": 0
+    },
+    {
+      "id": "q2",
+      "situacao": "Esteira de bagagem vazia, todo mundo já saiu — e nada da sua mala. Você procura a atendente da companhia e explica:",
+      "opcoes": [
+        "Did you say ten or two?",
+        "One more try!",
+        "My bag is not here!"
+      ],
+      "certa": 2
+    },
+    {
+      "id": "q3",
+      "situacao": "Alarme de incêndio no hotel — falso, ufa. Do lado de fora, a funcionária confere hóspede por hóspede: \"Are you okay?\" Você responde:",
+      "opcoes": [
+        "I need help, please!",
+        "I'm okay!",
+        "This is my stop!"
+      ],
+      "certa": 1
+    }
+  ]
+};
+</script>
+<script src="motor_checkup.js"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Check-up · Semana 9 — Kimberly Mentoria VIP</title>
+<!--
+  Check-up da Semana 9 — no motor (motor_checkup.js).
+  3 questões: situação + 3 frases CORRETAS (sem input errado), posição da correta embaralhada.
+  Fonte: Acervo, KIM-S09-CHK-C01 a C03.
+-->
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const CHECKUP={
+  "semana": 9,
+  "sufixo": "S09",
+  "sub": "Talking About Experiences · It was... · I went... · I loved/liked...",
+  "questoes": [
+    {
+      "id": "q1",
+      "situacao": "Almoço de domingo, a família toda querendo saber da viagem. Sua tia pergunta: \"Where did you go?\" Você responde:",
+      "opcoes": [
+        "I need a vacation... again!",
+        "It was SO good!",
+        "I went to a little beach town."
+      ],
+      "certa": 2
+    },
+    {
+      "id": "q2",
+      "situacao": "Sua professora quer saber do hotel que você tanto pesquisou antes de viajar. Você responde:",
+      "opcoes": [
+        "It was perfect!",
+        "I went downtown with my sister.",
+        "We're on the right bus!"
+      ],
+      "certa": 0
+    },
+    {
+      "id": "q3",
+      "situacao": "Seu relato animou sua amiga: ela vai pra mesma cidade! Vocês ligam juntas pro hotel que você amou, e você faz por ela o pedido que fez na sua viagem:",
+      "opcoes": [
+        "It was beautiful!",
+        "I'd like a room with a view!",
+        "How do I get there?"
+      ],
+      "certa": 1
+    }
+  ]
+};
+</script>
+<script src="motor_checkup.js"></script>
+</body>
+</html>

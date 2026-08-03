@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 5 · Despedidas que ficam — Kimberly Mentoria VIP</title>
+<!--
+  Dia 5 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 10 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S10-D05-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 50,
+  "rotulo": "Dia 5",
+  "titulo": "Dia 5 — Despedidas que ficam",
+  "sub": "Semana 10 — Connecting With People · Nice to meet you! · Where are you from? · How long are you here?",
+  "lily": {
+    "audio": "audio/Lily_S10_Texto50.mp3",
+    "chave": "texto50",
+    "texto": [
+      "Last day. Bags by the door... again!",
+      "Maya: \"Lily, it was SO nice. Your town, your friends, your world!\"",
+      "It was nice to meet you here, Maya — REALLY nice!",
+      "Maya: \"Next time: my city again. Deal?\"",
+      "Deal! See you soon, my friend!",
+      "Now — about that big order... one hundred flowers!",
+      "Big party next week. I need a plan... and no mistakes!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "It was nice to meet you!",
+      "cenario": "Último jantar da viagem, hora dos abraços. Você se despede do casal do museu:",
+      "traducao": "Foi um prazer te conhecer!",
+      "sensacao": "O <i>Nice to meet you</i> do Dia 1 + o <i>was</i> da semana passada = a despedida perfeita. O passado chegou na hora certa.",
+      "audio": "audio/S10_Dia05_Card01_It_was_nice_to_meet_you.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "See you soon!",
+      "cenario": "A amiga da piscina se despede: \"Goodbye, my friend!\" Você recusa o adeus e escolhe o até logo:",
+      "traducao": "Até breve!",
+      "sensacao": "<i>Soon</i> = em breve. A despedida com porta aberta — porque amizade boa não aceita \"adeus\".",
+      "audio": "audio/S10_Dia05_Card02_See_you_soon.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "Have a good trip!",
+      "cenario": "O casal simpático anuncia: \"Tomorrow we go home...\" Você deseja o clássico:",
+      "traducao": "Boa viagem!",
+      "sensacao": "<i>Have a good...!</i> = tenha um bom...! — o presente de despedida que não pesa na mala. Boa viagem pra eles; boas lembranças pra você.",
+      "audio": "audio/S10_Dia05_Card03_Have_a_good_trip.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "Enjoy the beach!",
+      "cenario": "Os amigos novos vão hoje pra praia que você indicou. Na saída do café, você acena:",
+      "traducao": "Aproveita a praia!",
+      "sensacao": "<i>Enjoy!</i> = aproveite! — você ouviu essa na direção da praia escondida. Agora é você quem abençoa o passeio dos outros.",
+      "audio": "audio/S10_Dia05_Card04_Enjoy_the_beach.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "Here's my number — text me!",
+      "cenario": "A nova amiga pergunta: \"Can I write to you?\" Você já abre o celular:",
+      "traducao": "Aqui está meu número — me manda mensagem!",
+      "sensacao": "O <i>Here's</i> dos documentos entregando algo melhor: contato. <i>Text me</i> = me manda mensagem — amizade com endereço.",
+      "audio": "audio/S10_Dia05_Card05_Heres_my_number_text_me.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "Let's take a photo together!",
+      "cenario": "Último passeio do grupo. Antes de cada um pro seu lado, você organiza a lembrança:",
+      "traducao": "Vamos tirar uma foto juntos!",
+      "sensacao": "O <i>take a photo</i> da semana do deslocamento, agora em bando. Foto de despedida não é tristeza — é prova de que aconteceu.",
+      "audio": "audio/S10_Dia05_Card06_Lets_take_a_photo_together.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "Thank you for everything!",
+      "cenario": "Os anfitriões do jantar de despedida capricharam a noite inteira. Na porta, você agradece de coração:",
+      "traducao": "Obrigada por tudo!",
+      "sensacao": "O <i>thank you for</i> da semana das compras no tamanho máximo: <i>everything</i> = tudo. Gratidão de mala cheia.",
+      "audio": "audio/S10_Dia05_Card07_Thank_you_for_everything.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "Come visit me in Brazil!",
+      "cenario": "O abraço final na amiga da viagem — e você deixa o convite oficial:",
+      "traducao": "Vem me visitar no Brasil!",
+      "sensacao": "O convite da Maya (\"Come visit my little town!\"), agora com o SEU endereço. E a resposta é a mesma que a Lily deu: <i>I'd like that!</i>",
+      "audio": "audio/S10_Dia05_Card08_Come_visit_me_in_Brazil.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "You have a friend in Brazil now!",
+      "cenario": "Últimas palavras antes do táxi da amiga partir. Você fecha a viagem com a frase mais bonita da semana:",
+      "traducao": "Você tem uma amiga no Brasil agora!",
+      "sensacao": "Melhor que lembrancinha: uma amiga de outro país. A frase-presente que ninguém esquece.",
+      "audio": "audio/S10_Dia05_Card09_You_have_a_friend_in_Brazil_now.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "I can talk to anyone now!",
+      "cenario": "No encontro, sua professora pergunta o que mudou nas suas conversas. Você responde com a liberdade da semana:",
+      "traducao": "Eu consigo conversar com qualquer pessoa agora!",
+      "sensacao": "<i>Anyone</i> = qualquer pessoa — irmã do <i>anything</i> do restaurante. Cardápios, depois pessoas: o mundo foi ficando todo seu.",
+      "audio": "audio/S10_Dia05_Card10_I_can_talk_to_anyone_now.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

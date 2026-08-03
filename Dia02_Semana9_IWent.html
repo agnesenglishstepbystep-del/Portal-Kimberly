@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 2 · I went... — Kimberly Mentoria VIP</title>
+<!--
+  Dia 2 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 9 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S09-D02-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 42,
+  "rotulo": "Dia 2",
+  "titulo": "Dia 2 — I went...",
+  "sub": "Semana 9 — Talking About Experiences · It was... · I went... · I loved/liked...",
+  "lily": {
+    "audio": "audio/Lily_S09_Texto42.mp3",
+    "chave": "texto42",
+    "texto": [
+      "Today, everybody at the shop wants my story!",
+      "So I tell them: I went to the city by bus.",
+      "I went to the fair every day — every single day!",
+      "I went to a big hotel, all by myself.",
+      "And at night? I went to dinner alone... like a big-city girl!",
+      "My feet went everywhere — and my heart went with them!",
+      "Where do I go next? Who knows!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "I went to the beach.",
+      "cenario": "No salão do café, a moça simpática de ontem pergunta: \"Where did you go yesterday?\" Você responde, ainda com marquinha de sol:",
+      "traducao": "Eu fui à praia.",
+      "sensacao": "<i>I went</i> = eu fui — o passado do seu velho <i>I go</i>. E <i>did you go?</i> é como a pergunta veste o ontem: entra pelo ouvido, sem esforço.",
+      "audio": "audio/S09_Dia02_Card01_I_went_to_the_beach.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "I went to the market this morning!",
+      "cenario": "Você volta pro hotel com flores e frutas nos braços. Sua irmã, ainda de pijama, arregala os olhos — e você explica, orgulhosa:",
+      "traducao": "Eu fui ao mercado hoje de manhã!",
+      "sensacao": "Manhã aproveitada é manhã contada. <i>This morning</i> = hoje de manhã — o passado fresquinho, de poucas horas atrás.",
+      "audio": "audio/S09_Dia02_Card02_I_went_to_the_market_this_morning.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "I went to a museum today.",
+      "cenario": "Vídeo-chamada do fim do dia, e seu cunhado pergunta: \"What did you do today?\" Você mostra o folheto pra câmera:",
+      "traducao": "Eu fui a um museu hoje.",
+      "sensacao": "<i>What did you do?</i> = o que você fez? — a pergunta que abre toda conversa de fim de dia. E você tem resposta de sobra.",
+      "audio": "audio/S09_Dia02_Card03_I_went_to_a_museum_today.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "I went downtown with my sister.",
+      "cenario": "No telefone, sua mãe quer o relatório do dia das filhas. Você começa pelo passeio:",
+      "traducao": "Eu fui ao centro com a minha irmã.",
+      "sensacao": "O <i>I go shopping with my sister</i> de outros tempos, agora contado de volta. As melhores lembranças costumam ter companhia.",
+      "audio": "audio/S09_Dia02_Card04_I_went_downtown_with_my_sister.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "I went to a little beach town.",
+      "cenario": "De volta ao trabalho, uma cliente pergunta das férias: \"Where did you go on vacation?\" Você resume o paraíso:",
+      "traducao": "Eu fui a uma cidadezinha de praia.",
+      "sensacao": "<i>Little beach town</i> = cidadezinha de praia — três palavras suas há muito tempo, desenhando o lugar perfeito.",
+      "audio": "audio/S09_Dia02_Card05_I_went_to_a_little_beach_town.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "I went by bus — alone!",
+      "cenario": "Seu anfitrião se admira de você ter chegado por conta própria: \"How did you get there?\" Você conta a façanha:",
+      "traducao": "Eu fui de ônibus — sozinha!",
+      "sensacao": "O <i>How do I get...?</i> da semana do deslocamento apareceu no passado — e a resposta é a sua vitória: de ônibus, sozinha, sem drama. Olha você.",
+      "audio": "audio/S09_Dia02_Card06_I_went_by_bus_alone.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "I went home early.",
+      "cenario": "Manhã seguinte à festa, sua companheira de viagem pergunta por mensagem a que horas você sumiu. Você confessa:",
+      "traducao": "Eu fui pra casa cedo.",
+      "sensacao": "<i>Early</i> de novo em campo — só que ontem. Sair cedo da festa também é saber viajar.",
+      "audio": "audio/S09_Dia02_Card07_I_went_home_early.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "We went together — of course!",
+      "cenario": "A vizinha pergunta se você encarou a viagem sozinha: \"Did you go alone?\" Você aponta pra sua irmã, rindo:",
+      "traducao": "Nós fomos juntas — claro!",
+      "sensacao": "<i>We went</i> = nós fomos. O <i>together</i> da rotina de vocês, agora carimbado no passaporte.",
+      "audio": "audio/S09_Dia02_Card08_We_went_together_of_course.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "I went to the big city last year.",
+      "cenario": "Conversando com uma amiga que sonha em viajar, você lembra de onde tudo começou:",
+      "traducao": "Eu fui à cidade grande no ano passado.",
+      "sensacao": "<i>Last year</i> = ano passado. O passado de longe, contado com a calma de quem já foi — igualzinho à Lily e à cidade grande dela.",
+      "audio": "audio/S09_Dia02_Card09_I_went_to_the_big_city_last_year.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "I went everywhere on foot!",
+      "cenario": "Sua professora pergunta como você explorou a cidade. Você mostra o tênis gasto, com orgulho:",
+      "traducao": "Eu fui a todo lugar a pé!",
+      "sensacao": "<i>Everywhere</i> + <i>on foot</i>: o mapa inteiro vencido passo a passo. Cidade conhecida de verdade é cidade andada.",
+      "audio": "audio/S09_Dia02_Card10_I_went_everywhere_on_foot.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

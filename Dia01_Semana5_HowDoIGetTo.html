@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 1 · How do I get to...? — Kimberly Mentoria VIP</title>
+<!--
+  Dia 1 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 5 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S05-D01-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 21,
+  "rotulo": "Dia 1",
+  "titulo": "Dia 1 — How do I get to...?",
+  "sub": "Semana 5 — Getting Around · Can you...? · How do I get to...? · I need (to)...",
+  "lily": {
+    "audio": "audio/Lily_S05_Texto21.mp3",
+    "chave": "texto21",
+    "texto": [
+      "Big news: deliveries every day now!",
+      "New streets, new houses, new questions.",
+      "My new question: \"How do I get to the school?\"",
+      "People are kind — they help me.",
+      "The answer: \"Turn right at the park!\"",
+      "Anna: \"Lily, can you take these flowers to the church?\"",
+      "Yes, boss! I'm on my way!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "How do I get to the airport?",
+      "cenario": "Dia do voo de volta. Malas prontas, você desce cedo e resolve logo o mais importante, na recepção do hotel:",
+      "traducao": "Como eu chego ao aeroporto?",
+      "sensacao": "A mala pronta, o relógio andando — e a pergunta certa abrindo o caminho de casa. <i>How do I get to...?</i> = como eu chego a...? — a chave nova do seu chaveiro.",
+      "audio": "audio/S05_Dia01_Card01_How_do_I_get_to_the_airport.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "How do I get downtown?",
+      "cenario": "Primeira manhã na cidade nova. Você quer conhecer o centro e pergunta pra dona da pousada, mapa aberto na mesa:",
+      "traducao": "Como eu chego ao centro?",
+      "sensacao": "O centro chamando e o ônibus 10 já anotado. A cidade inteira começando a caber no seu bolso.",
+      "audio": "audio/S05_Dia01_Card02_How_do_I_get_downtown.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "How do I get to the train station?",
+      "cenario": "O passeio de trem pelas montanhas sai cedinho. No balcão de informações turísticas, você pergunta:",
+      "traducao": "Como eu chego à estação de trem?",
+      "sensacao": "<i>Train station</i> = estação de trem. E a resposta chega em palavras que já são suas — siga reto, vire no banco. Você pergunta com o novo e entende com o que já venceu.",
+      "audio": "audio/S05_Dia01_Card03_How_do_I_get_to_the_train_station.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "How do I get to the hotel?",
+      "cenario": "Você acabou de aterrissar. No balcão de informações do aeroporto, endereço do hotel na tela do celular:",
+      "traducao": "Como eu chego ao hotel?",
+      "sensacao": "Recém-chegada, tudo novo — e uma frase resolve o primeiro desafio de toda viagem: sair do aeroporto.",
+      "audio": "audio/S05_Dia01_Card04_How_do_I_get_to_the_hotel.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "How do I get to this address?",
+      "cenario": "O restaurante recomendado está no print, mas o mapa do celular travou. Você mostra a tela pro guarda da praça:",
+      "traducao": "Como eu chego a este endereço?",
+      "sensacao": "O print vira bússola. <i>Address</i> = endereço — palavrinha que trabalha em toda viagem da sua vida.",
+      "audio": "audio/S05_Dia01_Card05_How_do_I_get_to_this_address.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "How do I get to the mall?",
+      "cenario": "A lista de lembrancinhas está longa e a recepcionista sugeriu o shopping da cidade. Você pergunta pro rapaz do saguão:",
+      "traducao": "Como eu chego ao shopping?",
+      "sensacao": "<i>Mall</i> = shopping. Lista na mão, caminho descoberto: missão lembrancinha oficialmente ativada.",
+      "audio": "audio/S05_Dia01_Card06_How_do_I_get_to_the_mall.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "How do I get to the museum?",
+      "cenario": "Todo mundo na pousada fala do museu da cidade. Na saída do passeio da manhã, você pergunta pro guia:",
+      "traducao": "Como eu chego ao museu?",
+      "sensacao": "<i>Museum</i> = museu — palavra irmã do português, dessas que chegam de graça. Dia de arte marcado no roteiro.",
+      "audio": "audio/S05_Dia01_Card07_How_do_I_get_to_the_museum.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "How do I get to your office?",
+      "cenario": "Viagem de trabalho! Reunião presencial marcada com a cliente estrangeira, e você manda a mensagem:",
+      "traducao": "Como eu chego ao seu escritório?",
+      "sensacao": "A pergunta que prepara o grande dia: sua empresa atravessando fronteiras — e você no comando do caminho.",
+      "audio": "audio/S05_Dia01_Card08_How_do_I_get_to_your_office.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "How do I get to the party?",
+      "cenario": "A feira de negócios termina com uma festa de encerramento em outro salão. Você pergunta pra colega de estande:",
+      "traducao": "Como eu chego à festa?",
+      "sensacao": "Pergunta de logística, resposta de amizade: ninguém vai sozinha. (<i>We can go together</i> — o \"can\" já se aproximando de você.)",
+      "audio": "audio/S05_Dia01_Card09_How_do_I_get_to_the_party.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "How do I get there?",
+      "cenario": "A dona da pousada descreve uma praia escondida, \"a mais bonita da região\". Você, já decidida:",
+      "traducao": "Como eu chego lá?",
+      "sensacao": "<i>There</i> = lá — o \"lá\" de qualquer lugar que te chamar. A pergunta nova da sua coleção, pronta pra usar a vida inteira.",
+      "audio": "audio/S05_Dia01_Card10_How_do_I_get_there.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

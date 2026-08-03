@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 5 · Resolvendo e fechando o mês — Kimberly Mentoria VIP</title>
+<!--
+  Dia 5 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 8 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S08-D05-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 40,
+  "rotulo": "Dia 5",
+  "titulo": "Dia 5 — Resolvendo e fechando o mês",
+  "sub": "Semana 8 — Shopping & Solving Problems · I'm looking for... · How much is...? · I have a problem",
+  "lily": {
+    "audio": "audio/Lily_S08_Texto40.mp3",
+    "chave": "texto40",
+    "texto": [
+      "At night, the phone: Mom!",
+      "Mãe: \"My Lily! Tell me about your big trip!\"",
+      "Mom, I went to the city, I went to the fair — me, Lily!",
+      "The hotel was beautiful. The food? I loved it!",
+      "I had a problem... and I solved it!",
+      "Mãe: \"My girl is big now!\"",
+      "Two months ago, a bicycle. Today, the world. Step by step!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "Can I exchange this?",
+      "cenario": "A sandália nova quebrou no segundo passeio. De volta à loja, caixa embaixo do braço:",
+      "traducao": "Posso trocar isto?",
+      "sensacao": "<i>Exchange</i> = trocar (devolver um, levar outro). O <i>Can I</i> de sempre puxando a solução mais comum do mundo das compras.",
+      "audio": "audio/S08_Dia05_Card01_Can_I_exchange_this.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "Here's the receipt.",
+      "cenario": "A atendente pediu a prova da compra. Sua bolsa organizada entrega no segundo seguinte:",
+      "traducao": "Aqui está o recibo.",
+      "sensacao": "O <i>Here's</i> do passaporte no check-in, agora estendendo o recibo. Papel certo na hora certa: troca aprovada.",
+      "audio": "audio/S08_Dia05_Card02_Heres_the_receipt.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "I'd like my money back, please.",
+      "cenario": "O aparelho veio com defeito e você não quer outro igual — quer encerrar o assunto. Educada e firme:",
+      "traducao": "Eu gostaria do meu dinheiro de volta, por favor.",
+      "sensacao": "<i>Money</i> = dinheiro; <i>back</i> = de volta. Com o <i>I'd like</i> do hotel, o pedido delicado pro assunto mais sensível. Firme não briga com gentil.",
+      "audio": "audio/S08_Dia05_Card03_Id_like_my_money_back_please.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "Can I get a bag, please?",
+      "cenario": "Três lembrancinhas soltas nas mãos e mais compras pela frente:",
+      "traducao": "Pode me dar uma sacola, por favor?",
+      "sensacao": "O <i>Can I get</i> do restaurante saiu pra fazer compras. <i>Bag</i> — a mesma palavra da mala e da bolsa — aqui vira sacola. Uma palavra, três utilidades.",
+      "audio": "audio/S08_Dia05_Card04_Can_I_get_a_bag_please.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "No — the blue one, please!",
+      "cenario": "Troca aceita, e o atendente pergunta se você quer o mesmo modelo: \"The same one?\" A cor, você já sabia desde a vitrine:",
+      "traducao": "Não — o azul, por favor!",
+      "sensacao": "A troca virou upgrade: sai o errado, entra *<i>o azul</i><i>. </i>The blue one* — a cor da semana fechando a decisão.",
+      "audio": "audio/S08_Dia05_Card05_No_the_blue_one_please.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "Problem solved!",
+      "cenario": "Troca feita, sacola nova, sol lá fora. Você manda um áudio pra sua irmã contando a vitória:",
+      "traducao": "Problema resolvido!",
+      "sensacao": "Duas palavras com gosto de missão cumprida. <i>Solved</i> = resolvido — o carimbo que a semana inteira estava esperando.",
+      "audio": "audio/S08_Dia05_Card06_Problem_solved.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "Thank you for your help!",
+      "cenario": "A atendente resolveu tudo com paciência de ouro. Antes de sair, você faz questão:",
+      "traducao": "Obrigada pela sua ajuda!",
+      "sensacao": "O agradecimento completo, com endereço: <i>for your help</i>. E a resposta que o mundo inteiro dá — <i>you're welcome</i> — entra de brinde no seu ouvido.",
+      "audio": "audio/S08_Dia05_Card07_Thank_you_for_your_help.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "Where do I pay?",
+      "cenario": "Braços cheios, loja movimentada, nenhum caixa à vista:",
+      "traducao": "Onde eu pago?",
+      "sensacao": "<i>Pay</i> = pagar. O <i>Where</i> de sempre + o <i>do I</i> que você conhece do <i>How do I get...</i> — pergunta nova montada com peças que já são suas.",
+      "audio": "audio/S08_Dia05_Card08_Where_do_I_pay.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "Keep the change!",
+      "cenario": "A moça da banca de flores foi um amor, e o troco eram só umas moedinhas:",
+      "traducao": "Fique com o troco!",
+      "sensacao": "O <i>keep</i> do \"guarde minhas malas\" + o <i>change</i> que você aprendeu ontem = a gentileza clássica dos balcões. Pequena no valor, grande no sorriso.",
+      "audio": "audio/S08_Dia05_Card09_Keep_the_change.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "I can do this!",
+      "cenario": "No encontro, sua professora pergunta: depois de dois meses, como você se sente pra encarar uma viagem de verdade? Você, sem pestanejar:",
+      "traducao": "Eu dou conta!",
+      "sensacao": "A frase que fecha o Mês 2 inteiro: aeroporto, hotel, restaurante, compras, perrengues — e você aqui, inteira. <i>I can do this</i> — eu dou conta. E dá mesmo.",
+      "audio": "audio/S08_Dia05_Card10_I_can_do_this.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

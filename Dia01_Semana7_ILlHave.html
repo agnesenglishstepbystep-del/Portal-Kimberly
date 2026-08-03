@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 1 · I'll have... — Kimberly Mentoria VIP</title>
+<!--
+  Dia 1 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 7 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S07-D01-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 31,
+  "rotulo": "Dia 1",
+  "titulo": "Dia 1 — I'll have...",
+  "sub": "Semana 7 — Eating Out · I'll have... · What do you recommend? · Can I get...?",
+  "lily": {
+    "audio": "audio/Lily_S07_Texto31.mp3",
+    "chave": "texto31",
+    "texto": [
+      "Lunch time at the fair!",
+      "Food from everywhere: pasta, soup, fruit!",
+      "My turn: \"I'll have the tomato soup, please!\"",
+      "And a fresh lemonade — of course!",
+      "I eat with new people from the fair.",
+      "Flower people are food people, too!",
+      "Back to work — happy and full!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "I'll have the fish, please.",
+      "cenario": "Restaurante de frente pro mar, cardápio aberto, decisão fácil:",
+      "traducao": "Eu vou querer o peixe, por favor.",
+      "sensacao": "<i>I'll have...</i> = eu vou querer... — o pedido oficial das mesas do mundo. <i>Fish</i> = peixe, e à beira-mar nem se discute.",
+      "audio": "audio/S07_Dia01_Card01_Ill_have_the_fish_please.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "I'll have the chicken, please.",
+      "cenario": "Cardápio em língua estranha, mas *chicken* você achou. Decisão tomada, dedo no item:",
+      "traducao": "Eu vou querer o frango, por favor.",
+      "sensacao": "<i>Chicken</i> = frango — a palavra-porto-seguro dos cardápios difíceis. Quando tudo é novo, ela resolve o jantar.",
+      "audio": "audio/S07_Dia01_Card02_Ill_have_the_chicken_please.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "I'll have the pasta, please.",
+      "cenario": "A mesma frase que a Lily usou no jantar do hotel dela — agora numa cantina de cidade grande, na sua voz:",
+      "traducao": "Eu vou querer a massa, por favor.",
+      "sensacao": "Frase testada e aprovada pela Lily, herdada por você. <i>Pasta</i> = massa — e o resto é garfo.",
+      "audio": "audio/S07_Dia01_Card03_Ill_have_the_pasta_please.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "I'll have a lemonade.",
+      "cenario": "Calor de praça, mesa na sombra, garçom de bloquinho na mão. A bebida da casa é a sua também:",
+      "traducao": "Eu vou querer uma limonada.",
+      "sensacao": "A limonada da Lily virou tradição sua. Pedido gelado, tarde salva.",
+      "audio": "audio/S07_Dia01_Card04_Ill_have_a_lemonade.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "I'll have the same.",
+      "cenario": "O prato da sua companheira passou pela mesa e você nem abriu o cardápio:",
+      "traducao": "Eu vou querer o mesmo.",
+      "sensacao": "<i>The same</i> = o mesmo. A frase-atalho: quando a resposta já passou na sua frente, é só apontar com palavras.",
+      "audio": "audio/S07_Dia01_Card05_Ill_have_the_same.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "I'll have the soup of the day.",
+      "cenario": "Noite fria de viagem, restaurante pequeno, lousa na parede com o prato do dia:",
+      "traducao": "Eu vou querer a sopa do dia.",
+      "sensacao": "<i>Soup of the day</i> = sopa do dia — o pedido de quem confia na casa. Colher, vapor e nenhum arrependimento.",
+      "audio": "audio/S07_Dia01_Card06_Ill_have_the_soup_of_the_day.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "I'll have a small one.",
+      "cenario": "Gelateria com vitrine infinita e tamanhos na parede. Você aponta o sabor e define:",
+      "traducao": "Eu vou querer um pequeno.",
+      "sensacao": "<i>A small one</i> = um pequeno. O <i>one</i> segurando o lugar da palavra que você nem precisou dizer.",
+      "audio": "audio/S07_Dia01_Card07_Ill_have_a_small_one.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "I'll have the fruit salad.",
+      "cenario": "Café da manhã de hotel, mesa farta demais pra decidir. Você vai de clássico:",
+      "traducao": "Eu vou querer a salada de frutas.",
+      "sensacao": "<i>Fruit salad</i> = salada de frutas. Leve, colorida e sem erro — o começo de dia que nunca falha.",
+      "audio": "audio/S07_Dia01_Card08_Ill_have_the_fruit_salad.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "We'll have two hot chocolates!",
+      "cenario": "Noite fria, vitrine iluminada, vocês duas de mãos geladas. Você pede pela dupla:",
+      "traducao": "Nós vamos querer dois chocolates quentes!",
+      "sensacao": "<i>We'll</i> = o I'll da dupla. Chocolate quente em dose dupla: o abraço que se bebe.",
+      "audio": "audio/S07_Dia01_Card09_Well_have_two_hot_chocolates.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "I'll have... everything!",
+      "cenario": "O buffet da pousada não cabe nos olhos. Você brinca com a dona, prato ainda vazio na mão:",
+      "traducao": "Eu vou querer... tudo!",
+      "sensacao": "A piada que toda mesa farta merece — e que toda cozinheira adora ouvir. (<i>Everything</i> trabalhando no humor.)",
+      "audio": "audio/S07_Dia01_Card10_Ill_have_everything.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

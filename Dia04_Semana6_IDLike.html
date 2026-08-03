@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 4 · I'd like... — Kimberly Mentoria VIP</title>
+<!--
+  Dia 4 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 6 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S06-D04-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 29,
+  "rotulo": "Dia 4",
+  "titulo": "Dia 4 — I'd like...",
+  "sub": "Semana 6 — Staying Somewhere · I'd like... · Do you have...? · Could you...?",
+  "lily": {
+    "audio": "audio/Lily_S06_Texto29.mp3",
+    "chave": "texto29",
+    "texto": [
+      "Dinner at the hotel — a big menu, all new!",
+      "My new words: \"What do you recommend?\"",
+      "The waiter says: \"The pasta — it's delicious!\"",
+      "Okay: \"I'll have the pasta, please.\"",
+      "Mmm... it IS delicious!",
+      "Lemonade, pasta, and happy feet under the table.",
+      "A table for one — and I'm okay with that!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "I'd like a room for two, please.",
+      "cenario": "Cidadezinha no caminho, pousada com cheiro de pão saindo do forno. Vocês decidem ficar:",
+      "traducao": "Eu gostaria de um quarto pra duas, por favor.",
+      "sensacao": "<i>For two</i> = pra duas. O pedido completo em uma linha: quarto, dupla, por favor.",
+      "audio": "audio/S06_Dia04_Card01_Id_like_a_room_for_two_please.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "I'd like breakfast in the room.",
+      "cenario": "Manhã de descanso planejado: ninguém tira você desse roupão. Você liga pra recepção:",
+      "traducao": "Eu gostaria do café da manhã no quarto.",
+      "sensacao": "Café da manhã que vem até você — o luxo simples que uma frase resolve.",
+      "audio": "audio/S06_Dia04_Card02_Id_like_breakfast_in_the_room.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "I'd like a quiet room, please.",
+      "cenario": "Reservando por telefone, você lembra da última viagem barulhenta e faz o pedido certo desta vez:",
+      "traducao": "Eu gostaria de um quarto silencioso, por favor.",
+      "sensacao": "<i>Quiet</i> = silencioso. Quem conhece o próprio sono pede o quarto certo de véspera.",
+      "audio": "audio/S06_Dia04_Card03_Id_like_a_quiet_room_please.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "I'd like orange juice, please.",
+      "cenario": "Salão do café, garçom de bandeja anotando os pedidos da mesa. Sua vez:",
+      "traducao": "Eu gostaria de suco de laranja, por favor.",
+      "sensacao": "<i>Orange</i> = laranja. O pedido de todo dia, agora em inglês — e o copo chega gelado.",
+      "audio": "audio/S06_Dia04_Card04_Id_like_orange_juice_please.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "I'd like to stay one more night!",
+      "cenario": "Lembra do \"I need one more day\"? Desta vez não é brincadeira: vocês decidem esticar. No balcão:",
+      "traducao": "Eu gostaria de ficar mais uma noite!",
+      "sensacao": "<i>Stay</i> = ficar. Da vontade ao pedido oficial — e a cidade ganha mais um dia de vocês.",
+      "audio": "audio/S06_Dia04_Card05_Id_like_to_stay_one_more_night.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "I'd like a table for two, please.",
+      "cenario": "Jantar de despedida no restaurante do hotel. Na entrada, você assume o comando:",
+      "traducao": "Eu gostaria de uma mesa pra duas, por favor.",
+      "sensacao": "Da recepcionista com um cardápio só (\"Table for one?\") até aqui: agora é você quem chega pedindo a mesa — do seu jeito.",
+      "audio": "audio/S06_Dia04_Card06_Id_like_a_table_for_two_please.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "I'd like this one.",
+      "cenario": "Vitrine de bolos da confeitaria do hotel, todos pedindo pra ir com você. O dedo decide:",
+      "traducao": "Eu gostaria deste aqui.",
+      "sensacao": "<i>This one</i> = este aqui. Quando o nome não vem, o dedo resolve — escolha feita, sem travar.",
+      "audio": "audio/S06_Dia04_Card07_Id_like_this_one.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "I'd like to meet on Thursday.",
+      "cenario": "Dia de trabalho remoto na viagem: a cliente pergunta quando podem conversar. Você responde a mensagem:",
+      "traducao": "Eu gostaria de me reunir na quinta.",
+      "sensacao": "O <i>I'd like</i> saindo do hotel e entrando na agenda — o mesmo jeito gentil de pedir, agora nos negócios.",
+      "audio": "audio/S06_Dia04_Card08_Id_like_to_meet_on_Thursday.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "I'd like a window seat!",
+      "cenario": "Check-in do voo, balcão da companhia. Antes que decidam por você:",
+      "traducao": "Eu gostaria de um assento na janela!",
+      "sensacao": "<i>Window seat</i> = assento na janela. As nuvens são o último passeio da viagem — e você garantiu o melhor lugar.",
+      "audio": "audio/S06_Dia04_Card09_Id_like_a_window_seat.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "I'd like to come back one day.",
+      "cenario": "Último dia. Devolvendo as chaves, você diz à recepcionista, com a mala já na mão:",
+      "traducao": "Eu gostaria de voltar um dia.",
+      "sensacao": "<i>Come back</i> = voltar. A frase que transforma despedida em promessa — e cidades em saudade boa.",
+      "audio": "audio/S06_Dia04_Card10_Id_like_to_come_back_one_day.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

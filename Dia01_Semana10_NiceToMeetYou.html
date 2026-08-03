@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 1 · Nice to meet you! — Kimberly Mentoria VIP</title>
+<!--
+  Dia 1 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 10 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S10-D01-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 46,
+  "rotulo": "Dia 1",
+  "titulo": "Dia 1 — Nice to meet you!",
+  "sub": "Semana 10 — Connecting With People · Nice to meet you! · Where are you from? · How long are you here?",
+  "lily": {
+    "audio": "audio/Lily_S10_Texto46.mp3",
+    "chave": "texto46",
+    "texto": [
+      "The big day: Maya is here, in MY town!",
+      "Maya: \"Lily! Your town is beautiful!\"",
+      "First stop, the shop: \"Maya, this is Anna. Anna — Maya!\"",
+      "Anna: \"Nice to meet you, Maya!\"",
+      "Maya: \"Nice to meet you too! I love your shop!\"",
+      "My two flower friends, together — my heart is full!",
+      "Welcome to my little world, Maya!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "Nice to meet you!",
+      "cenario": "No jantar do hotel, seu novo amigo apresenta o irmão: \"This is my brother.\" Você estende a mão:",
+      "traducao": "Prazer em te conhecer!",
+      "sensacao": "<i>Nice to meet you!</i> = prazer! — a chave que abre todas as amizades do mundo. A Lily ensaiou; agora é sua.",
+      "audio": "audio/S10_Dia01_Card01_Nice_to_meet_you.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "Nice to meet you too!",
+      "cenario": "A moça da mesa ao lado se apresenta primeiro: \"Nice to meet you!\" Você devolve o sorriso:",
+      "traducao": "Prazer em te conhecer também!",
+      "sensacao": "O <i>too</i> devolvendo a gentileza: prazer *<i>também</i>*. A conversa mais curta do mundo — e o começo de todas as outras.",
+      "audio": "audio/S10_Dia01_Card02_Nice_to_meet_you_too.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "This is my sister — my favorite travel friend!",
+      "cenario": "Vocês duas conhecem um casal simpático no passeio de barco. Sua vez de apresentar:",
+      "traducao": "Esta é a minha irmã — minha companheira de viagem favorita!",
+      "sensacao": "O <i>This is</i> da semana do seu mundo saiu do álbum de família e foi viajar. Apresentar com carinho é apresentar duas vezes.",
+      "audio": "audio/S10_Dia01_Card03_This_is_my_sister_my_favorite_travel_friend.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "She's traveling with me.",
+      "cenario": "O guia do passeio pergunta: \"Are you here alone?\" Você aponta sua irmã chegando com os sucos:",
+      "traducao": "Ela está viajando comigo.",
+      "sensacao": "<i>Traveling</i> = viajando. O <i>with me</i> que diz tudo: sozinha nunca — é viagem de dupla.",
+      "audio": "audio/S10_Dia01_Card04_Shes_traveling_with_me.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "We're from Brazil!",
+      "cenario": "Na fila do museu, a senhora simpática pergunta: \"Where are you two from?\" Vocês respondem quase juntas:",
+      "traducao": "Nós somos do Brasil!",
+      "sensacao": "O seu velho <i>I'm from Brazil</i> cresceu: agora é <i>we</i>. A mesma resposta da primeira semana — em dose dupla e com bandeira no peito.",
+      "audio": "audio/S10_Dia01_Card05_Were_from_Brazil.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "I'm here with my family.",
+      "cenario": "O recepcionista vê o grupo animado no saguão e pergunta: \"Family trip?\" Você confirma, orgulhosa:",
+      "traducao": "Estou aqui com a minha família.",
+      "sensacao": "<i>With my family</i> = com a minha família — a companhia dita com gosto. Viagem em família é bagunça boa.",
+      "audio": "audio/S10_Dia01_Card06_Im_here_with_my_family.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "We're staying at the same hotel!",
+      "cenario": "Você reencontra na praia o casal do museu — que coincidência! Você descobre e comemora:",
+      "traducao": "Estamos hospedadas no mesmo hotel!",
+      "sensacao": "<i>Staying</i> = hospedadas. Quando a coincidência ajuda, a amizade agradece: mesmo hotel, novos amigos.",
+      "audio": "audio/S10_Dia01_Card07_Were_staying_at_the_same_hotel.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "Small world!",
+      "cenario": "Vocês descobrem que o casal da piscina é brasileiro: \"We're from Brazil too!\" Você ri e solta a expressão perfeita:",
+      "traducao": "Que mundo pequeno!",
+      "sensacao": "<i>Small world!</i> = o mundo é pequeno! Duas palavras que todo encontro improvável merece — e que fazem qualquer conversa esquentar.",
+      "audio": "audio/S10_Dia01_Card08_Small_world.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "Welcome to Brazil!",
+      "cenario": "Agora é na SUA cidade: dois turistas de mapa aberto na praça, meio perdidos. Você se aproxima sorrindo:",
+      "traducao": "Bem-vindos ao Brasil!",
+      "sensacao": "O <i>welcome</i> que você tanto ouviu nas recepções — agora é você quem abre a porta. Anfitriã do seu país, em inglês.",
+      "audio": "audio/S10_Dia01_Card09_Welcome_to_Brazil.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "It's so good to meet new people!",
+      "cenario": "Fim do jantar com os amigos novos da viagem. No caminho do quarto, você confessa pra sua irmã:",
+      "traducao": "É tão bom conhecer gente nova!",
+      "sensacao": "A descoberta da semana em uma frase: gente nova é a melhor lembrança que uma viagem dá.",
+      "audio": "audio/S10_Dia01_Card10_Its_so_good_to_meet_new_people.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

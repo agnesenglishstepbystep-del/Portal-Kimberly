@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Check-up · Semana 7 — Kimberly Mentoria VIP</title>
+<!--
+  Check-up da Semana 7 — no motor (motor_checkup.js).
+  3 questões: situação + 3 frases CORRETAS (sem input errado), posição da correta embaralhada.
+  Fonte: Acervo, KIM-S07-CHK-C01 a C03.
+-->
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const CHECKUP={
+  "semana": 7,
+  "sufixo": "S07",
+  "sub": "Eating Out · I'll have... · What do you recommend? · Can I get...?",
+  "questoes": [
+    {
+      "id": "q1",
+      "situacao": "Restaurante à beira-mar, cardápio na mão, garçom esperando. Você pede:",
+      "opcoes": [
+        "I'll have the fish, please.",
+        "Can I get the check, please?",
+        "What's the soup of the day?"
+      ],
+      "certa": 0
+    },
+    {
+      "id": "q2",
+      "situacao": "Fim do jantar, hora de ir. Você chama o garçom e pede:",
+      "opcoes": [
+        "Is it spicy?",
+        "Can I get the check, please?",
+        "I'll have the same."
+      ],
+      "certa": 1
+    },
+    {
+      "id": "q3",
+      "situacao": "No jantar da feira de negócios, o cliente da mesa tenta emendar trabalho no fim de semana: \"Do you work on Saturdays?\" Você responde:",
+      "opcoes": [
+        "I'll have the chicken, please.",
+        "Can I get more napkins?",
+        "Sometimes I work on Saturdays."
+      ],
+      "certa": 2
+    }
+  ]
+};
+</script>
+<script src="motor_checkup.js"></script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 1 · Partida e chegada — Kimberly Mentoria VIP</title>
+<!--
+  Dia 1 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 12 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S12-D01-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 56,
+  "rotulo": "Dia 1",
+  "titulo": "Dia 1 — Partida e chegada",
+  "sub": "Semana 12 — Travel With Confidence · integração dos 3 meses",
+  "lily": {
+    "audio": "audio/Lily_S12_Texto56.mp3",
+    "chave": "texto56",
+    "texto": [
+      "The big week is here — and look who is at my door: MOM!",
+      "Mãe: \"Lily! My girl! One year in your little town!\"",
+      "Mom, welcome back! Your room is ready!",
+      "Mãe: \"MY room? In MY Lily's house!\"",
+      "One year ago, she helped me with the boxes... remember?",
+      "Now she is here for the festival — and for my big day!",
+      "This week is going to be beautiful!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "Just these two!",
+      "cenario": "Balcão da companhia, malas na balança. O atendente pergunta: \"How many bags, ma'am?\" Você responde, leve como a bagagem:",
+      "traducao": "Só estas duas!",
+      "sensacao": "O <i>just</i> da vitrine e o <i>these</i> das compras, agora despachando mala. Viajante experiente viaja enxuta.",
+      "audio": "audio/S12_Dia01_Card01_Just_these_two.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "No — second time!",
+      "cenario": "A oficial da imigração folheia seu passaporte: \"First time in the country?\" Você responde com a calma de quem já sabe o caminho:",
+      "traducao": "Não — segunda vez!",
+      "sensacao": "<i>Second time</i> = segunda vez. A resposta que conta uma história: você voltou — porque agora o mundo é um lugar pra voltar.",
+      "audio": "audio/S12_Dia01_Card02_No_second_time.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "Window, please!",
+      "cenario": "Check-in do voo, e a pergunta clássica chega: \"Window or aisle?\" Você nem pisca:",
+      "traducao": "Janela, por favor!",
+      "sensacao": "<i>Aisle</i> = corredor — entra pelo ouvido, de brinde. Mas a janela é sua: foi de lá que você viu o mar, lembra?",
+      "audio": "audio/S12_Dia01_Card03_Window_please.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "Here's my ticket and my passport!",
+      "cenario": "Sua vez no embarque. Antes que peçam, você já entrega tudo, na ordem:",
+      "traducao": "Aqui estão minha passagem e meu passaporte!",
+      "sensacao": "O <i>Here's</i> da semana do hotel em dose dupla. Documento certo, mão firme, fila andando — aeroporto também é território seu.",
+      "audio": "audio/S12_Dia01_Card04_Heres_my_ticket_and_my_passport.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "Is the flight on time?",
+      "cenario": "Conexão apertada, painel piscando. Você confere no balcão, sem pânico:",
+      "traducao": "O voo está no horário?",
+      "sensacao": "O <i>on time</i> dos ônibus da semana do deslocamento promovido a voo. A pergunta é a mesma; a viajante é que cresceu.",
+      "audio": "audio/S12_Dia01_Card05_Is_the_flight_on_time.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "Where can I charge my phone?",
+      "cenario": "Três horas de espera, bateria em 12%. Você pergunta no balcão de informações:",
+      "traducao": "Onde eu posso carregar meu celular?",
+      "sensacao": "Bateria em 12%, três horas de espera — e a pergunta sai inteira, montada por você: o <i>Where...?</i> das direções, o <i>can I</i> do restaurante, o celular da estrada. Sem manual, sem medo.",
+      "audio": "audio/S12_Dia01_Card06_Where_can_I_charge_my_phone.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "This way — our gate is over there!",
+      "cenario": "Aeroporto labirinto, sua irmã girando o mapa. Desta vez, quem guia é você:",
+      "traducao": "Por aqui — nosso portão é ali!",
+      "sensacao": "Na semana das direções você estava perdida em aeroportos; hoje você É o mapa. <i>This way</i> = por aqui — a frase de quem chegou na frente.",
+      "audio": "audio/S12_Dia01_Card07_This_way_our_gate_is_over_there.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "A juice for her and a water for me, please!",
+      "cenario": "Lanche a bordo. A comissária pergunta: \"Anything to drink?\" Você pede pela fileira inteira:",
+      "traducao": "Um suco pra ela e uma água pra mim, por favor!",
+      "sensacao": "O pedido duplo: <i>for her, for me</i> — você cuidando da dupla em pleno voo. A pergunta é velha conhecida; a resposta, nível novo.",
+      "audio": "audio/S12_Dia01_Card08_A_juice_for_her_and_a_water_for_me_please.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "To this address, please!",
+      "cenario": "Táxi do aeroporto, endereço do hotel na tela do celular. Você mostra e comanda:",
+      "traducao": "Pra este endereço, por favor!",
+      "sensacao": "O <i>address</i> da semana do deslocamento dispensando explicações: mostra, diz, vai. Chegar virou rotina — em qualquer país.",
+      "audio": "audio/S12_Dia01_Card09_To_this_address_please.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "Here we are — new city, new adventure!",
+      "cenario": "O táxi para em frente ao hotel. Você olha pra rua desconhecida e sente aquilo que já tem nome:",
+      "traducao": "Chegamos — cidade nova, aventura nova!",
+      "sensacao": "<i>Adventure</i> = aventura — a palavra que essa jornada merecia. O \"Here we are!\" que você um dia ouviu do motorista, agora é seu.",
+      "audio": "audio/S12_Dia01_Card10_Here_we_are_new_city_new_adventure.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

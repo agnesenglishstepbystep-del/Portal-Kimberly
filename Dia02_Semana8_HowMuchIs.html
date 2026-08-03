@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 2 · How much is...? — Kimberly Mentoria VIP</title>
+<!--
+  Dia 2 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 8 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S08-D02-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 37,
+  "rotulo": "Dia 2",
+  "titulo": "Dia 2 — How much is...?",
+  "sub": "Semana 8 — Shopping & Solving Problems · I'm looking for... · How much is...? · I have a problem",
+  "lily": {
+    "audio": "audio/Lily_S08_Texto37.mp3",
+    "chave": "texto37",
+    "texto": [
+      "Broken vases? Sad. But the shop is open — and the fair things are beautiful!",
+      "Today, Anna and I make the prices.",
+      "\"How much is the big basket?\" — Eight!",
+      "\"And the little one?\" — Five!",
+      "A girl looks at the ribbons: \"How much are these?\"",
+      "Anna: \"Three for one dollar, sweetie!\"",
+      "At night, I write to the fair shop about my vases. Fingers crossed!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "How much is this?",
+      "cenario": "Mercadinho de artesanato, uma peça linda sem etiqueta. Você levanta a peça pro vendedor:",
+      "traducao": "Quanto custa isto?",
+      "sensacao": "<i>How much...?</i> = quanto custa? A pergunta que a Lily repetiu o dia inteiro na feira — agora na sua voz, abrindo preços por aí.",
+      "audio": "audio/S08_Dia02_Card01_How_much_is_this.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "How much are these?",
+      "cenario": "Uma cestinha cheia de laços de fita coloridos, sem preço nenhum. Você pega três:",
+      "traducao": "Quanto custam estes?",
+      "sensacao": "Três laços na mão e a pergunta pronta: <i>these</i> — quando é mais de um, a frase cresce junto. E a pechincha começa.",
+      "audio": "audio/S08_Dia02_Card02_How_much_are_these.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "How much is this one?",
+      "cenario": "Prateleira com dez vasinhos parecidos — mas seus olhos escolheram um. Você aponta:",
+      "traducao": "Quanto custa este aqui?",
+      "sensacao": "<i>This one</i> = este aqui, o escolhido. Vasinhos, aliás... a Lily aprovaria.",
+      "audio": "audio/S08_Dia02_Card03_How_much_is_this_one.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "How much is the blue one?",
+      "cenario": "Lenços de todas as cores na banca — mas o azul não sai da sua cabeça:",
+      "traducao": "Quanto custa o azul?",
+      "sensacao": "<i>Blue</i> = azul — a primeira cor do seu inglês, estreando na melhor função: escolher o que vem pra casa.",
+      "audio": "audio/S08_Dia02_Card04_How_much_is_the_blue_one.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "How much is a ticket?",
+      "cenario": "O museu da cidade tem uma exposição de arte local. Na bilheteria:",
+      "traducao": "Quanto custa um ingresso?",
+      "sensacao": "O <i>ticket</i> do ônibus e do avião também abre museus — mesma palavra, passeio novo.",
+      "audio": "audio/S08_Dia02_Card05_How_much_is_a_ticket.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "How much for two?",
+      "cenario": "Feira de rua, duas almofadas bordadas, um clima de negociação no ar. Você tenta o pacote:",
+      "traducao": "Quanto pelas duas?",
+      "sensacao": "A pergunta da pechincha: <i>for two</i> = pelas duas. Feirante bom entende na hora — e melhora o preço sorrindo.",
+      "audio": "audio/S08_Dia02_Card06_How_much_for_two.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "How much is the big basket?",
+      "cenario": "Cestas artesanais empilhadas do chão ao teto. A maior ia ficar linda na sua sala:",
+      "traducao": "Quanto custa a cesta grande?",
+      "sensacao": "<i>Basket</i> = cesta — palavra que você conhece das compras da Lily na feira. A grande, claro. Sempre a grande.",
+      "audio": "audio/S08_Dia02_Card07_How_much_is_the_big_basket.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "How much is the little one?",
+      "cenario": "Na banca de cerâmica, um vasinho miniatura rouba a cena. Você derrete e pergunta:",
+      "traducao": "Quanto custa o pequenininho?",
+      "sensacao": "<i>The little one</i> = o pequenininho — o jeito carinhoso de apontar o menor da turma. Impossível não levar.",
+      "audio": "audio/S08_Dia02_Card08_How_much_is_the_little_one.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "It's too expensive for me!",
+      "cenario": "A bolsa de couro é um sonho — até a etiqueta virar. Você a devolve à prateleira e sussurra pra sua companheira de viagem:",
+      "traducao": "É caro demais pra mim!",
+      "sensacao": "O <i>too</i> de \"demais\" (que você conheceu no prato salgado) agora protege a carteira. <i>Expensive</i> = caro. Dizer não também é fluência.",
+      "audio": "audio/S08_Dia02_Card09_Its_too_expensive_for_me.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "That's a good price!",
+      "cenario": "Você esperava o dobro — e o vendedor disse metade. Negócio fechado na hora:",
+      "traducao": "Esse preço tá bom!",
+      "sensacao": "A alegria da surpresa boa: <i>price</i> = preço, e este é <i>good</i>. Duas palavras simples fazendo um dia feliz.",
+      "audio": "audio/S08_Dia02_Card10_Thats_a_good_price.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

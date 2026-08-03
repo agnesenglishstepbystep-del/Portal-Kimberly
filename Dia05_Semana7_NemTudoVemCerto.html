@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 5 · Nem tudo vem certo — Kimberly Mentoria VIP</title>
+<!--
+  Dia 5 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 7 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S07-D05-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 35,
+  "rotulo": "Dia 5",
+  "titulo": "Dia 5 — Nem tudo vem certo",
+  "sub": "Semana 7 — Eating Out · I'll have... · What do you recommend? · Can I get...?",
+  "lily": {
+    "audio": "audio/Lily_S07_Texto35.mp3",
+    "chave": "texto35",
+    "texto": [
+      "Last day. Bags full, heart full!",
+      "\"How much is this?\" — I say it all day!",
+      "Ribbons: check! Baskets: check! Little vases: check!",
+      "Goodbye, Maya! Come visit my little town!",
+      "Maya: \"I'd like that!\"",
+      "On the bus home, I look at my photos. What a week it was!",
+      "The fair was big... and my world is bigger now!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "Excuse me — this is not my order.",
+      "cenario": "O prato pousou na mesa... e não é nada do que você pediu. Você chama o garçom, tranquila:",
+      "traducao": "Com licença — este não é o meu pedido.",
+      "sensacao": "<i>Order</i> = pedido. O <i>this is not</i> de conferir, agora trabalhando na mesa — gentil, claro, sem novela.",
+      "audio": "audio/S07_Dia05_Card01_Excuse_me_this_is_not_my_order.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "There's a mistake in the check.",
+      "cenario": "Dois sucos viraram quatro na conta. Você confere, aponta e avisa, sem clima pesado:",
+      "traducao": "Tem um engano na conta.",
+      "sensacao": "<i>Mistake</i> = engano, erro. Nomeado com calma, resolvido com desconto no estresse.",
+      "audio": "audio/S07_Dia05_Card02_Theres_a_mistake_in_the_check.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "No onions, please.",
+      "cenario": "Você já sabe o que o seu estômago acha de cebola crua. Na hora do pedido, previne:",
+      "traducao": "Sem cebola, por favor.",
+      "sensacao": "<i>Onions</i> = cebolas. O ajuste preventivo: melhor duas palavras antes do que um jantar arrependido depois.",
+      "audio": "audio/S07_Dia05_Card03_No_onions_please.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "It's too salty for me.",
+      "cenario": "A dona pergunta da sopa nova do cardápio: \"How is the soup?\" Você responde com sinceridade e carinho:",
+      "traducao": "Está salgado demais pra mim.",
+      "sensacao": "A colher desce, a sinceridade sobe — com carinho. <i>Too salty</i> = salgado demais; e o <i>for me</i> deixa a crítica macia: pra mim, talvez só pra mim.",
+      "audio": "audio/S07_Dia05_Card04_Its_too_salty_for_me.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "Hmm... this is cold.",
+      "cenario": "O garçom passa conferindo: \"Everything okay?\" A sopa chegou morna pra baixo. Você avisa:",
+      "traducao": "Hmm... isto está frio.",
+      "sensacao": "O <i>cold</i> do clima agora inspeciona o prato. Aviso dado na hora certa — comida quente é direito da mesa.",
+      "audio": "audio/S07_Dia05_Card05_Hmm_this_is_cold.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "Sorry — lemonade, please.",
+      "cenario": "Você pediu limonada, chegou suco de laranja. Você devolve com um sorriso e repete o essencial:",
+      "traducao": "Desculpa — limonada, por favor.",
+      "sensacao": "<i>Sorry</i> — que você tanto ouviu — estreia na sua voz, do jeito mais leve: corrigindo um copo, não pedindo perdão.",
+      "audio": "audio/S07_Dia05_Card06_Sorry_lemonade_please.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "We're still waiting for the food.",
+      "cenario": "Meia hora, dois copos d'água e nada de prato. Você chama o garçom que passa e avisa, sem aspereza:",
+      "traducao": "Ainda estamos esperando a comida.",
+      "sensacao": "O <i>still</i> de \"ainda\" em serviço ativo: cobrar com calma também é falar bem. <i>Waiting</i> = esperando.",
+      "audio": "audio/S07_Dia05_Card07_Were_still_waiting_for_the_food.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "Can you change this, please?",
+      "cenario": "O peixe veio, mas veio errado — e frio. Você resolve com a frase que conserta mesas:",
+      "traducao": "Você pode trocar isto, por favor?",
+      "sensacao": "O <i>change</i> do quarto de hotel agora troca pratos. Pedido direto, cozinha em ação, jantar salvo.",
+      "audio": "audio/S07_Dia05_Card08_Can_you_change_this_please.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "It's okay — no problem!",
+      "cenario": "O garçom novato derruba talheres e se desculpa três vezes: \"So sorry, ma'am!\" Você desarma:",
+      "traducao": "Está tudo bem — sem problema!",
+      "sensacao": "Reclamar com classe inclui saber encerrar: erro corrigido, sorriso devolvido, noite preservada.",
+      "audio": "audio/S07_Dia05_Card09_Its_okay_no_problem.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "I can order anything now!",
+      "cenario": "No encontro, sua professora pergunta o que mudou depois de uma semana de restaurantes. Você, cardápio nenhum te assusta mais:",
+      "traducao": "Eu consigo pedir qualquer coisa agora!",
+      "sensacao": "<i>Anything</i> = qualquer coisa. Do cardápio-mistério ao pedido com estilo: a mesa virou seu território.",
+      "audio": "audio/S07_Dia05_Card10_I_can_order_anything_now.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

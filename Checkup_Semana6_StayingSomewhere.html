@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Check-up · Semana 6 — Kimberly Mentoria VIP</title>
+<!--
+  Check-up da Semana 6 — no motor (motor_checkup.js).
+  3 questões: situação + 3 frases CORRETAS (sem input errado), posição da correta embaralhada.
+  Fonte: Acervo, KIM-S06-CHK-C01 a C03.
+-->
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const CHECKUP={
+  "semana": 6,
+  "sufixo": "S06",
+  "sub": "Staying Somewhere · I'd like... · Do you have...? · Could you...?",
+  "questoes": [
+    {
+      "id": "q1",
+      "situacao": "Mudança de planos: uma cidade a mais no roteiro, zero reservas. No balcão do hotel charmoso, você pergunta:",
+      "opcoes": [
+        "Could you clean the room, please?",
+        "I'd like a window seat!",
+        "Do you have a room for tonight?"
+      ],
+      "certa": 2
+    },
+    {
+      "id": "q2",
+      "situacao": "O ar-condicionado transformou o quarto numa geladeira e o controle sumiu. Na recepção, você explica:",
+      "opcoes": [
+        "I'd like breakfast in the room.",
+        "My room is very cold.",
+        "Do you have a pool?"
+      ],
+      "certa": 1
+    },
+    {
+      "id": "q3",
+      "situacao": "Na videochamada, a cliente estrangeira quer saber do hotel da viagem: \"How is the hotel?\" Você responde:",
+      "opcoes": [
+        "It's beautiful — and there's a pool!",
+        "Could you bring more water, please?",
+        "Two nights, please."
+      ],
+      "certa": 0
+    }
+  ]
+};
+</script>
+<script src="motor_checkup.js"></script>
+</body>
+</html>

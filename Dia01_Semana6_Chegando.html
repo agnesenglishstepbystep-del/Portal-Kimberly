@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 1 · Chegando — Kimberly Mentoria VIP</title>
+<!--
+  Dia 1 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 6 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S06-D01-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 26,
+  "rotulo": "Dia 1",
+  "titulo": "Dia 1 — Chegando",
+  "sub": "Semana 6 — Staying Somewhere · I'd like... · Do you have...? · Could you...?",
+  "lily": {
+    "audio": "audio/Lily_S06_Texto26.mp3",
+    "chave": "texto26",
+    "texto": [
+      "The city! Big streets, big lights... big everything!",
+      "My hotel is little and beautiful — like home.",
+      "At the desk, my big moment: \"Hi! I have a reservation!\"",
+      "Recepcionista: \"Welcome, Lily! Room 12, second floor.\"",
+      "My room is small, but the view is big!",
+      "From my window: lights, cars, people... wow!",
+      "Day one in the big city: done!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "I have a reservation.",
+      "cenario": "Fim de tarde, mala aos pés, o saguão maior que o seu apartamento. A recepcionista sorri: \"Checking in?\" Você responde:",
+      "traducao": "Eu tenho uma reserva.",
+      "sensacao": "<i>Reservation</i> = reserva. A frase de entrada de todas as viagens — dita com a segurança de quem planejou.",
+      "audio": "audio/S06_Dia01_Card01_I_have_a_reservation.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "I'd like to confirm my reservation.",
+      "cenario": "Véspera da viagem, telefone no ouvido, checklist na mesa. Você liga pro hotel:",
+      "traducao": "Eu gostaria de confirmar minha reserva.",
+      "sensacao": "<i>I'd like</i> = eu gostaria — o pedido de gravata, estreando na sua voz. Véspera conferida, sono tranquilo.",
+      "audio": "audio/S06_Dia01_Card02_Id_like_to_confirm_my_reservation.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "Two nights, please.",
+      "cenario": "Hotelzinho de beira de estrada, parada surpresa no roteiro. O recepcionista pergunta: \"How many nights?\" Você responde:",
+      "traducao": "Duas noites, por favor.",
+      "sensacao": "<i>Nights</i> = noites. Contadas nos dedos e ditas com calma: duas — e que sejam boas.",
+      "audio": "audio/S06_Dia01_Card03_Two_nights_please.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "I'd like a room with a view!",
+      "cenario": "A viagem dos sonhos merece capricho. No check-in, você faz O pedido:",
+      "traducao": "Eu gostaria de um quarto com vista!",
+      "sensacao": "A frase que a Lily ensaiou no telefone — agora é sua, no balcão de verdade. <i>View</i> = vista. E que venha o terceiro andar!",
+      "audio": "audio/S06_Dia01_Card04_Id_like_a_room_with_a_view.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "Breakfast at eight?",
+      "cenario": "O rapaz que leva as malas explica os horários rápido demais. Você confere só o que importa:",
+      "traducao": "Café da manhã às oito?",
+      "sensacao": "Confirmação enxuta: uma palavra + o horário. A pergunta de quem já entende mais do que fala. <i>Eight</i> = oito.",
+      "audio": "audio/S06_Dia01_Card05_Breakfast_at_eight.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "What's the wi-fi password?",
+      "cenario": "Check-in feito, celular na mão — a foto da chegada não vai se postar sozinha:",
+      "traducao": "Qual é a senha do wi-fi?",
+      "sensacao": "<i>What's...?</i> — você conhece essa desde \"What's your name?\"; agora ela trabalha pra você. E a senha, como sempre, mora num cartãozinho.",
+      "audio": "audio/S06_Dia01_Card06_Whats_the_wifi_password.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "Is the room ready?",
+      "cenario": "Vocês chegaram antes do meio-dia, e o sofá do saguão é bom. Você pergunta, sem pressa:",
+      "traducao": "O quarto está pronto?",
+      "sensacao": "<i>Ready</i> fazendo hora extra: agora é o quarto que precisa estar pronto, não você.",
+      "audio": "audio/S06_Dia01_Card07_Is_the_room_ready.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "Here's my passport.",
+      "cenario": "O recepcionista estende a mão: \"Your passport, please?\" O seu já estava separado no bolso da frente:",
+      "traducao": "Aqui está meu passaporte.",
+      "sensacao": "<i>Here's...</i> = aqui está... — prima do \"Here it is\", pra quando você entrega nomeando. Documento e confiança na mesma mão.",
+      "audio": "audio/S06_Dia01_Card08_Heres_my_passport.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "Two keys, please!",
+      "cenario": "\"One key or two?\" — pergunta a recepcionista, olhando pra vocês duas. A resposta é óbvia:",
+      "traducao": "Duas chaves, por favor!",
+      "sensacao": "<i>Keys</i> = chaves. Uma pra cada aventureira — ninguém fica presa do lado de fora.",
+      "audio": "audio/S06_Dia01_Card09_Two_keys_please.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "I'm so happy to be here!",
+      "cenario": "Porta aberta, mala no canto, varanda com vista. Você manda um áudio pra sua mãe antes mesmo de desfazer a mala:",
+      "traducao": "Estou tão feliz de estar aqui!",
+      "sensacao": "A frase que resume check-ins, voos e meses de estudo: chegar — e saber dizer o que se sente.",
+      "audio": "audio/S06_Dia01_Card10_Im_so_happy_to_be_here.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

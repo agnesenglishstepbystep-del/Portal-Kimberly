@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 2 · What do you recommend? — Kimberly Mentoria VIP</title>
+<!--
+  Dia 2 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 7 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S07-D02-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 32,
+  "rotulo": "Dia 2",
+  "titulo": "Dia 2 — What do you recommend?",
+  "sub": "Semana 7 — Eating Out · I'll have... · What do you recommend? · Can I get...?",
+  "lily": {
+    "audio": "audio/Lily_S07_Texto32.mp3",
+    "chave": "texto32",
+    "texto": [
+      "At the fair, a girl with sunflowers smiles at me.",
+      "Maya: \"Hi! I'm Maya. First fair?\"",
+      "Yes! And... what do you recommend here?",
+      "Maya: \"The fruit salad — and the flower show at three!\"",
+      "Maya has a flower shop too — in the big city!",
+      "New friend: check!",
+      "Lunch together tomorrow? Yes!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "What do you recommend?",
+      "cenario": "Cardápio de oito páginas, fome de duas linhas. Você fecha o menu e pergunta pro garçom:",
+      "traducao": "O que você recomenda?",
+      "sensacao": "A pergunta que a Lily fez no jantar dela — e que transforma o garçom em aliado. Quem serve todo dia, sabe.",
+      "audio": "audio/S07_Dia02_Card01_What_do_you_recommend.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "What's good here?",
+      "cenario": "Balcão de lanchonete de bairro, dona simpática, lousa cheia. Você pergunta como quem já é freguesa:",
+      "traducao": "O que é bom aqui?",
+      "sensacao": "A versão descontraída da recomendação — pra balcão, feira e lugar sem cerimônia.",
+      "audio": "audio/S07_Dia02_Card02_Whats_good_here.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "What is this?",
+      "cenario": "Um item do cardápio sem foto e sem tradução te intriga. Você aponta e pergunta:",
+      "traducao": "O que é isto?",
+      "sensacao": "Três palavras que abrem qualquer cardápio do mundo. Perguntar é o tempero da coragem.",
+      "audio": "audio/S07_Dia02_Card03_What_is_this.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "Is it spicy?",
+      "cenario": "O prato recomendado vem com uma pimentinha desenhada do lado. Você confere antes:",
+      "traducao": "É apimentado?",
+      "sensacao": "<i>Spicy</i> = apimentado. A pergunta que salva jantares — e paladares desavisados.",
+      "audio": "audio/S07_Dia02_Card04_Is_it_spicy.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "Is it sweet?",
+      "cenario": "A sobremesa da vitrine é linda, mas misteriosa. Você pergunta pra atendente:",
+      "traducao": "É doce?",
+      "sensacao": "<i>Sweet</i> = doce. Conferido: é doce, é lindo, é seu.",
+      "audio": "audio/S07_Dia02_Card05_Is_it_sweet.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "What do you recommend for dessert?",
+      "cenario": "O jantar foi tão bom que ninguém quer levantar. Você estica a noite:",
+      "traducao": "O que você recomenda de sobremesa?",
+      "sensacao": "<i>Dessert</i> = sobremesa. E a resposta — bolo de chocolate — você já conhecia do serviço de quarto. O mundo é doce e pequeno.",
+      "audio": "audio/S07_Dia02_Card06_What_do_you_recommend_for_dessert.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "Is there meat in this?",
+      "cenario": "Sua companheira de viagem não come carne, e o prato do cardápio não explica. Você confere por ela:",
+      "traducao": "Tem carne nisto?",
+      "sensacao": "<i>Meat</i> = carne. O <i>Is there...?</i> de sempre, agora cuidando de quem viaja com você.",
+      "audio": "audio/S07_Dia02_Card07_Is_there_meat_in_this.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "What's the soup of the day?",
+      "cenario": "A lousa diz \"soup of the day\" — mas não diz qual. Você pergunta antes de fechar o pedido:",
+      "traducao": "Qual é a sopa do dia?",
+      "sensacao": "A sopa do dia é sempre uma surpresa — a pergunta tira o mistério e deixa o apetite.",
+      "audio": "audio/S07_Dia02_Card08_Whats_the_soup_of_the_day.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "And to drink — what do you have?",
+      "cenario": "Pedido feito, falta a bebida. Você devolve a pergunta pro garçom:",
+      "traducao": "E pra beber — o que vocês têm?",
+      "sensacao": "<i>To drink</i> = pra beber. O <i>do you have</i> do hotel, agora abrindo a carta de bebidas — e a resposta é a sua cara: suco, limonada, água.",
+      "audio": "audio/S07_Dia02_Card09_And_to_drink_what_do_you_have.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "Surprise me!",
+      "cenario": "Última noite na cidade, garçom já conhecido, confiança total. Você fecha o cardápio sorrindo:",
+      "traducao": "Me surpreenda!",
+      "sensacao": "A confiança de quem já sabe pedir — até quando o pedido é uma surpresa. (<i>Surprise</i> — a palavra da bicicleta da Lily, lembra?)",
+      "audio": "audio/S07_Dia02_Card10_Surprise_me.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 1 · It was... — Kimberly Mentoria VIP</title>
+<!--
+  Dia 1 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 9 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S09-D01-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 41,
+  "rotulo": "Dia 1",
+  "titulo": "Dia 1 — It was...",
+  "sub": "Semana 9 — Talking About Experiences · It was... · I went... · I loved/liked...",
+  "lily": {
+    "audio": "audio/Lily_S09_Texto41.mp3",
+    "chave": "texto41",
+    "texto": [
+      "Home! My little town, my shop, my flowers!",
+      "Anna: \"Lily! Tell me everything! How was the city?\"",
+      "It was big, it was fast... and it was beautiful!",
+      "The fair? It was amazing, boss!",
+      "Anna: \"And the hotel? How was it?\"",
+      "It was little and perfect — like our town!",
+      "But the best part... was coming home!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "It was beautiful!",
+      "cenario": "De volta da viagem, sua amiga quer saber da praia famosa: \"How was the beach?\" Você fecha os olhos e responde:",
+      "traducao": "Foi lindo!",
+      "sensacao": "<i>Was</i> = o \"é\" de ontem. A mesma frase que você ama desde a pousada — só que agora ela conta uma lembrança. O inglês ganhou ontem.",
+      "audio": "audio/S09_Dia01_Card01_It_was_beautiful.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "It was delicious!",
+      "cenario": "No almoço de domingo, seu cunhado pergunta da comida da viagem: \"How was the food there?\" Você nem hesita:",
+      "traducao": "Estava delicioso!",
+      "sensacao": "O <i>delicious</i> de sempre, virado pra trás: estava. Uma palavrinha muda — e a frase vira história de viagem.",
+      "audio": "audio/S09_Dia01_Card02_It_was_delicious.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "It was perfect!",
+      "cenario": "Sua amiga está escolhendo hotel pra viagem dela e pergunta do seu: \"How was the hotel?\" Você recomenda de olhos fechados:",
+      "traducao": "Foi perfeito!",
+      "sensacao": "<i>Perfect</i> também tem passado — e hotel bom vira lembrança perfeita. A recomendação mais curta do mundo.",
+      "audio": "audio/S09_Dia01_Card03_It_was_perfect.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "It was amazing!",
+      "cenario": "O vizinho do hotel te encontra no elevador na manhã seguinte à festa do rooftop: \"How was the party?\" Você resume:",
+      "traducao": "Foi incrível!",
+      "sensacao": "<i>Amazing</i> = incrível — a palavra nova que toda viagem boa merece. Guarde essa: ela vai trabalhar muito.",
+      "audio": "audio/S09_Dia01_Card04_It_was_amazing.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "It was fun!",
+      "cenario": "A recepcionista tinha indicado o mercado de rua e quer saber se você gostou: \"How was the market?\" Você, sacolas ainda na mão:",
+      "traducao": "Foi divertido!",
+      "sensacao": "<i>Fun</i> = divertido — você conhece desde a Anna da Lily (\"she is fun\"). Mercado, pechincha e risada: foi divertido, sim.",
+      "audio": "audio/S09_Dia01_Card05_It_was_fun.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "It was long... but good!",
+      "cenario": "Seu anfitrião pergunta do voo assim que você chega: \"How was the flight?\" Você larga a mala e resume com honestidade:",
+      "traducao": "Foi longo... mas bom!",
+      "sensacao": "<i>Long</i> = longo. A resposta sincera de todo voo internacional — com o final feliz de quem chegou inteira.",
+      "audio": "audio/S09_Dia01_Card06_It_was_long_but_good.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "It was hot — very hot!",
+      "cenario": "Sua colega pergunta da cidade que você visitou em pleno verão: \"How was the city?\" Você abana a mão, rindo:",
+      "traducao": "Estava quente — muito quente!",
+      "sensacao": "O <i>hot</i> do \"It's hot today\" contando o ontem. Repetir a palavra é o tempero: quente — MUITO quente.",
+      "audio": "audio/S09_Dia01_Card07_It_was_hot_very_hot.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "It was my favorite day!",
+      "cenario": "Contando a viagem pra sua professora, ela pergunta do último dia: \"And the last day — how was it?\" Você sorri antes de responder:",
+      "traducao": "Foi o meu dia favorito!",
+      "sensacao": "Todo roteiro tem um dia que ganha. <i>Favorite</i> + <i>was</i>: a lembrança já escolheu o pódio.",
+      "audio": "audio/S09_Dia01_Card08_It_was_my_favorite_day.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "It was SO good!",
+      "cenario": "Seu sobrinho, guloso oficial da família, só quer saber de uma coisa da viagem: \"How was the chocolate cake?\" Você faz suspense e entrega:",
+      "traducao": "Estava TÃO bom!",
+      "sensacao": "O <i>so</i> de \"tãããão\", esticando a memória do bolo. Algumas lembranças são de açúcar.",
+      "audio": "audio/S09_Dia01_Card09_It_was_SO_good.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "It was a beautiful trip!",
+      "cenario": "Mala desfeita, fotos no celular, coração cheio. Você manda um áudio pra sua mãe resumindo tudo:",
+      "traducao": "Foi uma viagem linda!",
+      "sensacao": "<i>Trip</i> = viagem — a palavra que a Lily te entregou no telefone da mãe dela (\"your big trip\"). Agora é a SUA viagem que virou história linda.",
+      "audio": "audio/S09_Dia01_Card10_It_was_a_beautiful_trip.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

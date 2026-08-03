@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 3 · Pela cidade — Kimberly Mentoria VIP</title>
+<!--
+  Dia 3 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 12 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S12-D03-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 58,
+  "rotulo": "Dia 3",
+  "titulo": "Dia 3 — Pela cidade",
+  "sub": "Semana 12 — Travel With Confidence · integração dos 3 meses",
+  "lily": {
+    "audio": "audio/Lily_S12_Texto58.mp3",
+    "chave": "texto58",
+    "texto": [
+      "Festival day! Music in the street, flowers everywhere!",
+      "Our shop is beautiful: one hundred white flowers!",
+      "The party lady smiles: \"Perfect flowers!\" — yes, we solved it!",
+      "Everybody is here: my mom, Maya, my neighbors!",
+      "Anna: \"And now... a surprise for Lily!\"",
+      "A surprise? For me? What is it?",
+      "Wait — why is everybody smiling?"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "A table for two — outside, please!",
+      "cenario": "Restaurante de esquina, tarde dourada, praça viva. Na entrada, você escolhe o cenário do almoço:",
+      "traducao": "Uma mesa pra duas — lá fora, por favor!",
+      "sensacao": "A mesa da semana do hotel + o <i>outside</i> da semana do restaurante, num pedido só. Almoço com céu de teto — porque agora você pede o dia do seu jeito.",
+      "audio": "audio/S12_Dia03_Card01_A_table_for_two_outside_please.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "I'll have the soup — and a lemonade, please!",
+      "cenario": "Cardápio aberto, decisão dupla tomada de uma vez. Você entrega o pedido completo:",
+      "traducao": "Eu vou querer a sopa — e uma limonada, por favor!",
+      "sensacao": "O <i>I'll have</i> da semana do restaurante em pedido combo: prato + bebida, uma frase. Garçom anota, você sorri — mesa dominada.",
+      "audio": "audio/S12_Dia03_Card02_Ill_have_the_soup_and_a_lemonade_please.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "Is this fish from here?",
+      "cenario": "Cidade de mar, prato de peixe no cardápio. Você pergunta com curiosidade de quem entende:",
+      "traducao": "Este peixe é daqui?",
+      "sensacao": "A pergunta de quem come com a cidade, não só nela. <i>From here</i> = daqui — e a resposta é praticamente uma pescaria em tempo real.",
+      "audio": "audio/S12_Dia03_Card03_Is_this_fish_from_here.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "Two fruit salads, please!",
+      "cenario": "Quiosque da praça, sol de meio-dia, sua irmã guardando o banco na sombra. Você pede pela dupla:",
+      "traducao": "Duas saladas de frutas, por favor!",
+      "sensacao": "A <i>fruit salad</i> da semana do restaurante em dose dupla — o pedido de quem cuida. Números + comida + gentileza: seu inglês do dia a dia.",
+      "audio": "audio/S12_Dia03_Card04_Two_fruit_salads_please.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "One chocolate cake — to go!",
+      "cenario": "A vitrine da confeitaria venceu a batalha. Você aponta, já de saída pro passeio:",
+      "traducao": "Um bolo de chocolate — pra viagem!",
+      "sensacao": "O <i>to go</i> da semana do restaurante levando o <i>chocolate cake</i> de sempre pra rua. Algumas tradições atravessam países.",
+      "audio": "audio/S12_Dia03_Card05_One_chocolate_cake_to_go.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "Can you wrap it, please? It's a gift!",
+      "cenario": "O vasinho de cerâmica perfeito pra sua amiga que ama plantas. No caixa, você pede o toque final:",
+      "traducao": "Você pode embrulhar, por favor? É um presente!",
+      "sensacao": "<i>Wrap</i> = embrulhar — a palavra que transforma compra em presente. O <i>gift</i> da semana das compras ganhando laço de fita.",
+      "audio": "audio/S12_Dia03_Card06_Can_you_wrap_it_please_Its_a_gift.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "I'll take this one — she loves blue!",
+      "cenario": "Lenços na banca, presente da sua irmã quase escolhido. O azul decide, como sempre:",
+      "traducao": "Vou levar este — ela ama azul!",
+      "sensacao": "Três meses numa frase: o <i>I'll take</i> da semana das compras + o <i>she loves</i> da semana das histórias + o azul de sempre. Presente escolhido com história.",
+      "audio": "audio/S12_Dia03_Card07_Ill_take_this_one_she_loves_blue.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "Three, please — for me, my mom and my sister!",
+      "cenario": "Sabonetes artesanais de cheiro bom demais pra levar um só. Você faz a conta da família:",
+      "traducao": "Três, por favor — pra mim, minha mãe e minha irmã!",
+      "sensacao": "O pedido que carrega gente dentro: um pra cada amor. Comprar lembrança é dizer \"pensei em você\" em qualquer idioma.",
+      "audio": "audio/S12_Dia03_Card08_Three_please_for_me_my_mom_and_my_sister.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "Everything was delicious, thank you!",
+      "cenario": "Fim do jantar, o garçom recolhe os pratos vazios: \"How was everything?\" Você responde com a mesa inteira de testemunha:",
+      "traducao": "Estava tudo delicioso, obrigada!",
+      "sensacao": "O \"Everything is delicious!\" da semana do restaurante, virado pra trás pela semana das histórias: <i>was</i>. O elogio agora fecha a noite — e conta a história dela.",
+      "audio": "audio/S12_Dia03_Card09_Everything_was_delicious_thank_you.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "Look at all these bags!",
+      "cenario": "De volta ao hotel, vocês duas despejam as compras na cama, rindo:",
+      "traducao": "Olha essas sacolas todas!",
+      "sensacao": "<i>Look!</i> = olha! — a palavrinha que convida o outro pra alegria. Sacolas cheias, presentes certos, missão cumprida.",
+      "audio": "audio/S12_Dia03_Card10_Look_at_all_these_bags.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

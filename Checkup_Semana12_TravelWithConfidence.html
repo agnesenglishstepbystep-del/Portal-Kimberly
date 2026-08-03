@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Check-up · Semana 12 — Kimberly Mentoria VIP</title>
+<!--
+  Check-up da Semana 12 — no motor (motor_checkup.js).
+  3 questões: situação + 3 frases CORRETAS (sem input errado), posição da correta embaralhada.
+  Fonte: Acervo, KIM-S12-CHK-C01 a C03.
+-->
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const CHECKUP={
+  "semana": 12,
+  "sufixo": "S12",
+  "sub": "Travel With Confidence · integração dos 3 meses",
+  "questoes": [
+    {
+      "id": "q1",
+      "situacao": "No jantar com os amigos da viagem, o senhor simpático se vira pra você: \"What do you do?\" Você responde:",
+      "opcoes": [
+        "I'm looking for a gift.",
+        "I have a small company.",
+        "It was a beautiful trip!"
+      ],
+      "certa": 1
+    },
+    {
+      "id": "q2",
+      "situacao": "Vocês chegam ao hotel de manhã cedinho, mas o quarto só fica pronto ao meio-dia — e a praia é logo ali. No balcão, você resolve a manhã:",
+      "opcoes": [
+        "How much is this one?",
+        "I'll have the same.",
+        "Could you keep my bags?"
+      ],
+      "certa": 2
+    },
+    {
+      "id": "q3",
+      "situacao": "De volta em casa, sua mãe serve a limonada e pergunta, com a mesa posta: \"How was the trip?\" Você responde:",
+      "opcoes": [
+        "It was amazing!",
+        "Nice to meet you!",
+        "Could you repeat that, please?"
+      ],
+      "certa": 0
+    }
+  ]
+};
+</script>
+<script src="motor_checkup.js"></script>
+</body>
+</html>

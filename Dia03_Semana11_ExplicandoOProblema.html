@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 3 · Explicando o problema — Kimberly Mentoria VIP</title>
+<!--
+  Dia 3 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 11 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S11-D03-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 53,
+  "rotulo": "Dia 3",
+  "titulo": "Dia 3 — Explicando o problema",
+  "sub": "Semana 11 — Handling Unexpected Situations · I don't understand · Could you repeat that? · I need help",
+  "lily": {
+    "audio": "audio/Lily_S11_Texto53.mp3",
+    "chave": "texto53",
+    "texto": [
+      "The party lady comes to the shop — and I tell her everything.",
+      "\"There was a problem with the flowers... but I solved it!\"",
+      "\"White flowers, Friday morning — I can confirm it!\"",
+      "She smiles: no drama, just flowers!",
+      "Anna: \"Lily, you're a professional now!\"",
+      "Me? I just ask, check, and ask again!",
+      "Friday is coming... and we are ready!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "My bag is not here!",
+      "cenario": "A esteira da bagagem girou, girou... e parou vazia. Você chama a atendente da companhia:",
+      "traducao": "Minha mala não está aqui!",
+      "sensacao": "A frase que ninguém quer dizer no aeroporto — dita com calma, começa o resgate. <i>Let me check</i> = deixa eu verificar (guarda essa!).",
+      "audio": "audio/S11_Dia03_Card01_My_bag_is_not_here.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "I lost my key!",
+      "cenario": "Bolsos, bolsa, mochila: nada do cartão do quarto. Na recepção, você admite:",
+      "traducao": "Eu perdi minha chave!",
+      "sensacao": "<i>I lost</i> = eu perdi — o primo do seu velho <i>I'm lost</i>: antes VOCÊ estava perdida; agora é a chave. Progresso, né?",
+      "audio": "audio/S11_Dia03_Card02_I_lost_my_key.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "I lost my phone!",
+      "cenario": "Pânico na saída do restaurante: o bolso está leve demais. Você avisa a moça do caixa:",
+      "traducao": "Eu perdi meu celular!",
+      "sensacao": "O perrengue moderno número 1. E a resposta é pura esperteza: <i>Let's call it!</i> = vamos ligar pra ele!",
+      "audio": "audio/S11_Dia03_Card03_I_lost_my_phone.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "My suitcase is broken!",
+      "cenario": "A rodinha da mala não sobreviveu ao paralelepípedo. Na lojinha de consertos:",
+      "traducao": "Minha mala quebrou!",
+      "sensacao": "<i>Suitcase</i> = mala grande, a de rodinhas. O <i>broken</i> da semana das compras de volta ao trabalho — e o <i>fix</i> da resposta já anuncia conserto.",
+      "audio": "audio/S11_Dia03_Card04_My_suitcase_is_broken.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "I left my bag in the taxi!",
+      "cenario": "O táxi dobra a esquina — e a sua bolsa vai junto, no banco de trás. Você corre pra recepção:",
+      "traducao": "Eu deixei minha bolsa no táxi!",
+      "sensacao": "<i>I left</i> = eu deixei (esqueci lá). O clássico dos clássicos das viagens — com final feliz pra quem sabe contar o que houve.",
+      "audio": "audio/S11_Dia03_Card05_I_left_my_bag_in_the_taxi.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "There's a problem with the reservation.",
+      "cenario": "No check-in, seu nome sumiu do sistema. Você aponta a tela, tranquila:",
+      "traducao": "Tem um problema com a reserva.",
+      "sensacao": "O frame da semana das compras (<i>problem with...</i>) no território do hotel. Sistema falha; quem sabe nomear o problema, não.",
+      "audio": "audio/S11_Dia03_Card06_Theres_a_problem_with_the_reservation.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "There's water everywhere!",
+      "cenario": "O chuveiro decidiu virar cachoeira — no banheiro inteiro. Você liga pra recepção:",
+      "traducao": "Tem água por todo lado!",
+      "sensacao": "O <i>everywhere</i> das flores da Lily, no cenário errado. Emergência molhada, frase seca e certeira.",
+      "audio": "audio/S11_Dia03_Card07_Theres_water_everywhere.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "I missed the bus!",
+      "cenario": "Você chega ao ponto a tempo de ver o ônibus virando a esquina. O senhor do quiosque comenta o óbvio, e você desabafa:",
+      "traducao": "Eu perdi o ônibus!",
+      "sensacao": "<i>Missed</i> = perdi (por um triz). Diferente do <i>lost</i>: a chave some, o ônibus vai embora. Os dois doem; os dois se resolvem.",
+      "audio": "audio/S11_Dia03_Card08_I_missed_the_bus.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "It was here a minute ago!",
+      "cenario": "O passaporte não está no bolso onde SEMPRE fica. Você revira a bolsa, murmurando:",
+      "traducao": "Estava aqui um minuto atrás!",
+      "sensacao": "O <i>was</i> da semana das histórias + o <i>ago</i> do telefonema da Lily: o passado localizando objetos fujões. (Ele estava no outro bolso, claro.)",
+      "audio": "audio/S11_Dia03_Card09_It_was_here_a_minute_ago.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "Okay — one problem at a time!",
+      "cenario": "Mala atrasada E celular descarregado E fome. Você respira fundo e organiza o caos pra sua irmã:",
+      "traducao": "Certo — um problema de cada vez!",
+      "sensacao": "A filosofia do \"One day at a time\" e do \"One delivery at a time\" da Lily, aplicada ao perrengue. Fila indiana de problemas: o primeiro, por favor.",
+      "audio": "audio/S11_Dia03_Card10_Okay_one_problem_at_a_time.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

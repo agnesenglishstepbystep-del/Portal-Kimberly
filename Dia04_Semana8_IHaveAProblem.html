@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 4 · I have a problem — Kimberly Mentoria VIP</title>
+<!--
+  Dia 4 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 8 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S08-D04-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 39,
+  "rotulo": "Dia 4",
+  "titulo": "Dia 4 — I have a problem",
+  "sub": "Semana 8 — Shopping & Solving Problems · I'm looking for... · How much is...? · I have a problem",
+  "lily": {
+    "audio": "audio/Lily_S08_Texto39.mp3",
+    "chave": "texto39",
+    "texto": [
+      "Ring! A call from the fair shop!",
+      "The man is so kind: \"We're so sorry!\"",
+      "New vases for me — and my money back, too!",
+      "\"Thank you so much for your help!\"",
+      "I was nervous about my message... but it worked!",
+      "It was easy. It was SO easy!",
+      "Problem solved — like a big-city girl!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "Excuse me — I have a problem.",
+      "cenario": "Balcão de atendimento ao cliente, sacola na mão, calma no rosto. Você abre a conversa:",
+      "traducao": "Com licença — eu tenho um problema.",
+      "sensacao": "O <i>There's a problem</i> da semana do seu mundo era o aviso; <i>I have a problem</i> é você assumindo o volante da solução. Dito com calma, já é meio caminho andado.",
+      "audio": "audio/S08_Dia04_Card01_Excuse_me_I_have_a_problem.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "This doesn't work.",
+      "cenario": "O carregador comprado ontem não carrega nada. De volta à loja, aparelho na mão:",
+      "traducao": "Isto não funciona.",
+      "sensacao": "Aparelho na mão, voz calma: <i>doesn't</i> — o <i>don't</i> das coisas. Você nomeia o defeito sem brigar com ninguém, e a troca já começa a andar.",
+      "audio": "audio/S08_Dia04_Card02_This_doesnt_work.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "It's broken.",
+      "cenario": "O enfeite de cerâmica não sobreviveu ao caminho até o hotel. Você volta com a caixa:",
+      "traducao": "Está quebrado.",
+      "sensacao": "<i>Broken</i> = quebrado. Palavra triste, frase necessária — dita sem drama, resolve mais rápido que suspiro.",
+      "audio": "audio/S08_Dia04_Card03_Its_broken.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "It's too big for me.",
+      "cenario": "A jaqueta comprada por foto no site chegou ao hotel... duas numerações maior. Na loja da marca:",
+      "traducao": "Está grande demais pra mim.",
+      "sensacao": "O <i>too</i> de \"demais\" agora mede roupa. E a resposta já promete a saída: <i>we can change it</i> — dá pra trocar.",
+      "audio": "audio/S08_Dia04_Card04_Its_too_big_for_me.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "It's the wrong size.",
+      "cenario": "Presente comprado às pressas: o sapato do seu sobrinho veio menor que o pé. Você explica no balcão:",
+      "traducao": "É o tamanho errado.",
+      "sensacao": "O <i>wrong</i> do ônibus errado achou emprego novo: tamanho errado. Errar tamanho acontece — saber dizer resolve.",
+      "audio": "audio/S08_Dia04_Card05_Its_the_wrong_size.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "My change is not right.",
+      "cenario": "Você pagou com nota grande e o troco voltou magro. Confere na palma da mão e avisa:",
+      "traducao": "Meu troco não está certo.",
+      "sensacao": "Olha o <i>change</i> de novo — só que aqui ele é o *<i>troco</i>*! A palavra da troca também é a palavra do troco. O inglês economiza palavras; você lucra com isso.",
+      "audio": "audio/S08_Dia04_Card06_My_change_is_not_right.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "There's a problem with my order.",
+      "cenario": "A entrega chegou ao hotel: era pra ser um chapéu, vieram duas canecas. Você liga pra loja:",
+      "traducao": "Tem um problema com o meu pedido.",
+      "sensacao": "O <i>There's a problem</i> da semana do seu mundo cresceu: agora diz *<i>onde</i><i> o problema mora — </i>with my order*. Pelo telefone, sem ver o rosto, a frase inteira trabalha por você.",
+      "audio": "audio/S08_Dia04_Card07_Theres_a_problem_with_my_order.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "I can't find the price!",
+      "cenario": "Produto lindo, etiqueta nenhuma, fila andando. Você ergue a peça pro vendedor:",
+      "traducao": "Não acho o preço!",
+      "sensacao": "O <i>I can't find</i> dos pontos de ônibus perdidos agora procura etiqueta. Frase de mãos cheias e olhos rápidos — e resposta na hora.",
+      "audio": "audio/S08_Dia04_Card08_I_cant_find_the_price.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "Yes, I have it here!",
+      "cenario": "No balcão de trocas, a pergunta de sempre: \"Do you have the receipt?\" Você, organizada como só:",
+      "traducao": "Sim, está aqui comigo!",
+      "sensacao": "<i>Receipt</i> = recibo, a prova da compra — guarde sempre! Hoje ela entra pelo ouvido; amanhã, o papel sai da sua bolsa como um troféu.",
+      "audio": "audio/S08_Dia04_Card09_Yes_I_have_it_here.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "It's a small problem!",
+      "cenario": "Sua companheira de viagem se desespera com o vaso quebrado na mala. Você, veterana da semana, acalma:",
+      "traducao": "É um problema pequeno!",
+      "sensacao": "Problema com tamanho certo não assusta. Depois de uma semana nomeando problemas, você aprendeu: quase todos são <i>small</i>.",
+      "audio": "audio/S08_Dia04_Card10_Its_a_small_problem.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

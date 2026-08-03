@@ -37,8 +37,8 @@
 
   Ciclo semanal (25/07): o estágio vem dos dias completos da SEMANA
   CORRENTE, e o cacho dourado fica até a aluna abrir a semana seguinte.
-  SAFRAS_COM_ARTE=1 → subir esse número é a única mudança quando as
-  artes das Safras 2 e 3 chegarem.
+  SAFRAS_COM_ARTE=3 (Safra 3 integrada em 03/08) — o arco visual das três
+  safras está completo: 5 → 7 → 9 cachos, e o cacho da coleção P → M → G.
 -->
 <link rel="stylesheet" href="styles.css">
 <style>
@@ -407,11 +407,10 @@ const selosDef=[
    não colhida (mesma conta de estadoSemanas(), então as duas nunca divergem).
    Check-up continua fora de tudo: ele grava 'checkup_SNN_completedAt', que não casa
    com /^dia\d+_completedAt$/. Nada trava, nada é cobrado.
-   SAFRAS_COM_ARTE: as artes das Safras 2 e 3 ainda não existem. Enquanto este número
-   for 1, a videira usa a série da Safra 1 na jornada inteira e o rótulo acompanha a
-   arte (não anuncia uma safra que a imagem não mostra). Quando as artes chegarem,
-   basta subir o número — nenhuma outra linha muda. */
-const SAFRAS_COM_ARTE = 1;
+   SAFRAS_COM_ARTE: as três safras têm arte (Safra 3 integrada em 03/08/2026).
+   O rótulo sempre acompanha a arte — nunca anuncia uma safra que a imagem
+   não mostra. */
+const SAFRAS_COM_ARTE = 3;
 
 function contarDiasDaSemana(progress, semanaIdx){
   let dias = 0;
@@ -513,7 +512,7 @@ const GAVINHA = '<svg class="gavinha" viewBox="0 0 150 170" fill="none" aria-hid
   + '<path d="M14 150 C4 110 8 60 40 30 C58 13 96 10 116 26 C140 45 146 92 138 132"'
   + ' stroke="#d4af5a" stroke-width="1.6" stroke-linecap="round" opacity=".85"/></svg>';
 
-function celebrar(novosSelos, novasColheitas, semanaExemplarNova){
+function celebrar(novosSelos, novasColheitas, semanaExemplarNova, cachoCerimonia){
   return new Promise(resolve => {
     const cer = document.getElementById('cerimonia');
     const primeiro = novosSelos[0];
@@ -539,7 +538,7 @@ function celebrar(novosSelos, novasColheitas, semanaExemplarNova){
             ? 'E mais ' + (novosSelos.length-1) + ' na sua vitrine.'
             : 'Mais um passo virou conquista.');
     }else{
-      med.src = 'cacho_noite.webp'; med.alt = 'Cacho da colheita';
+      med.src = cachoCerimonia || 'cacho_noite.webp'; med.alt = 'Cacho da colheita';
       document.getElementById('cerimoniaEyebrow').textContent = 'Colheita';
       document.getElementById('cerimoniaTitulo').textContent = 'O cacho desta semana acendeu.';
       document.getElementById('cerimoniaTexto').textContent = 'Uma semana completa entrou na sua coleção. Step by step.';
@@ -680,15 +679,17 @@ function contarAte(el, alvo, sufixo, dur){
   }
 
   // Coleção de 12 colheitas — estado semanal real (kit 2). Nenhum cacho antes de
-  // 5 dias completos. Semanas 1–4 (Safra 1) usam a arte cacho_p; M/G entram quando
-  // as artes das Safras 2 e 3 existirem — até lá esses slots mantêm o ✓ em CSS.
+  // 5 dias completos. Semanas 1–4 (Safra 1) usam o cacho P; 5–8 (Safra 2) o cacho M,
+  // mais farto; 9–12 (Safra 3) o cacho G, o mais cheio dos três.
   const grid=document.getElementById('colheitaGrid');
   const proxima = sem.completas.indexOf(false); // primeira semana ainda não colhida
   for(let i=0;i<12;i++){
     const colhido = sem.completas[i];
     const andamento = i === proxima;
     const exemplar = sem.exemplares[i];
-    const temArte = colhido && i < 4; // Safra 1 = cacho P
+    const cachoDia   = i < 4 ? 'cacho_p.webp'     : (i < 8 ? 'cacho_m.webp'       : 'cacho_g.webp');
+    const cachoNoite = i < 4 ? 'cacho_noite.webp' : (i < 8 ? 'cacho_m_noite.webp' : 'cacho_g_noite.webp');
+    const temArte = colhido && !!cachoDia; // P (Safra 1) · M (Safra 2) · G (Safra 3)
     const slot=document.createElement('div');
     slot.className='colheita-slot'+(colhido?' colhido':(andamento?' andamento':''))+(exemplar?' exemplar':'');
     if(colhido){
@@ -697,8 +698,8 @@ function contarAte(el, alvo, sufixo, dur){
     }
     if(temArte){
       slot.innerHTML=`<div class="bola bola-cacho"><span class="luz"></span>`+
-        `<img class="cacho dia" src="cacho_p.webp" alt="">`+
-        `<img class="cacho noite" src="cacho_noite.webp" alt="" aria-hidden="true">`+
+        `<img class="cacho dia" src="${cachoDia}" alt="">`+
+        `<img class="cacho noite" src="${cachoNoite}" alt="" aria-hidden="true">`+
         (exemplar?`<img class="folha-exemplar" src="ornamento_folha_dourada.webp" alt="" aria-hidden="true">`:'')+
         `</div><div class="n">${i+1}</div>`;
     }else{
@@ -734,7 +735,9 @@ function contarAte(el, alvo, sufixo, dur){
   /* A cerimônia: o selo nasce grande no centro, respira, e o lugar dele na
      vitrine recebe a gavinha se desenhando. Uma vez, no gatilho, ≤1,5s cada. */
   if(temCerimonia){
-    await celebrar(novosSelos, novasColheitas, exemplarNova);
+    /* a colheita recém-fechada define o cacho da cerimônia: P (Safra 1), M (Safra 2) ou G (Safra 3) */
+    await celebrar(novosSelos, novasColheitas, exemplarNova,
+      colheitas > 8 ? 'cacho_g_noite.webp' : (colheitas > 4 ? 'cacho_m_noite.webp' : 'cacho_noite.webp'));
     novosSelos.forEach(i=>{
       const el = document.getElementById('selo-'+i);
       if(!el) return;

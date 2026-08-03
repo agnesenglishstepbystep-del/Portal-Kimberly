@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 3 · How long are you here? — Kimberly Mentoria VIP</title>
+<!--
+  Dia 3 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 10 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S10-D03-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 48,
+  "rotulo": "Dia 3",
+  "titulo": "Dia 3 — How long are you here?",
+  "sub": "Semana 10 — Connecting With People · Nice to meet you! · Where are you from? · How long are you here?",
+  "lily": {
+    "audio": "audio/Lily_S10_Texto48.mp3",
+    "chave": "texto48",
+    "texto": [
+      "At the shop, flower talk all day!",
+      "Anna: \"Maya, how long are you here?\"",
+      "Maya: \"Three days — short trip!\"",
+      "Three days! So little time, so many plans!",
+      "Maya likes our little vases — the famous vases!",
+      "Maya: \"The broken ones? Great story!\"",
+      "We laugh... now it IS a great story!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "How long are you here?",
+      "cenario": "O novo amigo da piscina parece estar se despedindo de ninguém. Você quer saber quanto tempo de amizade ainda tem:",
+      "traducao": "Quanto tempo você fica aqui?",
+      "sensacao": "<i>How long...?</i> = quanto tempo? A pergunta que organiza toda amizade de viagem: uma semana ainda dá pra muita coisa.",
+      "audio": "audio/S10_Dia03_Card01_How_long_are_you_here.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "First time here?",
+      "cenario": "A moça do passeio fotografa cada esquina como quem nunca viu nada igual. Você sorri e pergunta:",
+      "traducao": "Primeira vez aqui?",
+      "sensacao": "A pergunta que a dona do restaurante te fez semanas atrás — agora sua. Primeira vez tem brilho no olho; você reconhece de longe.",
+      "audio": "audio/S10_Dia03_Card02_First_time_here.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "Are you traveling alone?",
+      "cenario": "No salão do café, a senhora da mesa ao lado lê um guia de viagem em silêncio. Você puxa conversa:",
+      "traducao": "Você está viajando sozinha?",
+      "sensacao": "Pergunta de quem já viajou sozinha e sabe: às vezes a melhor companhia é uma boa conversa de café da manhã.",
+      "audio": "audio/S10_Dia03_Card03_Are_you_traveling_alone.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "Where are you going next?",
+      "cenario": "O mochileiro do hotel está de partida, mochila já nas costas. Você pergunta, curiosa:",
+      "traducao": "Pra onde você vai depois?",
+      "sensacao": "<i>Next</i> = o próximo capítulo. Viajante de verdade sempre tem uma resposta — e ela sempre dá vontade de ir junto.",
+      "audio": "audio/S10_Dia03_Card04_Where_are_you_going_next.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "Is your hotel good?",
+      "cenario": "Vocês trocam figurinhas de viagem no passeio. A hospedagem é sempre capítulo um:",
+      "traducao": "Seu hotel é bom?",
+      "sensacao": "Papo de viajante é isso: comparar achados. Hotel bom a gente pergunta, anota — e guarda pra próxima.",
+      "audio": "audio/S10_Dia03_Card05_Is_your_hotel_good.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "How is your trip?",
+      "cenario": "Você reencontra no mercado a amiga do primeiro dia. Abraço rápido e a pergunta certa:",
+      "traducao": "Como está a sua viagem?",
+      "sensacao": "O <i>How is...?</i> de sempre + a <i>trip</i> da semana das histórias: interesse genuíno em três palavras. E a resposta — <i>wonderful</i> — ilumina o dia.",
+      "audio": "audio/S10_Dia03_Card06_How_is_your_trip.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "When do you go home?",
+      "cenario": "A amizade da viagem ficou boa demais pra não planejar o último encontro. Você pergunta:",
+      "traducao": "Quando você volta pra casa?",
+      "sensacao": "<i>When...?</i> = quando? A pergunta agridoce das amizades de estrada — feita a tempo de aproveitar o que resta.",
+      "audio": "audio/S10_Dia03_Card07_When_do_you_go_home.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "Do you have plans for tomorrow?",
+      "cenario": "O grupo do passeio combinou de repetir a dose. Você testa a agenda da nova amiga:",
+      "traducao": "Você tem planos pra amanhã?",
+      "sensacao": "Os <i>plans</i> da sua rotina agora abrem espaço na agenda dos outros. \"Not yet!\" = melhor resposta possível: dá pra planejar juntos.",
+      "audio": "audio/S10_Dia03_Card08_Do_you_have_plans_for_tomorrow.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "You can come with us!",
+      "cenario": "A moça que viaja sozinha ainda não conhece a praia de amanhã. Você abre a rodinha:",
+      "traducao": "Você pode vir com a gente!",
+      "sensacao": "O <i>come with me</i> que você aprendeu pedindo caminho cresceu: <i>with us</i>. Convite feito é amizade dobrada — e ninguém explora praia sozinha.",
+      "audio": "audio/S10_Dia03_Card09_You_can_come_with_us.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "Let's have lunch together!",
+      "cenario": "A conversa da piscina rendeu e já é quase meio-dia. Você resolve oficializar a amizade:",
+      "traducao": "Vamos almoçar juntas!",
+      "sensacao": "<i>Let's...!</i> = vamos...! — o empurrãozinho que transforma papo em plano. O <i>lunch together</i> da sua rotina, agora internacional.",
+      "audio": "audio/S10_Dia03_Card10_Lets_have_lunch_together.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

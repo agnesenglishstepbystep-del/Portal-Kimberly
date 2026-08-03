@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 4 · Entendendo o garçom — Kimberly Mentoria VIP</title>
+<!--
+  Dia 4 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 7 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S07-D04-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 34,
+  "rotulo": "Dia 4",
+  "titulo": "Dia 4 — Entendendo o garçom",
+  "sub": "Semana 7 — Eating Out · I'll have... · What do you recommend? · Can I get...?",
+  "lily": {
+    "audio": "audio/Lily_S07_Texto34.mp3",
+    "chave": "texto34",
+    "texto": [
+      "Tomorrow, the fair ends — so today, I make my list!",
+      "Ribbons, baskets, seeds... beautiful things for our shop!",
+      "\"How much is this?\" — my question for tomorrow!",
+      "\"I'm looking for little vases.\" — that one, too!",
+      "At night, dinner with Maya — the last one at the fair.",
+      "Maya: \"Lily, this week was SO good!\"",
+      "Yes! It was... perfect."
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "To go, please!",
+      "cenario": "Balcão de sanduíches, fila andando rápido: \"For here or to go?\" O parque te espera:",
+      "traducao": "Pra viagem, por favor!",
+      "sensacao": "A pergunta mais repetida dos balcões do mundo — e você responde sem piscar. Piquenique garantido.",
+      "audio": "audio/S07_Dia04_Card01_To_go_please.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "Lemonade, please.",
+      "cenario": "Pedido anotado, e vem a pergunta de sempre: \"Anything to drink?\" Você nem hesita:",
+      "traducao": "Limonada, por favor.",
+      "sensacao": "<i>Anything to drink?</i> = algo pra beber? A dupla pergunta-resposta que acontece em toda mesa — agora inteira sua.",
+      "audio": "audio/S07_Dia04_Card02_Lemonade_please.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "No, that's all — thank you!",
+      "cenario": "O garçom confere o bloquinho: \"Anything else?\" Pedido completo, mesa feliz:",
+      "traducao": "Não, é só isso — obrigada!",
+      "sensacao": "<i>That's all</i> = é só isso. A frase que fecha pedidos com elegância — pequenininha e poderosa.",
+      "audio": "audio/S07_Dia04_Card03_No_thats_all_thank_you.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "Still, please.",
+      "cenario": "Você pediu água e veio a pergunta-surpresa: \"Still or sparkling?\" Agora você sabe:",
+      "traducao": "Sem gás, por favor.",
+      "sensacao": "Olha quem apareceu: <i>still</i>! O \"ainda\" de <i>still learning</i> também é a água sem gás. Palavra velha, papel novo.",
+      "audio": "audio/S07_Dia04_Card04_Still_please.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "Everything is delicious!",
+      "cenario": "No meio do jantar, o garçom passa conferindo as mesas: \"How is everything?\" A sua responde fácil:",
+      "traducao": "Está tudo delicioso!",
+      "sensacao": "O elogio de mesa cheia: <i>everything</i> + a palavra que você usa desde a pousada — <i>delicious</i>.",
+      "audio": "audio/S07_Dia04_Card05_Everything_is_delicious.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "Yes — but not the last!",
+      "cenario": "A dona do restaurante percebe caras novas: \"Is this your first time here?\" Você responde, já apaixonada pelo lugar:",
+      "traducao": "Sim — mas não a última!",
+      "sensacao": "Primeira vez, sim — com promessa de bis. <i>Last</i> = última, e essa não vai ser.",
+      "audio": "audio/S07_Dia04_Card06_Yes_but_not_the_last.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "The chocolate cake, please!",
+      "cenario": "\"Any dessert?\" — pergunta o garçom, recolhendo os pratos. Algumas perguntas só têm uma resposta:",
+      "traducao": "O bolo de chocolate, por favor!",
+      "sensacao": "O bolo de chocolate te acompanha desde o serviço de quarto — e sobremesa boa a gente pede pelo nome.",
+      "audio": "audio/S07_Dia04_Card07_The_chocolate_cake_please.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "Big, please. Big day!",
+      "cenario": "Quiosque de sucos depois de uma manhã inteira de caminhada: \"Big or small?\" A resposta vem com contexto:",
+      "traducao": "Grande, por favor. Dia grande!",
+      "sensacao": "Tamanho de copo é decisão séria — e dia grande pede copo à altura.",
+      "audio": "audio/S07_Dia04_Card08_Big_please_Big_day.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "Card, please.",
+      "cenario": "Conta na mesa, maquininha na mão do garçom: \"Cash or card?\" Você responde o clássico:",
+      "traducao": "Cartão, por favor.",
+      "sensacao": "<i>Cash</i> = dinheiro; <i>card</i> = cartão. A pergunta que fecha toda refeição — e que vai trabalhar muito na semana de compras da vida real.",
+      "audio": "audio/S07_Dia04_Card09_Card_please.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "See you tomorrow!",
+      "cenario": "Na porta, a despedida da casa: \"Come back soon!\" E como o jantar mereceu, você promete:",
+      "traducao": "Até amanhã!",
+      "sensacao": "<i>See you...</i> = até... — a despedida que já marca o reencontro. Restaurante aprovado, mesa de amanhã garantida.",
+      "audio": "audio/S07_Dia04_Card10_See_you_tomorrow.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

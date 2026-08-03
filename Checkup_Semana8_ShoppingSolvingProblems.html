@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Check-up · Semana 8 — Kimberly Mentoria VIP</title>
+<!--
+  Check-up da Semana 8 — no motor (motor_checkup.js).
+  3 questões: situação + 3 frases CORRETAS (sem input errado), posição da correta embaralhada.
+  Fonte: Acervo, KIM-S08-CHK-C01 a C03.
+-->
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const CHECKUP={
+  "semana": 8,
+  "sufixo": "S08",
+  "sub": "Shopping & Solving Problems · I'm looking for... · How much is...? · I have a problem",
+  "questoes": [
+    {
+      "id": "q1",
+      "situacao": "Lojinha de artesanato, uma cesta linda nas suas mãos — sem etiqueta. A dona olha pra você, e você pergunta:",
+      "opcoes": [
+        "I'm looking for a gift.",
+        "How much is this?",
+        "Can I try it on?"
+      ],
+      "certa": 1
+    },
+    {
+      "id": "q2",
+      "situacao": "A sandália que você comprou anteontem quebrou — e o recibo está na sua bolsa. De volta à loja, no balcão, você pede:",
+      "opcoes": [
+        "Can I exchange this?",
+        "I'll take two!",
+        "Do you have this in blue?"
+      ],
+      "certa": 0
+    },
+    {
+      "id": "q3",
+      "situacao": "Último dia de viagem: você quer flores frescas e lembrancinhas, e soube que o mercado municipal é imperdível. Na recepção do hotel, você pergunta:",
+      "opcoes": [
+        "How much is this?",
+        "I'll take it!",
+        "Where is the market?"
+      ],
+      "certa": 2
+    }
+  ]
+};
+</script>
+<script src="motor_checkup.js"></script>
+</body>
+</html>

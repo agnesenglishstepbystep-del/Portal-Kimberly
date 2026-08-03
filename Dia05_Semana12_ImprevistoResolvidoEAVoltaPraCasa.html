@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 5 · Imprevisto? Resolvido. E a volta pra casa — Kimberly Mentoria VIP</title>
+<!--
+  Dia 5 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 12 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S12-D05-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 60,
+  "rotulo": "Dia 5",
+  "titulo": "Dia 5 — Imprevisto? Resolvido. E a volta pra casa",
+  "sub": "Semana 12 — Travel With Confidence · integração dos 3 meses",
+  "lily": {
+    "audio": "audio/Lily_S12_Texto60.mp3",
+    "chave": "texto60",
+    "texto": [
+      "The party is over. The house is quiet. And me? I'm thinking...",
+      "One year ago, I said: \"Hi! I'm Lily. I'm your new neighbor.\"",
+      "I was new, I was tired... but I was ready for a fresh start!",
+      "Today I have my shop, my friends, my two towns — my big world!",
+      "Little words, big life: hello, thank you, step by step!",
+      "And you? You are part of my story too. Thank you for listening!",
+      "Step by step, my world grows!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "The flight is late? Okay — lemonade time!",
+      "cenario": "O funcionário avisa: \"Ma'am, the flight is one hour late.\" Você olha pra sua irmã e decreta:",
+      "traducao": "O voo está atrasado? Certo — hora da limonada!",
+      "sensacao": "O atraso virou intervalo. <i>Lemonade time!</i> — o velho lema da limonada da Lily resolvendo o humor do aeroporto inteiro.",
+      "audio": "audio/S12_Dia05_Card01_The_flight_is_late_Okay_lemonade_time.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "No problem — we have time!",
+      "cenario": "A fila do embarque atrasa mais um pouco e a funcionária se desculpa. Você, tranquila pelas duas:",
+      "traducao": "Sem problema — nós temos tempo!",
+      "sensacao": "A calma da semana dos imprevistos em versão dupla: <i>we have time</i>. O tempo trabalha pra quem não briga com ele.",
+      "audio": "audio/S12_Dia05_Card02_No_problem_we_have_time.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "They changed our gate!",
+      "cenario": "O painel pisca e o número do portão muda. Você levanta na hora, mochila no ombro, avisando sua irmã:",
+      "traducao": "Mudaram o nosso portão!",
+      "sensacao": "O <i>changed</i> das trocas no plot twist clássico dos aeroportos. Você viu, entendeu, avisou — em inglês.",
+      "audio": "audio/S12_Dia05_Card03_They_changed_our_gate.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "Sorry — I didn't understand. Slowly, please?",
+      "cenario": "O aviso veio rápido, num sotaque novo. Você usa o kit da semana dos imprevistos sem nem respirar fundo:",
+      "traducao": "Desculpa — eu não entendi. Devagar, por favor?",
+      "sensacao": "O kit anti-travamento em frase única: admitir + pedir + sorrir. Não entender deixou de ser problema faz tempo.",
+      "audio": "audio/S12_Dia05_Card04_Sorry_I_didnt_understand_Slowly_please.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "Our taxi is not here... can you call one, please?",
+      "cenario": "Aplicativo travado, rua vazia, voo marcado. Você resolve no balcão do hotel, sem alarde:",
+      "traducao": "Nosso táxi não está aqui... você pode chamar um, por favor?",
+      "sensacao": "Problema + solução na mesma frase — a assinatura da viajante do Mês 3. O plano B já nasce pedido.",
+      "audio": "audio/S12_Dia05_Card05_Our_taxi_is_not_here_can_you_call_one_please.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "Found it! It was in my bag... again!",
+      "cenario": "Pânico de dez segundos: cadê o passaporte? Você revira, acha, e anuncia rindo:",
+      "traducao": "Achei! Estava na minha bolsa... de novo!",
+      "sensacao": "O sumiço de sempre, o final de sempre — mas agora narrado em inglês e com bom humor. <i>Found it!</i> = achei!",
+      "audio": "audio/S12_Dia05_Card06_Found_it_It_was_in_my_bag_again.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "Tomorrow: home, work... and English class!",
+      "cenario": "Última noite de viagem. Você arruma a mala e lista o dia seguinte pra sua irmã, sem tristeza nenhuma:",
+      "traducao": "Amanhã: casa, trabalho... e aula de inglês!",
+      "sensacao": "A sua rotina de sempre te esperando de braços abertos — e a aula de inglês no fim da lista, como quem guarda o doce pro final.",
+      "audio": "audio/S12_Dia05_Card07_Tomorrow_home_work_and_English_class.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "On Monday I go back to my routine — with new stories!",
+      "cenario": "No avião, você abre o caderninho de viagem e escreve a última linha do roteiro:",
+      "traducao": "Na segunda eu volto pra minha rotina — com histórias novas!",
+      "sensacao": "<i>Routine</i> — a palavra da rotina da Lily na floricultura, agora sua. Voltar não é terminar: é levar a viagem pra dentro dos dias comuns.",
+      "audio": "audio/S12_Dia05_Card08_On_Monday_I_go_back_to_my_routine_with_new_stories.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "Home, sweet home!",
+      "cenario": "A porta de casa abre, as malas caem no chão, o cheiro conhecido abraça. Sua irmã solta um \"Welcome home!\" e você completa:",
+      "traducao": "Lar, doce lar!",
+      "sensacao": "A frase da Lily voltando da feira — agora sua, na sua porta. Viajar é ótimo; voltar sabendo disso é melhor ainda.",
+      "audio": "audio/S12_Dia05_Card09_Home_sweet_home.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "I did it. Step by step.",
+      "cenario": "Último encontro da mentoria. Sua professora abre o primeiro material de vocês, aponta a primeira frase de todas — e pergunta o que você diria hoje pra aquela aluna da Semana 1. Você olha pra trás, olha pra frente, e responde:",
+      "traducao": "Eu consegui. Passo a passo.",
+      "sensacao": "Doze semanas atrás: <i>I'm tired.</i> Hoje: <i>I did it.</i> Entre uma e outra, um passo de cada vez — o lema que construiu tudo isso. A frase é curta porque a jornada foi inteira.",
+      "audio": "audio/S12_Dia05_Card10_I_did_it_Step_by_step.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>

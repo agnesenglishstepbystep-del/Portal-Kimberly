@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia 4 · Demonstrando interesse — Kimberly Mentoria VIP</title>
+<!--
+  Dia 4 — fluxo de 4 etapas, no motor (motor_aula.js).
+  Semana 10 (MOTOR_AULA_S3_S12.md). Conteúdo 100% sob o
+  Protocolo de Criação 2.0 (Guia §6) — fonte: Acervo, KIM-S10-D04-C01 a C10.
+-->
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Todo o visual desta página vem de styles.css (seção "Fluxo do dia"). */
+  body{ padding-bottom:60px; }
+  .step.liberado{ cursor:pointer; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="nucleo.js"></script>
+<script>
+const AULA={
+  "diaGlobal": 49,
+  "rotulo": "Dia 4",
+  "titulo": "Dia 4 — Demonstrando interesse",
+  "sub": "Semana 10 — Connecting With People · Nice to meet you! · Where are you from? · How long are you here?",
+  "lily": {
+    "audio": "audio/Lily_S10_Texto49.mp3",
+    "chave": "texto49",
+    "texto": [
+      "Ring! A call at the shop — a BIG order!",
+      "The man talks fast... so fast!",
+      "Sorry — I don't understand. Could you repeat that, please?",
+      "He says it again: one hundred flowers! For a big party!",
+      "Slowly, please... yes! Next Friday! Got it!",
+      "Maya: \"Good job, Lily! Asking is smart!\"",
+      "A big order for a big party... wow!"
+    ]
+  },
+  "cards": [
+    {
+      "id": "c01",
+      "frase": "Really?",
+      "cenario": "O senhor do passeio conta: \"I'm from a town of two hundred people!\" Você arregala os olhos:",
+      "traducao": "Sério?",
+      "sensacao": "<i>Really?</i> = sério? — a palavrinha que mantém qualquer história viva. Quem reage bem, ouve as melhores histórias.",
+      "audio": "audio/S10_Dia04_Card01_Really.mp3"
+    },
+    {
+      "id": "c02",
+      "frase": "That's nice!",
+      "cenario": "A senhora do café conta, orgulhosa: \"My daughter lives in Brazil now.\" Você acolhe a notícia:",
+      "traducao": "Que legal!",
+      "sensacao": "<i>That's nice!</i> = que legal! — o sorriso em forma de frase. Pequena, gentil e sempre bem-vinda.",
+      "audio": "audio/S10_Dia04_Card02_Thats_nice.mp3"
+    },
+    {
+      "id": "c03",
+      "frase": "Me too!",
+      "cenario": "O novo amigo declara: \"I love the beach!\" Vocês batem palma de tão iguais:",
+      "traducao": "Eu também!",
+      "sensacao": "<i>Me too!</i> = eu também! — duas palavras que constroem pontes. Gosto compartilhado é amizade começando.",
+      "audio": "audio/S10_Dia04_Card03_Me_too.mp3"
+    },
+    {
+      "id": "c04",
+      "frase": "I'm from Natal. What about you?",
+      "cenario": "A pergunta clássica chega: \"Where are you from?\" Você responde — e devolve na mesma hora:",
+      "traducao": "Eu sou de Natal. E você?",
+      "sensacao": "<i>What about you?</i> = e você? — o passe de bola das conversas. Responder e devolver: é assim que papo vira conversa.",
+      "audio": "audio/S10_Dia04_Card04_Im_from_Natal_What_about_you.mp3"
+    },
+    {
+      "id": "c05",
+      "frase": "That's a good idea!",
+      "cenario": "A amiga nova propõe: \"Let's go to the market together!\" Você adere na hora:",
+      "traducao": "Boa ideia!",
+      "sensacao": "A <i>idea</i> da semana da rotina ganhou aprovação oficial. Dizer que a ideia é boa é o jeito mais rápido de fazê-la acontecer.",
+      "audio": "audio/S10_Dia04_Card05_Thats_a_good_idea.mp3"
+    },
+    {
+      "id": "c06",
+      "frase": "Wow! Tell me more!",
+      "cenario": "O rapaz do hotel solta: \"My grandmother is from Brazil!\" Você quer a história inteira:",
+      "traducao": "Uau! Me conta mais!",
+      "sensacao": "<i>Tell me more</i> = me conta mais — o convite que toda boa história espera. (O \"tell me\" você conhece da mãe da Lily.)",
+      "audio": "audio/S10_Dia04_Card06_Wow_Tell_me_more.mp3"
+    },
+    {
+      "id": "c07",
+      "frase": "That's funny!",
+      "cenario": "A moça do passeio conta: \"Our dog has a passport!\" Você ri com vontade:",
+      "traducao": "Que engraçado!",
+      "sensacao": "O <i>funny</i> da semana do seu mundo achando emprego novo: rir junto é o atalho mais curto entre estranhos e amigos.",
+      "audio": "audio/S10_Dia04_Card07_Thats_funny.mp3"
+    },
+    {
+      "id": "c08",
+      "frase": "And then?",
+      "cenario": "O novo amigo começa a história do perrengue: \"So... we went to the wrong hotel...\" Você se inclina pra frente:",
+      "traducao": "E aí?",
+      "sensacao": "<i>And then?</i> = e aí? e depois? — o combustível das histórias. O passado que você acabou de aprender chegando pelo ouvido, em história dos outros.",
+      "audio": "audio/S10_Dia04_Card08_And_then.mp3"
+    },
+    {
+      "id": "c09",
+      "frase": "I'm happy for you!",
+      "cenario": "A moça da mesa conta, meio nervosa, meio radiante: \"This is my first trip alone!\" Você celebra com ela:",
+      "traducao": "Fico feliz por você!",
+      "sensacao": "<i>Happy for you</i> = feliz POR você — a alegria que se empresta. Você sabe bem o tamanho dessa primeira vez.",
+      "audio": "audio/S10_Dia04_Card09_Im_happy_for_you.mp3"
+    },
+    {
+      "id": "c10",
+      "frase": "New friends, new stories!",
+      "cenario": "Fim do dia, varanda do hotel, sua irmã pergunta o que você mais gostou do passeio de hoje. Você resume:",
+      "traducao": "Amigos novos, histórias novas!",
+      "sensacao": "O lucro invisível de toda viagem: as histórias que chegam junto com as pessoas. Colecione as duas.",
+      "audio": "audio/S10_Dia04_Card10_New_friends_new_stories.mp3"
+    }
+  ]
+};
+</script>
+<script src="motor_aula.js"></script>
+</body>
+</html>
